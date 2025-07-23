@@ -1,0 +1,1 @@
+<h1 class="mt-5">No encontrado</h1>
