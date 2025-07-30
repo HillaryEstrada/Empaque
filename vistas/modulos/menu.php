@@ -7,7 +7,6 @@ $opcion = $_POST['opcion'] ?? 'principal';
 ?>
 
 <!-- Barra de navegación fija en la parte superior de la página -->
- 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container-fluid">
         <!-- Botón para mostrar/ocultar el menú en pantallas pequeñas -->
@@ -40,7 +39,7 @@ $opcion = $_POST['opcion'] ?? 'principal';
                 <!-- Menú desplegable para 'Mostrar' -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMostrar" role="button" 
-                       data-bs-toggle="dropdown" aria-expanded="false">
+                        data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-eye"></i> Mostrar
                     </a>
 
@@ -67,18 +66,43 @@ $opcion = $_POST['opcion'] ?? 'principal';
                 <?php if (puedeVer('administrador')): ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMostrar" role="button" 
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-eye"></i> Analisis PDF
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-chart-area"></i> Analisis PDF
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMostrar">
                         <li>
                             <a class="dropdown-item" href="#" onclick="postToExternalSite('index.php', { opcion: 'pdf' });">
-                                <i class="fas fa-list"></i> ROL PDF
+                                <i class="fas fa-list"></i> PDF
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#" onclick="postToExternalSite('index.php', { opcion: 'pdf' });">
+                                <i class="fas fa-list"></i> PDF2
                             </a>
                         </li>
                     </ul>
                 </li>
                 <?php endif; ?>
+
+
+                <!-- Menú desplegable para 'ROL' -->
+                <?php if (puedeVer('administrador')): ?>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMostrar" role="button" 
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-users"></i> Rol
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMostrar">
+                        <li>
+                            <a class="dropdown-item" href="#" onclick="postToExternalSite('index.php', { opcion: 'mostrar_rol' });">
+                                <i class="fas fa-list"></i> ROl
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <?php endif; ?>
+
+
             </ul>
 
             <!-- Información del usuario y botón de cerrar sesión -->

@@ -38,6 +38,7 @@ class controladorAcceso{
                     exit();
                 } else {
                     $_SESSION["error_login"] = "Usuario o contraseña incorrectos.";
+                    $_SESSION["info_credenciales"] = "Si olvidaste tus credenciales, por favor comunícate con el administrador o soporte para la recuperación de credenciales.";
                     header("Location: vistas/modulos/login.php");
                     exit();
                 }
