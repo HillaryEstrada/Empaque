@@ -1,11 +1,19 @@
+<?php
+session_start();
+
+// Verificar si ya hay una sesión activa
+if (isset($_SESSION["id_usuario"])) {
+    header("Location: ../../index.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mango  - Iniciar Sesión</title>
-    
-  
     
     <style>
         /* Importar fuentes de Google */
@@ -294,6 +302,40 @@
         .w-100 {
             width: 100% !important;
         }
+
+        .error-message {
+            background-color: #ffebee; /* Fondo rojo claro */
+            color: #c62828; /* Texto rojo oscuro */
+            border: 1px solid #ef9a9a; /* Borde rojo */
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .error-message i {
+            color: #c62828; /* Color del ícono */
+        }
+
+        .info-message {
+            background-color: #f3f5e8ff; /* Fondo verde claro */
+            color: #757d2eff; /* Texto verde oscuro */
+            border: 1px solid #cbd6a5ff; /* Borde verde */
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-align: center;
+        }
+        .info-message i {
+            color: #2e7d32; /* Color del ícono */
+        }
     </style>
 </head>
 <body>
@@ -304,6 +346,14 @@
             <p class="text-muted">Sistema de Empaque</p>
         </div>
 
+        <!-- Contenedor para el mensaje de error -->
+        <?php if (isset($_SESSION["error_login"])): ?>
+            <div class="error-message">
+                <i class="fas fa-exclamation-circle"></i> <?php echo $_SESSION["error_login"]; ?>
+            </div>
+            <?php unset($_SESSION["error_login"]); // Limpiar el mensaje después de mostrarlo ?>
+        <?php endif; ?>
+
         <form action="../../index.php" method="POST">
             <!-- Campo oculto para identificar el login -->
             <input type="hidden" name="opcion" value="login">
@@ -313,12 +363,12 @@
                     <i class="fas fa-user"></i> Usuario
                 </label>
                 <input type="text" 
-                       name="usuario" 
-                       id="usuario" 
-                       class="form-control" 
-                       required 
-                       placeholder="Ingresa tu usuario"
-                       autocomplete="username">
+                        name="usuario" 
+                        id="usuario" 
+                        class="form-control" 
+                        required 
+                        placeholder="Ingresa tu usuario"
+                        autocomplete="username">
             </div>
             
             <div class="form-group">
@@ -326,18 +376,27 @@
                     <i class="fas fa-lock"></i> Contraseña
                 </label>
                 <input type="password" 
-                       name="contrasena" 
-                       id="contrasena" 
-                       class="form-control" 
-                       required 
-                       placeholder="Ingresa tu contraseña"
-                       autocomplete="current-password">
+                        name="contrasena" 
+                        id="contrasena" 
+                        class="form-control" 
+                        required 
+                        placeholder="Ingresa tu contraseña"
+                        autocomplete="current-password">
             </div>
             
             <button type="submit" class="btn-login">
                 <i class="fas fa-sign-in-alt"></i> Ingresar al Sistema
             </button>
         </form>
+
+        <!-- Mensaje informativo DEBAJO del formulario -->
+        <?php if (isset($_SESSION["info_credenciales"])): ?>
+            <div class="info-message">
+                <i class="fas fa-info-circle"></i> 
+                <?php echo $_SESSION["info_credenciales"]; ?>
+            </div>
+            <?php unset($_SESSION["info_credenciales"]); ?>
+        <?php endif; ?>
     </div>
 
     <script>

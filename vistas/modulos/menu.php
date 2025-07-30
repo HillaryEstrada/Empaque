@@ -7,7 +7,6 @@ $opcion = $_POST['opcion'] ?? 'principal';
 ?>
 
 <!-- Barra de navegación fija en la parte superior de la página -->
- 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container-fluid">
         <!-- Botón para mostrar/ocultar el menú en pantallas pequeñas -->
@@ -40,7 +39,7 @@ $opcion = $_POST['opcion'] ?? 'principal';
                 <!-- Menú desplegable para 'Mostrar' -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMostrar" role="button" 
-                       data-bs-toggle="dropdown" aria-expanded="false">
+                        data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-eye"></i> Mostrar
                     </a>
 
@@ -73,7 +72,7 @@ $opcion = $_POST['opcion'] ?? 'principal';
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMostrar" role="button" 
                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-eye"></i> Analisi PDF
+                        <i class="fas fa-eye"></i> Analisis PDF
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMostrar">
                         <li>
@@ -85,9 +84,6 @@ $opcion = $_POST['opcion'] ?? 'principal';
                     </ul>
                 </li>
                 <?php endif; ?>
-
-
-          
 
 
             </ul>

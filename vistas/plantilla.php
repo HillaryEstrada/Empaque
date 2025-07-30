@@ -10,18 +10,18 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://kit.fontawesome.com/ae1b5f3a79.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="vistas\css\plantilla.css">
+<<<<<<< HEAD
     <link rel="stylesheet" href="vistas/css/mostrar-mango.css">
     <link rel="stylesheet" href="vistas/css/sweetalert-custom.css">
     <link rel="stylesheet" href="vistas/css/pagina-principal.css">
     <link rel="stylesheet" href="vistas/css/footer.css">
+=======
+    <link rel="stylesheet" href="vistas\css\menu-mango.css">
+>>>>>>> main
 
-
-
-      <!-- Font Awesome para iconos login actualizado-->
+    <!-- Font Awesome para iconos login actualizado-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-   
-   
+
 </head>
 <body>
     <!-- Aquí va el menú -->
