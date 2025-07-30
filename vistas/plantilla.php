@@ -10,6 +10,10 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://kit.fontawesome.com/ae1b5f3a79.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="vistas\css\plantilla.css">
+    <link rel="stylesheet" href="vistas/css/mostrar-mango.css">
+    <link rel="stylesheet" href="vistas/css/sweetalert-custom.css">
+    <link rel="stylesheet" href="vistas/css/pagina-principal.css">
+    <link rel="stylesheet" href="vistas/css/footer.css">
 
 
 
@@ -25,8 +29,8 @@
         <?php require("modulos/menu.php"); ?>
     </div>
 
-    <!-- Contenedor principal -->
-    <div class="container content mt-5">
+    <!-- Contenedor principal responsivo -->
+    <div class="w-100 content mt-2">
 
         <?php
             // Conexión a base de datos

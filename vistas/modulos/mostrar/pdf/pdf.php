@@ -1,15 +1,16 @@
+<div class="container-mostrar">
 <div align="center">
-    <div class="alert alert-primary mt-5" role="alert">
-        <h1 id="titulo">
+    <div class="alert alert-primary mt-3" role="alert">
+        <h3 id="titulo">
             <?php
                 $estado = isset($_POST['estado']) ? $_POST['estado'] : 1;
-                echo ($estado == 1) ? "Analisis de documentos" : "Papelera Datos de Usuarios";
+                echo ($estado == 1) ? "Análisis de documentos" : "Papelera Datos de Usuarios";
             ?>
-        </h1>
+        </h3>
     </div>
 </div>
-<br>
 
+<div class="separator-mango"></div>
 
 <!--Inicio del Proceso de Alta-->
 
@@ -17,31 +18,39 @@
 <div id="formulario-alta" style="display: none;">
     <form id="form-alta" method="POST" onsubmit="enviarFormulario(event)">
     <div class="row">
-        <div class="form-group mb-3">
-            <label class="form-label">Nombres:</label>
-            <input type="text" name="nombre" class="form-control" placeholder="Nombre del Usuario" value="" required />
+        <div class="col-md-6">
+            <div class="form-group mb-2">
+                <label class="form-label">Nombres:</label>
+                <input type="text" name="nombre" class="form-control" placeholder="Nombre del Usuario" value="" required />
+            </div>
         </div>
-        <div class="form-group mb-3">
-            <label class="form-label">Apellidos:</label>
-            <input type="text" name="apellidos" class="form-control" placeholder="Apellidos del Usuario" value="" required />
+        <div class="col-md-6">
+            <div class="form-group mb-2">
+                <label class="form-label">Apellidos:</label>
+                <input type="text" name="apellidos" class="form-control" placeholder="Apellidos del Usuario" value="" required />
+            </div>
         </div>
-        <div class="form-group mb-3">
-            <label class="form-label">Edad:</label>
-            <input type="text" name="edad" class="form-control" placeholder="Edad del Usuario" value="" required />
+        <div class="col-md-6">
+            <div class="form-group mb-2">
+                <label class="form-label">Edad:</label>
+                <input type="text" name="edad" class="form-control" placeholder="Edad del Usuario" value="" required />
+            </div>
         </div>
-        <div class="form-group mb-3">
-    <label class="form-label">Sexo:</label>
-    <div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="sexo" id="sexo_m" value="M" required>
-            <label class="form-check-label" for="sexo_m">Masculino</label>
+        <div class="col-md-6">
+            <div class="form-group mb-2">
+                <label class="form-label">Sexo:</label>
+                <div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="sexo" id="sexo_m" value="M" required>
+                        <label class="form-check-label" for="sexo_m">Masculino</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="sexo" id="sexo_f" value="F" required>
+                        <label class="form-check-label" for="sexo_f">Femenino</label>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="sexo" id="sexo_f" value="F" required>
-            <label class="form-check-label" for="sexo_f">Femenino</label>
-        </div>
-    </div>
-</div>
     </div>
     <div class="d-grid gap-2 col-6 mx-auto">
         <button class="btn btn-primary" type="submit">Guardar</button>
@@ -71,8 +80,8 @@
 
 <!--Inicio Proceso de Mostrar-->
 
-<!-- Tabla de datos de usuarios -->
-<div id="tabla-catalogo" class="container">
+<!-- Tabla de análisis de documentos -->
+<div id="tabla-catalogo" class="w-100">
 <table class="table table-hover table-striped table-bordered">
     <thead>
         <tr>
@@ -82,8 +91,8 @@
             <th>Sexo</th>
             <th>
                 <?php if ($estado == 1): ?> <!-- Solo muestra el botón si el estado es activo (1) -->
-                <button class="btn btn-success" onclick="mostrarFormulario(this)" data-title="Alta datos usuarios">
-                    <i class="fa-solid fa-circle-plus fa-lg"></i> Crear
+                <button class="btn btn-success btn-sm" onclick="mostrarFormulario(this)" data-title="Alta datos usuarios">
+                    <i class="fa-solid fa-circle-plus fa-lg"></i> Crear Análisis
                 </button>
                 <?php endif; ?>
                 
@@ -91,15 +100,17 @@
                     <form action="index.php" method="POST" style="display: inline;">
                         <input type="hidden" name="opcion" value="mostrar_dato_usuario">
                         <input type="hidden" name="estado" value="<?php echo ($estado == 1) ? 0 : 1; ?>">
-                        <button type="submit" class="btn <?php echo ($estado == 1) ? 'btn-secondary' : 'btn-primary'; ?>">
-                            <?php echo ($estado == 1) ? 'Ir a Inactivos' : 'Volver Activos'; ?>
+                        <button type="submit" class="btn btn-sm <?php echo ($estado == 1) ? 'btn-warning' : 'btn-primary'; ?>">
+                            <i class="fa-solid <?php echo ($estado == 1) ? 'fa-archive' : 'fa-undo'; ?>"></i>
+                            <?php echo ($estado == 1) ? 'Ver Inactivos' : 'Ver Activos'; ?>
                         </button> 
                     </form>
+
             </th>
         </tr>
     </thead>
 
-    <!-- Esto consulta en el controlador el tipo de estado  esto se queda asi, solo cambia el direccionamiento a la funcion que vas a ir en el controlador...-->
+    <!-- Esto consulta en el controlador el tipo de estado -->
     <tbody id="tabla-body">
         <?php
             $estado = isset($_POST['estado']) ? $_POST['estado'] : 1;
@@ -126,7 +137,11 @@
 
     </div>
 
- 
+<div class="section-footer">
+    <p>Sistema de Gestión - Empacadora de Mango 🥭</p>
+</div>
+</div>
+ <!-- Esto se encarga de mandar los datos de entrada al controlador -->
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Verificar si el formulario tiene los datos necesarios

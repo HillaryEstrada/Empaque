@@ -1,0 +1,1078 @@
+/* =================================================
+   DISEÑO PARA MÓDULOS DE MOSTRAR - EMPACADORA DE MANGO
+   ================================================= */
+
+/* Variables CSS para colores temáticos */
+:root {
+    --mango-primary: #FF8C00;        /* Naranja mango principal */
+    --mango-secondary: #FFB347;      /* Naranja claro */
+    --mango-tertiary: #FF7F00;       /* Naranja intermedio */
+    --mango-dark: #CC6600;           /* Naranja oscuro */
+    --mango-light: #FFD700;          /* Amarillo dorado */
+    --mango-accent: #FF6B35;         /* Naranja rojizo */
+    --white: #ffffff;
+    --light-gray: #f8f9fa;
+    --dark-gray: #6c757d;
+    --success: #28a745;
+    --danger: #dc3545;
+    --shadow: rgba(255, 140, 0, 0.2);
+}
+
+/* Estilos generales para contenedores - Completamente responsivo */
+.container-mostrar {
+    background: linear-gradient(135deg, var(--light-gray) 0%, var(--white) 100%);
+    min-height: auto; /* Cambio de 100vh a auto para ajustarse al contenido */
+    width: 100%;
+    max-width: 1600px; /* Ancho máximo muy amplio para pantallas grandes */
+    padding: 15px 15px 30px 15px; /* Agregado padding bottom para mejor separación */
+    margin: 0 auto; /* Centrar horizontalmente */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); /* Sombra para destacar del fondo */
+    border-radius: 15px; /* Bordes redondeados en desktop */
+}
+
+/* Optimización adicional para contenedores más ajustados */
+.container-mostrar {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Alinear contenido al inicio */
+}
+
+/* Asegurar que todos los elementos internos sean responsivos */
+.container-mostrar * {
+    box-sizing: border-box;
+}
+
+/* Título principal con temática de mango */
+#titulo {
+    color: var(--white);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+    font-size: 2.2rem;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+.alert-primary {
+    background: linear-gradient(45deg, var(--mango-primary), var(--mango-secondary));
+    border: 2px solid var(--mango-dark);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.alert-primary::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="70" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+    animation: float 20s linear infinite;
+}
+
+@keyframes float {
+    0% { transform: translateX(-50%) translateY(-50%) rotate(0deg); }
+    100% { transform: translateX(-50%) translateY(-50%) rotate(360deg); }
+}
+
+/* Formularios de alta - Completamente responsivo */
+#formulario-alta {
+    background: var(--white);
+    border-radius: 15px;
+    padding: 20px; /* Volver al padding original más compacto */
+    margin: 15px 0;
+    width: 100%;
+    max-width: 100%;
+    box-shadow: 0 10px 30px var(--shadow);
+    border: 1px solid var(--mango-secondary);
+    position: relative;
+    z-index: 10;
+    clear: both;
+    box-sizing: border-box;
+}
+
+#formulario-alta::before {
+    content: '🥭';
+    position: absolute;
+    top: -15px;
+    right: 20px;
+    font-size: 30px;
+    background: var(--white);
+    padding: 0 10px;
+}
+
+/* Etiquetas de formulario */
+.form-label {
+    color: var(--mango-dark);
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Campos de entrada */
+.form-control {
+    border: 2px solid var(--mango-secondary);
+    border-radius: 10px;
+    padding: 12px 15px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: var(--white);
+}
+
+.form-control:focus {
+    border-color: var(--mango-primary);
+    box-shadow: 0 0 0 0.2rem var(--shadow);
+    background: var(--light-gray);
+    outline: none;
+}
+
+.form-control::placeholder {
+    color: var(--dark-gray);
+    font-style: italic;
+}
+
+/* Radio buttons personalizados */
+.form-check-input {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    border: 2px solid var(--mango-primary);
+}
+
+.form-check-input:checked {
+    background-color: var(--mango-primary);
+    border-color: var(--mango-dark);
+}
+
+.form-check-label {
+    color: var(--mango-dark);
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* Botones temáticos */
+.btn {
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s ease;
+}
+
+.btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, var(--mango-primary), var(--mango-tertiary));
+    color: var(--white);
+    box-shadow: 0 4px 15px var(--shadow);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, var(--mango-dark), var(--mango-primary));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--shadow);
+}
+
+.btn-danger {
+    background: linear-gradient(45deg, var(--danger), #e74c3c);
+    color: var(--white);
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+}
+
+.btn-danger:hover {
+    background: linear-gradient(45deg, #c82333, var(--danger));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+}
+
+.btn-success {
+    background: linear-gradient(45deg, var(--success), #34ce57);
+    color: var(--white);
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.btn-success:hover {
+    background: linear-gradient(45deg, #218838, var(--success));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+.btn-warning {
+    background: linear-gradient(45deg, var(--mango-light), #ffc107);
+    color: var(--mango-dark);
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+}
+
+.btn-warning:hover {
+    background: linear-gradient(45deg, #e0a800, var(--mango-light));
+    transform: translateY(-2px);
+    color: var(--white);
+}
+
+/* Tablas temáticas - Completamente responsivo */
+.table {
+    background: var(--white);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px var(--shadow);
+    margin: 15px 0;
+    width: 100%;
+    max-width: 100%;
+    table-layout: auto; /* Volver a auto para columnas más compactas */
+    word-wrap: break-word;
+    min-width: 600px; /* Ancho mínimo más pequeño */
+}
+
+/* Contenedor responsivo para tablas */
+#tabla-catalogo {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    margin-bottom: 20px;
+    clear: both;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Scroll horizontal suave en móviles */
+#tabla-catalogo::-webkit-scrollbar {
+    height: 8px;
+}
+
+#tabla-catalogo::-webkit-scrollbar-track {
+    background: var(--light-gray);
+    border-radius: 4px;
+}
+
+#tabla-catalogo::-webkit-scrollbar-thumb {
+    background: var(--mango-secondary);
+    border-radius: 4px;
+}
+
+#tabla-catalogo::-webkit-scrollbar-thumb:hover {
+    background: var(--mango-primary);
+}
+
+.table thead {
+    background: linear-gradient(45deg, var(--mango-primary), var(--mango-secondary));
+    color: var(--white);
+}
+
+.table thead th {
+    border: none;
+    padding: 12px 15px; /* Padding más compacto */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    white-space: nowrap; /* Evitar que se corte el texto del header */
+}
+
+.table tbody tr {
+    transition: all 0.3s ease;
+}
+
+.table tbody tr:hover {
+    background: linear-gradient(90deg, transparent, var(--mango-secondary), transparent);
+    transform: scale(1.01);
+}
+
+.table tbody td {
+    padding: 10px 15px; /* Padding más compacto */
+    border-color: var(--mango-secondary);
+    vertical-align: middle;
+    text-align: center;
+    min-width: 80px; /* Ancho mínimo más pequeño para cada columna */
+}
+
+/* Paginación personalizada */
+.pagination {
+    justify-content: center;
+    margin: 30px 0;
+}
+
+.page-link {
+    color: var(--mango-primary);
+    border: 2px solid var(--mango-secondary);
+    margin: 0 2px;
+    border-radius: 10px;
+    padding: 10px 15px;
+    transition: all 0.3s ease;
+}
+
+.page-link:hover {
+    background: var(--mango-primary);
+    color: var(--white);
+    border-color: var(--mango-dark);
+    transform: translateY(-2px);
+}
+
+.page-item.active .page-link {
+    background: var(--mango-primary);
+    border-color: var(--mango-dark);
+    color: var(--white);
+}
+
+/* Estilos adicionales para contenedores de paginación */
+#paginacion-container {
+    clear: both;
+    margin-top: 25px;
+    margin-bottom: 20px;
+    z-index: 1;
+    position: relative;
+}
+
+/* Asegurar que la paginación no interfiera con otros elementos - Responsivo */
+.pagination-container {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--mango-secondary);
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    box-sizing: border-box;
+}
+
+/* Eliminar overflow del contenedor principal */
+.container-mostrar {
+    overflow-x: hidden;
+}
+
+/* Mejorar el espaciado de tablas - Responsivo */
+#tabla-catalogo {
+    margin-bottom: 20px;
+    clear: both;
+}
+
+/* Asegurar que los formularios no interfieran */
+#formulario-alta {
+    z-index: 10;
+    position: relative;
+    clear: both;
+}
+
+/* Separación clara entre secciones */
+.table-responsive {
+    margin-bottom: 25px;
+}
+
+/* Cards y contenedores */
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px var(--shadow);
+    background: var(--white);
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+.card-header {
+    background: linear-gradient(45deg, var(--mango-primary), var(--mango-secondary));
+    color: var(--white);
+    font-weight: 600;
+    text-align: center;
+    padding: 15px;
+    border: none;
+}
+
+.card-body {
+    padding: 25px;
+}
+
+/* Estados y badges */
+.badge {
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.badge-activo {
+    background: linear-gradient(45deg, var(--success), #34ce57);
+    color: var(--white);
+}
+
+.badge-inactivo {
+    background: linear-gradient(45deg, var(--dark-gray), #6c757d);
+    color: var(--white);
+}
+
+/* Alertas personalizadas */
+.alert {
+    border: none;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 15px 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.alert-success {
+    background: linear-gradient(45deg, rgba(40, 167, 69, 0.1), rgba(52, 206, 87, 0.1));
+    border-left: 5px solid var(--success);
+    color: var(--success);
+}
+
+.alert-danger {
+    background: linear-gradient(45deg, rgba(220, 53, 69, 0.1), rgba(231, 76, 60, 0.1));
+    border-left: 5px solid var(--danger);
+    color: var(--danger);
+}
+
+.alert-warning {
+    background: linear-gradient(45deg, rgba(255, 193, 7, 0.1), rgba(255, 215, 0, 0.1));
+    border-left: 5px solid var(--mango-light);
+    color: var(--mango-dark);
+}
+
+/* Animaciones de carga */
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--mango-secondary);
+    border-top: 4px solid var(--mango-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Fondo neutro para el body - Personalizable por sección */
+body {
+    margin: 0;
+    padding: 20px 0; /* Espaciado vertical */
+    background: #ffffff; /* Fondo blanco neutro */
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* =====================================================
+   CLASES UTILITARIAS PARA PERSONALIZACIÓN DE FONDOS
+   ===================================================== */
+
+/* INSTRUCCIONES DE USO:
+   Para personalizar el fondo de cada sección, puedes:
+   
+   1. Agregar una clase al body en cada archivo PHP:
+      <body class="seccion-usuarios">
+      <body class="seccion-productores">
+      <body class="seccion-roles">
+   
+   2. O agregar la clase al contenedor:
+      <div class="container-mostrar fondo-personalizable seccion-usuarios">
+   
+   3. Definir los estilos personalizados en esta sección
+*/
+
+/* Clase base para fondos personalizados */
+.fondo-personalizable {
+    position: relative;
+    z-index: 1;
+}
+
+/* EJEMPLOS DE PERSONALIZACIÓN POR SECCIÓN */
+
+/* Fondo para sección de usuarios */
+.seccion-usuarios {
+    /* Por defecto: fondo blanco neutro */
+    background: #ffffff;
+    
+    /* Descomenta para usar ejemplos: */
+    /* Ejemplo: Gradiente azul suave */
+    /* background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #90caf9 100%); */
+    
+    /* Ejemplo: Fondo con patrón */
+    /* background: #f5f5f5 url('data:image/svg+xml,<svg>...</svg>'); */
+    
+    /* Ejemplo: Imagen de fondo */
+    /* background: url('ruta/a/imagen.jpg') center/cover; */
+}
+
+/* Fondo para sección de productores */
+.seccion-productores {
+    /* Por defecto: fondo blanco neutro */
+    background: #ffffff;
+    
+    /* Descomenta para usar ejemplos: */
+    /* Ejemplo: Gradiente verde agricultura */
+    /* background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 50%, #a5d6a7 100%); */
+}
+
+/* Fondo para sección de roles */
+.seccion-roles {
+    /* Por defecto: fondo blanco neutro */
+    background: #ffffff;
+    
+    /* Descomenta para usar ejemplos: */
+    /* Ejemplo: Gradiente púrpura administración */
+    /* background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 50%, #ce93d8 100%); */
+}
+
+/* Fondo para sección de análisis PDF */
+.seccion-pdf {
+    /* Por defecto: fondo blanco neutro */
+    background: #ffffff;
+    
+    /* Descomenta para usar ejemplos: */
+    /* Ejemplo: Gradiente dorado análisis */
+    /* background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 50%, #ffcc02 100%); */
+    
+    /* Ejemplo: Fondo temático documentos */
+    /* background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 50%, #eeeeee 100%); */
+}
+
+/* Clases de fondo predefinidas que puedes usar */
+.fondo-mango-suave {
+    background: linear-gradient(135deg, #fff8f0 0%, #ffe0b3 50%, #ffcc80 100%);
+}
+
+.fondo-mango-intenso {
+    background: linear-gradient(45deg, #FF8C00, #FFB347, #FF7F00);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+}
+
+.fondo-patron-mango {
+    background: #fff8f0;
+    background-image: 
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="10" cy="10" r="1" fill="rgba(255,140,0,0.1)"/><circle cx="90" cy="20" r="0.8" fill="rgba(255,140,0,0.08)"/><circle cx="30" cy="80" r="1.2" fill="rgba(255,140,0,0.12)"/><circle cx="70" cy="60" r="0.6" fill="rgba(255,140,0,0.06)"/></svg>');
+    background-size: 150px 150px;
+}
+
+/* Animación para fondos dinámicos */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Responsive design mejorado */
+@media (min-width: 1400px) {
+    /* Pantallas extra grandes */
+    body {
+        padding: 30px 0;
+    }
+    
+    .container-mostrar {
+        max-width: 1500px; /* Ancho máximo amplio para pantallas XXL */
+        min-height: auto; /* Mantener altura automática */
+        padding: 25px 25px 40px 25px;
+        margin: 0 auto;
+        border-radius: 20px;
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .section-footer {
+        margin-left: -25px;
+        margin-right: -25px;
+        margin-bottom: -40px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .container-mostrar {
+        max-width: 100%;
+        min-height: auto; /* Mantener altura automática */
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 12px 12px 25px 12px;
+    }
+    
+    body {
+        padding: 0;
+        background: #ffffff; /* Mantener fondo blanco */
+    }
+    
+    #formulario-alta {
+        padding: 18px;
+    }
+    
+    .table {
+        min-width: 500px; /* Tabla más compacta en pantallas medianas */
+    }
+    
+    .table thead th,
+    .table tbody td {
+        padding: 10px 12px; /* Padding compacto */
+        font-size: 0.95rem;
+        min-width: 70px;
+    }
+    
+    .section-footer {
+        margin-left: -12px;
+        margin-right: -12px;
+        margin-bottom: -25px;
+    }
+}
+
+@media (max-width: 992px) {
+    .container-mostrar {
+        padding: 10px 10px 20px 10px;
+        min-height: auto; /* Mantener altura automática */
+    }
+    
+    #titulo {
+        font-size: 2rem;
+    }
+    
+    #formulario-alta {
+        padding: 16px;
+        margin: 12px 0;
+    }
+    
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .table {
+        font-size: 0.9rem;
+        min-width: 450px; /* Tabla más compacta para tablets */
+    }
+    
+    .table thead th,
+    .table tbody td {
+        padding: 8px 10px; /* Padding compacto */
+        min-width: 60px;
+    }
+    
+    /* Botones más compactos en tablets */
+    .btn-sm {
+        padding: 4px 8px;
+        font-size: 0.8rem;
+    }
+    
+    .section-footer {
+        margin-left: -10px;
+        margin-right: -10px;
+        margin-bottom: -20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container-mostrar {
+        padding: 8px 8px 15px 8px;
+        min-height: auto; /* Mantener altura automática */
+    }
+    
+    #titulo {
+        font-size: 1.8rem;
+        line-height: 1.2;
+    }
+    
+    #formulario-alta {
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 10px;
+    }
+    
+    .btn {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        margin: 2px;
+    }
+    
+    .table {
+        font-size: 0.85rem;
+        border-radius: 10px;
+    }
+    
+    .table thead th,
+    .table tbody td {
+        padding: 6px 4px;
+        font-size: 0.8rem;
+    }
+    
+    .form-control {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+    }
+    
+    /* Paginación más compacta */
+    #paginacion-container .btn {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+        margin: 1px;
+    }
+    
+    #paginacion-container .badge {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+    }
+    
+    /* Ocultar texto en botones pequeños, solo iconos */
+    .btn-sm .fa-solid {
+        margin: 0;
+    }
+    
+    .section-footer {
+        margin-left: -8px;
+        margin-right: -8px;
+        margin-bottom: -15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .container-mostrar {
+        padding: 5px 5px 10px 5px;
+        min-height: auto; /* Mantener altura automática */
+    }
+    
+    #titulo {
+        font-size: 1.5rem;
+        line-height: 1.1;
+        padding: 10px;
+    }
+    
+    .alert-primary {
+        margin: 5px 0;
+        padding: 15px 10px;
+        border-radius: 10px;
+    }
+    
+    #formulario-alta {
+        padding: 12px;
+        margin: 8px 0;
+        border-radius: 8px;
+    }
+    
+    .btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+        margin: 1px;
+        border-radius: 15px;
+    }
+    
+    .table {
+        font-size: 0.75rem;
+        border-radius: 8px;
+    }
+    
+    .table thead th,
+    .table tbody td {
+        padding: 4px 2px;
+        font-size: 0.7rem;
+    }
+    
+    .section-footer {
+        margin-left: -5px;
+        margin-right: -5px;
+        margin-bottom: -10px;
+    }
+}
+    
+    .form-control {
+        padding: 6px 8px;
+        font-size: 0.85rem;
+        border-radius: 8px;
+    }
+    
+    .form-label {
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+    }
+    
+    /* Paginación muy compacta */
+    #paginacion-container {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .pagination-container {
+        padding: 8px;
+        border-radius: 8px;
+    }
+    
+    #paginacion-container .btn {
+        padding: 4px 6px;
+        font-size: 0.7rem;
+        margin: 0.5px;
+    }
+    
+    #paginacion-container .badge {
+        font-size: 0.65rem;
+        padding: 2px 4px;
+        margin: 0 2px;
+    }
+    
+    #pagina-input {
+        width: 45px !important;
+        padding: 2px 4px;
+        font-size: 0.7rem;
+    }
+    
+    /* Stack botones en móviles muy pequeños */
+    .d-flex.justify-content-center.align-items-center {
+        flex-wrap: wrap;
+        gap: 2px;
+    }
+    
+    /* Separador más delgado */
+    .separator-mango {
+        height: 2px;
+        margin: 15px 0;
+    }
+    
+    /* Footer más compacto */
+    .section-footer {
+        padding: 10px;
+        font-size: 0.8rem;
+        border-radius: 0 0 8px 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container-mostrar {
+        padding: 3px 3px 8px 3px;
+        min-height: auto; /* Mantener altura automática */
+    }
+    
+    #titulo {
+        font-size: 1.3rem;
+    }
+    
+    /* Ocultar algunos elementos decorativos en pantallas muy pequeñas */
+    #formulario-alta::before {
+        display: none;
+    }
+    
+    /* Simplificar botones */
+    .btn {
+        text-transform: none;
+        letter-spacing: normal;
+        padding: 5px 10px;
+    }
+    
+    /* Tabla más simple */
+    .table thead th {
+        text-transform: none;
+        letter-spacing: normal;
+        font-size: 0.65rem;
+    }
+    
+    /* Paginación inline */
+    #paginacion-container .d-flex {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    #paginacion-container .btn,
+    #paginacion-container .badge,
+    #pagina-input {
+        width: 100%;
+        max-width: 200px;
+        margin: 1px auto;
+    }
+    
+    .section-footer {
+        margin-left: -3px;
+        margin-right: -3px;
+        margin-bottom: -8px;
+    }
+}
+
+@media (max-width: 360px) {
+    .container-mostrar {
+        padding: 2px 2px 5px 2px;
+        min-height: auto; /* Mantener altura automática */
+    }
+    
+    #titulo {
+        font-size: 1.2rem;
+        padding: 8px;
+    }
+    
+    .alert-primary {
+        padding: 10px 5px;
+    }
+    
+    #formulario-alta {
+        padding: 8px;
+    }
+    
+    .btn {
+        padding: 4px 8px;
+        font-size: 0.75rem;
+    }
+    
+    .table {
+        border-radius: 5px;
+    }
+    
+    .table thead th,
+    .table tbody td {
+        padding: 2px 1px;
+        font-size: 0.65rem;
+    }
+    
+    .section-footer {
+        margin-left: -2px;
+        margin-right: -2px;
+        margin-bottom: -5px;
+    }
+}
+
+/* =================================================
+   CLASES DE PERSONALIZACIÓN POR SECCIÓN
+   ================================================= */
+
+/* Clases base para fondos personalizables */
+.fondo-personalizable {
+    position: relative;
+    z-index: 1;
+}
+
+.fondo-personalizable::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Ejemplos de fondos para diferentes secciones */
+/* Descomenta y personaliza según necesites */
+
+/*
+.seccion-usuarios::before {
+    background: linear-gradient(45deg, #your-color1, #your-color2);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+}
+
+.seccion-productores::before {
+    background-image: url('tu-imagen-de-fondo.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.1;
+}
+
+.seccion-roles::before {
+    background: radial-gradient(circle, #your-color 2px, transparent 2px);
+    background-size: 50px 50px;
+}
+*/
+
+/* Animación de gradiente (disponible para usar) */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Clase para patrón de puntos flotantes */
+.patron-puntos::before {
+    background-image: 
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="10" cy="10" r="1" fill="rgba(255,140,0,0.1)"/><circle cx="90" cy="20" r="0.8" fill="rgba(255,140,0,0.08)"/><circle cx="30" cy="80" r="1.2" fill="rgba(255,140,0,0.12)"/><circle cx="70" cy="60" r="0.6" fill="rgba(255,140,0,0.06)"/></svg>');
+    background-size: 150px 150px;
+    animation: float 30s linear infinite;
+}
+
+/* Clases de fondos rápidos */
+.fondo-mango-claro {
+    background: linear-gradient(135deg, #FFE5B4 0%, #FFFFFF 100%) !important;
+}
+
+.fondo-mango-oscuro {
+    background: linear-gradient(135deg, #FF8C00 0%, #CC6600 100%) !important;
+}
+
+.fondo-neutro {
+    background: #ffffff !important;
+}
+
+.fondo-gris-claro {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%) !important;
+}
+
+/* Estilos generales para contenedores - Completamente responsivo */
+.container-mostrar {
+    background: linear-gradient(135deg, var(--light-gray) 0%, var(--white) 100%);
+    min-height: auto; /* Cambio de 100vh a auto para ajustarse al contenido */
+    width: 100%;
+    max-width: 1600px; /* Ancho máximo muy amplio para pantallas grandes */
+    padding: 15px 15px 30px 15px; /* Agregado padding bottom para mejor separación */
+    margin: 0 auto; /* Centrar horizontalmente */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); /* Sombra para destacar del fondo */
+    border-radius: 15px; /* Bordes redondeados en desktop */
+}
+
+/* Optimización adicional para contenedores más ajustados */
+.container-mostrar {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Alinear contenido al inicio */
+}
+
+/* Mejorar el espaciado del footer para que se mantenga cercano al contenido */
+.section-footer {
+    margin-top: auto;
+    padding: 15px;
+    background: linear-gradient(45deg, var(--mango-primary), var(--mango-secondary));
+    color: var(--white);
+    text-align: center;
+    border-radius: 0 0 15px 15px;
+    margin-left: -15px;
+    margin-right: -15px;
+    margin-bottom: -30px;
+    font-weight: 500;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Asegurar que el contenido principal tenga mejor espaciado */
+#tabla-catalogo {
+    margin-bottom: 15px; /* Reducir margen inferior */
+}
+
+/* Optimizar la paginación para estar más cerca de la tabla */
+#paginacion-container {
+    margin-top: 15px; /* Reducir margen superior */
+    margin-bottom: 0; /* Eliminar margen inferior */
+}
+
+/* Ajustar el alert del título */
+.alert-primary {
+    margin-bottom: 20px; /* Reducir margen inferior */
+}
+
+/* Mejorar el espaciado del separador */
+.separator-mango {
+    margin: 15px 0; /* Reducir márgenes */
+}

@@ -59,31 +59,35 @@ $opcion = $_POST['opcion'] ?? 'principal';
                                 <i class="fas fa-list"></i> Productor
                             </a>
                         </li>
+
+
+                        
                     </ul>
 
                 </li>
 
-                <!-- Menú desplegable para 'PDF' -->
+             
+
+                     <!-- Menú desplegable para 'ROL' -->
                 <?php if (puedeVer('administrador')): ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMostrar" role="button" 
                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-eye"></i> Analisis PDF
+                        <i class="fas fa-eye"></i> Analisi PDF
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMostrar">
                         <li>
                             <a class="dropdown-item" href="#" onclick="postToExternalSite('index.php', { opcion: 'pdf' });">
-                                <i class="fas fa-list"></i> PDF
+                                <i class="fas fa-list"></i> ROL
                             </a>
                         </li>
-                        <li>
-                            <a class="dropdown-item" href="#" onclick="postToExternalSite('index.php', { opcion: 'pdf' });">
-                                <i class="fas fa-list"></i> PDF2
-                            </a>
-                        </li>
+                      
                     </ul>
                 </li>
                 <?php endif; ?>
+
+
+          
 
 
             </ul>

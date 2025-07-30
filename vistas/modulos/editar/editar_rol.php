@@ -1,7 +1,7 @@
 <div class="container-mostrar">
 <div align="center">
     <div class="alert alert-primary mt-5" role="alert">
-        <h1 id="titulo">Editar Productores</h1>
+        <h1 id="titulo">Editar Roles</h1>
     </div>
 </div>
 
@@ -11,10 +11,10 @@
     <form class="form-control" method="POST" accept-charset="utf-8" enctype="multipart/form-data">
         <?php
         // Aquí traes la información para que el usuario vea los datos.
-        $editar = new ControladorProductor();
-        $editar->editarProductorControlador();
+        $editar = new controladorRol();
+        $editar->editarRolControlador();
         ?>
-        <input type="hidden" name="pk_productor" value="<?php echo isset($_POST['pk']) ? $_POST['pk'] : ''; ?>" />
+        <input type="hidden" name="pk_rol" value="<?php echo isset($_POST['pk']) ? $_POST['pk'] : ''; ?>" />
 
         <!-- Campos hidden: Solo se llenan después del envío del formulario -->
         <div class="form-group mb-3">
@@ -22,7 +22,7 @@
         </div>
 
         <div class="form-group mb-3">
-            <input type="hidden" name="menu" value="<?php echo isset($_POST['telefono']) ? htmlspecialchars($_POST['telefono']) : ''; ?>" />
+            <input type="hidden" name="menu" value="<?php echo isset($_POST['descripcion']) ? htmlspecialchars($_POST['descripcion']) : ''; ?>" />
         </div>
 
         <div class="form-group mb-3">
@@ -34,6 +34,6 @@
 </div>
 
 <?php // este segundo para actualizar
-    $registro = new ControladorProductor();
-    $registro -> actualizarProductorControlador();
+    $registro = new controladorRol();
+    $registro -> actualizarRolControlador();
 ?>

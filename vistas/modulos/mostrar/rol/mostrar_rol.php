@@ -4,7 +4,7 @@
         <h1 id="titulo">
             <?php
                 $estado = isset($_POST['estado']) ? $_POST['estado'] : 1;
-                echo ($estado == 1) ? "Mostrar Datos de Productores" : "Papelera Datos de Productores";
+                echo ($estado == 1) ? "Mostrar Datos de Roles" : "Papelera Datos de Roles";
             ?>
         </h1>
     </div>
@@ -14,17 +14,17 @@
 
 <!--Inicio del Proceso de Alta-->
 
-<!-- Formulario de alta de productor (oculto inicialmente) -->   
+<!-- Formulario de alta de roles (oculto inicialmente) -->
 <div id="formulario-alta" style="display: none;">
     <form id="form-alta" method="POST" onsubmit="enviarFormulario(event)">
     <div class="row">
         <div class="form-group mb-3">
             <label class="form-label">Nombre:</label>
-            <input type="text" name="nombre" class="form-control" placeholder="Nombre del productor" value="" required />
+            <input type="text" name="nombre" class="form-control" placeholder="Nombre del rol" value="" required />
         </div>
         <div class="form-group mb-3">
-            <label class="form-label">Telefono:</label>
-            <input type="text" name="telefono" class="form-control" placeholder="(555-3333)" value="" required />
+            <label class="form-label">Descripción:</label>
+            <input type="text" name="descripcion" class="form-control" placeholder="Descripción del rol" value="" required />
         </div>
     </div>
     <div class="d-grid gap-2 col-6 mx-auto">
@@ -37,7 +37,7 @@
         <input type="hidden" name="menu" value="<?php echo isset($_POST['nombre']) ? htmlspecialchars($_POST['nombre']) : ''; ?>" />
     </div>
     <div class="form-group mb-3">
-        <input type="hidden" name="menu" value="<?php echo isset($_POST['telefono']) ? htmlspecialchars($_POST['telefono']) : ''; ?>" />
+        <input type="hidden" name="menu" value="<?php echo isset($_POST['descripcion']) ? htmlspecialchars($_POST['descripcion']) : ''; ?>" />
     </div>
     <div class="form-group mb-3">
         <input type="hidden" name="opcion" value="<?php echo isset($_POST['opcion']) ? htmlspecialchars($_POST['opcion']) : ''; ?>" />
@@ -55,16 +55,16 @@
     <thead>
         <tr>
             <th>Nombre</th>
-            <th>Telefono</th>
+            <th>Descripcion</th>
             <th>
                 <?php if ($estado == 1): ?> <!-- Solo muestra el botón si el estado es activo (1) -->
-                <button class="btn btn-success btn-sm" onclick="mostrarFormulario(this)" data-title="Alta Productor">
-                    <i class="fa-solid fa-circle-plus fa-lg"></i> Crear Productor
+                <button class="btn btn-success btn-sm" onclick="mostrarFormulario(this)" data-title="Alta Rol">
+                    <i class="fa-solid fa-circle-plus fa-lg"></i> Crear Rol
                 </button>
                 <?php endif; ?>
                  <!-- Botón para alternar entre activos e inactivos -->
                     <form action="index.php" method="POST" style="display: inline;">
-                        <input type="hidden" name="opcion" value="mostrar_productor">
+                        <input type="hidden" name="opcion" value="mostrar_rol">
                         <input type="hidden" name="estado" value="<?php echo ($estado == 1) ? 0 : 1; ?>">
                         <button type="submit" class="btn btn-sm <?php echo ($estado == 1) ? 'btn-warning' : 'btn-primary'; ?>">
                             <i class="fa-solid <?php echo ($estado == 1) ? 'fa-archive' : 'fa-undo'; ?>"></i>
@@ -79,8 +79,8 @@
     <tbody id="tabla-body">
         <?php
             $estado = isset($_POST['estado']) ? $_POST['estado'] : 1;
-            $categoria = new ControladorProductor();
-            $categoria->mostrarProductorControlador($estado);  // Aqui es donde se cambia...
+            $categoria = new ControladorRol();
+            $categoria->mostrarRolControlador($estado);  // Aqui es donde se cambia...
         ?>
     </tbody>
 </table>
@@ -117,15 +117,15 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Verificar si el formulario tiene los datos necesarios
-    if (isset($_POST['nombre']) && !empty($_POST['telefono'])) {
+    if (isset($_POST['nombre']) && !empty($_POST['descripcion'])) {
         // Recoger datos del formulario
         $nombre = htmlspecialchars($_POST['nombre']); // Sanitizar entrada para mayor seguridad
-        $telefono = htmlspecialchars($_POST['telefono']); 
+        $descripcion = htmlspecialchars($_POST['descripcion']); 
 
         // Llamar al controlador para manejar el registro
-        $registro = new ControladorProductor();
-        $registro->registroProductoControlador($nombre, $telefono);
-    
+        $registro = new ControladorRol();
+        $registro->registroRolControlador($nombre, $descripcion);
+
     }
 }
 ?>

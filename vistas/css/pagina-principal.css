@@ -1,0 +1,588 @@
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* INSTRUCCIONES PARA CAMBIAR LA IMAGEN DE FONDO:
+         * 1. Coloca tu imagen en la carpeta: vistas/images/
+         * 2. Cambia 'fondo-mangos.jpg' por el nombre de tu imagen
+         * 3. Formatos recomendados: .jpg, .jpeg, .png, .webp
+         * 4. Tamaño recomendado: mínimo 1920x1080px para mejor calidad
+         */
+        .hero-section {
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.1), rgba(40, 40, 40, 0.2)), 
+                        url('../img/mango-5318967_1280.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 70%, rgba(255, 140, 0, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 30%, rgba(255, 200, 100, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* CLASE ALTERNATIVA PARA CAMBIAR IMAGEN DE FONDO RÁPIDAMENTE */
+        .hero-section.custom-bg {
+            background-image: linear-gradient(135deg, rgba(20, 20, 20, 0.7), rgba(40, 40, 40, 0.8)), 
+                              url('../img/mango-5318967_1280.jpg');
+        }
+
+        /* OPCIÓN SIN OVERLAY OSCURO (para imágenes más claras) */
+        .hero-section.light-bg {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.3)), 
+                        url('../img/mango-5318967_1280.jpg');
+        }
+
+        /* OPCIÓN CON OVERLAY MÁS OSCURO (para imágenes muy brillantes) */
+        .hero-section.dark-bg {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), 
+                        url('../img/mango-5318967_1280.jpg');
+        }
+
+        /* Mangos decorativos con efecto de caída */
+        .mango-decoration {
+            position: absolute;
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 1;
+            animation: falling 8s ease-in infinite;
+        }
+
+        .mango-1 {
+            top: -10%;
+            right: 10%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(ellipse at 40% 30%, #ffb347, #ff8c00, #d2691e);
+            border-radius: 45% 55% 60% 40%;
+            transform: rotate(-15deg);
+            box-shadow: 0 20px 40px rgba(255, 140, 0, 0.3);
+              animation-delay: 0s;
+            animation-duration: 7s;
+        }
+
+        .mango-2 {
+            top: -20%;
+            right: 30%;
+            width: 160px;
+            height: 180px;
+            background: radial-gradient(ellipse at 50% 40%, #ffd700, #ffb347, #cd853f);
+            border-radius: 40% 60% 55% 45%;
+            transform: rotate(25deg);
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.25);
+            animation-delay: 0.5s;
+            animation-duration: 10s;
+        }
+
+        .mango-3 {
+            top: -15%;
+            right: 50%;
+            width: 140px;
+            height: 160px;
+            background: radial-gradient(ellipse at 45% 35%, #ff6347, #ff8c00, #d2691e);
+            border-radius: 50% 50% 60% 40%;
+            transform: rotate(-30deg);
+            box-shadow: 0 12px 25px rgba(255, 99, 71, 0.2);
+            animation-delay: 1s;
+            animation-duration: 14s;
+        }
+
+        .mango-4 {
+            top: -25%;
+            left: 5%;
+            width: 120px;
+            height: 140px;
+            background: radial-gradient(ellipse at 40% 40%, #ffa500, #ff7f50, #d2691e);
+            border-radius: 55% 45% 50% 50%;
+            transform: rotate(45deg);
+            opacity: 0.5;
+            box-shadow: 0 10px 20px rgba(255, 165, 0, 0.2);
+            animation-delay: 1.5s;
+            animation-duration: 11s;
+        }
+
+        .mango-5 {
+            top: -15%;
+            left: 25%;
+            width: 180px;
+            height: 190px;
+            background: radial-gradient(ellipse at 45% 35%, #ffb347, #ffa500, #d2691e);
+            border-radius: 50% 50% 55% 45%;
+            transform: rotate(15deg);
+            opacity: 0.4;
+            box-shadow: 0 18px 35px rgba(255, 179, 71, 0.3);
+            animation-delay: 2s;
+            animation-duration: 13s;
+        }
+
+        .mango-6 {
+            top: -30%;
+            left: 15%;
+            width: 150px;
+            height: 170px;
+            background: radial-gradient(ellipse at 50% 40%, #ff8c00, #ff6347, #cd853f);
+            border-radius: 45% 55% 50% 50%;
+            transform: rotate(-20deg);
+            opacity: 0.5;
+            box-shadow: 0 15px 28px rgba(255, 140, 0, 0.25);
+            animation-delay: 2.5s;
+            animation-duration: 15s;
+        }
+
+        .mango-7 {
+            top: -20%;
+            left: 35%;
+            width: 130px;
+            height: 150px;
+            background: radial-gradient(ellipse at 40% 30%, #ffd700, #ffb347, #ff8c00);
+            border-radius: 55% 45% 60% 40%;
+            transform: rotate(35deg);
+            opacity: 0.4;
+            box-shadow: 0 12px 22px rgba(255, 215, 0, 0.2);
+            animation-delay: 3s;
+            animation-duration: 9s;
+        }
+
+        .mango-8 {
+            top: -35%;
+            left: 45%;
+            width: 110px;
+            height: 130px;
+            background: radial-gradient(ellipse at 45% 35%, #ff7f50, #ff6347, #d2691e);
+            border-radius: 50% 50% 45% 55%;
+            transform: rotate(-10deg);
+            opacity: 0.6;
+            box-shadow: 0 10px 18px rgba(255, 127, 80, 0.3);
+            animation-delay: 3.5s;
+            animation-duration: 12s;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content {
+            max-width: 1300px;
+            color: white;
+            animation: fadeInUp 1s ease-out;
+            margin-left: 0;
+            margin-right: auto;
+            text-align: left;
+            padding-left: 80px;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            color: #ffffff;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8), 
+                         0 0 20px rgba(255, 255, 255, 0.3);
+            letter-spacing: 0.02em;
+            word-spacing: 0.1em;
+        }
+
+        .hero-description {
+            color: #ffffff;
+            font-size: 1.4rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.8),
+                         0 0 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .hero-highlight {
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            font-style: italic;
+            text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.8),
+                         0 0 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6347, #ff8c00);
+            color: white;
+            text-decoration: none;
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 99, 71, 0.4);
+            position: relative;
+            overflow: hidden;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 99, 71, 0.6);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .floating-dot {
+            position: absolute;
+            background: rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .dot-1 {
+            width: 8px;
+            height: 8px;
+            top: 20%;
+            left: 20%;
+            animation-delay: 0s;
+        }
+
+        .dot-2 {
+            width: 6px;
+            height: 6px;
+            top: 70%;
+            left: 15%;
+            animation-delay: 2s;
+        }
+
+        .dot-3 {
+            width: 10px;
+            height: 10px;
+            top: 40%;
+            right: 30%;
+            animation-delay: 4s;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Animación de caída para los mangos */
+        @keyframes falling {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Animación de rotación suave para mangos mientras caen */
+        @keyframes gentleRotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            25% {
+                transform: rotate(90deg);
+            }
+            50% {
+                transform: rotate(180deg);
+            }
+            75% {
+                transform: rotate(270deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Segunda parte: Sección de Exportadores y Socios */
+        .partnership-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            position: relative;
+        }
+
+        /* Gradiente adicional para el efecto visual */
+        .partnership-section::after {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(255, 140, 0, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 99, 71, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .partnership-section .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .partnership-content {
+            position: relative;
+            z-index: 3;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, #ff6347, #ff8c00);
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            color: #6c757d;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .partnership-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .partnership-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .partnership-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #ff6347, #ff8c00);
+        }
+
+        .partnership-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+            position: relative;
+        }
+
+        .icon-exportador,
+        .icon-socio {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+            background: linear-gradient(135deg, #ff6347, #ff8c00);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-exportador::before {
+            content: '🌍';
+            font-size: 35px;
+        }
+
+        .icon-socio::before {
+            content: '🤝';
+            font-size: 35px;
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .card-description {
+            font-size: 1.1rem;
+            color: #6c757d;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .card-benefits {
+            list-style: none;
+            padding: 0;
+            margin: 25px 0;
+        }
+
+        .card-benefits li {
+            font-size: 1rem;
+            color: #495057;
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .card-benefits li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-button {
+            display: block;
+            background: linear-gradient(135deg, #ff6347, #ff8c00);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-button:hover {
+            background: linear-gradient(135deg, #e55347, #e67e00);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 99, 71, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .partnership-section {
+                padding: 60px 0;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .section-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .partnership-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .partnership-card {
+                padding: 30px 20px;
+            }
+            
+            .card-title {
+                font-size: 1.5rem;
+            }
+            
+            .card-description {
+                font-size: 1rem;
+            }
+        }
+

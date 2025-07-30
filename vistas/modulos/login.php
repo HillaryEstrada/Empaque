@@ -354,10 +354,21 @@
             if (usuario === '' || contrasena === '') {
                 e.preventDefault();
                 Swal.fire({
-                    icon: 'warning',
-                    title: 'Campos requeridos',
-                    text: 'Por favor completa todos los campos',
-                    confirmButtonColor: '#FF6B35'
+                    icon: "warning",
+                    title: "¡Campos Requeridos!",
+                    text: "Por favor completa todos los campos",
+                    confirmButtonText: "Entendido",
+                    confirmButtonColor: "#ffc107",
+                    background: "#ffffff",
+                    color: "#333333",
+                    iconColor: "#ffc107",
+                    width: "500px",
+                    padding: "2rem",
+                    backdrop: "rgba(0,0,0,0.4)",
+                    allowOutsideClick: false,
+                    customClass: {
+                        popup: "colored-toast"
+                    }
                 });
             }
         });

@@ -13,40 +13,69 @@
             ?>
             <script>
                 Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'Se desactivó correctamente',
-                    showConfirmButton: false,
-                    timer: 1500
+                    icon: "success",
+                    title: "¡Desactivado!",
+                    text: "El elemento se desactivó correctamente",
+                    confirmButtonText: "Continuar",
+                    confirmButtonColor: "#28a745",
+                    background: "#ffffff",
+                    color: "#333333",
+                    iconColor: "#28a745",
+                    width: "500px",
+                    padding: "2rem",
+                    backdrop: "rgba(0,0,0,0.4)",
+                    allowOutsideClick: false,
+                    customClass: {
+                        popup: "colored-toast"
+                    }
                 }).then(() => {
-                    // Redirige a la página correspondiente con la opción de mostrar la tabla actualizada
                     postToExternalSite('index.php', {opcion: 'mostrar_<?php echo htmlspecialchars($tabla); ?>'});
                 });
             </script>
             <?php
         } else { 
-            // Si hubo un error en la desactivación, muestra una alerta de error
             ?>
             <script>
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Ocurrió un error al desactivar.'
+                    icon: "error",
+                    title: "¡Error!",
+                    text: "Ocurrió un error al desactivar el elemento",
+                    confirmButtonText: "Entendido",
+                    confirmButtonColor: "#dc3545",
+                    background: "#ffffff",
+                    color: "#333333",
+                    iconColor: "#dc3545",
+                    width: "500px",
+                    padding: "2rem",
+                    backdrop: "rgba(0,0,0,0.4)",
+                    allowOutsideClick: false,
+                    customClass: {
+                        popup: "colored-toast"
+                    }
                 });
             </script>
             <?php
         }
     } else { 
-        // Si no se proporcionaron los datos requeridos, muestra un mensaje de acceso no permitido
         ?>
         <script>
             Swal.fire({
-                icon: 'error',
-                title: 'Acceso no permitido',
-                text: 'No se ha proporcionado la información necesaria.'
+                icon: "warning",
+                title: "¡Acceso Denegado!",
+                text: "No se ha proporcionado la información necesaria",
+                confirmButtonText: "Entendido",
+                confirmButtonColor: "#ffc107",
+                background: "#ffffff",
+                color: "#333333",
+                iconColor: "#ffc107",
+                width: "500px",
+                padding: "2rem",
+                backdrop: "rgba(0,0,0,0.4)",
+                allowOutsideClick: false,
+                customClass: {
+                    popup: "colored-toast"
+                }
             }).then(() => {
-                /* No redirige correctamente porque la opción está vacía, 
-                ya que este es un script genérico */
                 postToExternalSite('index.php', {opcion: ''});
             });
         </script>

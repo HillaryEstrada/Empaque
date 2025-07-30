@@ -1,0 +1,111 @@
+/* Estilos personalizados para SweetAlert2 */
+
+.colored-toast {
+    border-radius: 15px !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+    border: 2px solid transparent !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+}
+
+/* Toast de éxito */
+.swal2-popup.swal2-toast.colored-toast[style*="background:#d4edda"] {
+    border-color: #28a745 !important;
+    animation: slideInRight 0.3s ease-out !important;
+}
+
+/* Toast de error */
+.swal2-popup.colored-toast[style*="background:#f8d7da"] {
+    border-color: #dc3545 !important;
+    animation: fadeInDown 0.3s ease-out !important;
+}
+
+/* Toast de advertencia */
+.swal2-popup.colored-toast[style*="background:#fff3cd"] {
+    border-color: #ffc107 !important;
+    animation: fadeInDown 0.3s ease-out !important;
+}
+
+/* Mejorar el título */
+.colored-toast .swal2-title {
+    font-weight: 600 !important;
+    font-size: 1.2rem !important;
+    margin-bottom: 10px !important;
+}
+
+/* Mejorar el texto */
+.colored-toast .swal2-html-container {
+    font-size: 0.95rem !important;
+    line-height: 1.4 !important;
+}
+
+/* Mejorar el botón de confirmación */
+.colored-toast .swal2-confirm {
+    border-radius: 25px !important;
+    padding: 10px 25px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    transition: all 0.3s ease !important;
+}
+
+.colored-toast .swal2-confirm:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Barra de progreso del timer */
+.swal2-timer-progress-bar {
+    background: rgba(255, 255, 255, 0.6) !important;
+    height: 4px !important;
+}
+
+/* Iconos personalizados */
+.colored-toast .swal2-icon {
+    border: none !important;
+    margin: 10px auto 15px !important;
+}
+
+/* Animaciones personalizadas */
+@keyframes slideInRight {
+    from {
+        transform: translate3d(100%, 0, 0);
+        opacity: 0;
+    }
+    to {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        transform: translate3d(0, -100%, 0);
+        opacity: 0;
+    }
+    to {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+}
+
+/* Efectos hover para toasts */
+.colored-toast:hover {
+    transform: scale(1.02) !important;
+    transition: transform 0.2s ease !important;
+}
+
+/* Estilo para toasts en móviles */
+@media (max-width: 768px) {
+    .colored-toast {
+        width: 90% !important;
+        margin: 0 auto !important;
+    }
+    
+    .colored-toast .swal2-title {
+        font-size: 1.1rem !important;
+    }
+    
+    .colored-toast .swal2-html-container {
+        font-size: 0.9rem !important;
+    }
+}

@@ -1,3 +1,12 @@
+<div class="container-mostrar">
+<div align="center">
+    <div class="alert alert-primary mt-5" role="alert">
+        <h1 id="titulo">Editar Datos de Usuario</h1>
+    </div>
+</div>
+
+<div class="separator-mango"></div>
+
 <div class="row mt-5">
     <form class="form-control" method="POST" accept-charset="utf-8" enctype="multipart/form-data">
         <?php
@@ -29,6 +38,7 @@
         </div>
 
     </form>
+</div>
 </div>
 
 <?php // este segundo para actualizar
