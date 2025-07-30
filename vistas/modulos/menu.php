@@ -73,19 +73,12 @@ $opcion = $_POST['opcion'] ?? 'principal';
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMostrar">
                         <li>
                             <a class="dropdown-item" href="#" onclick="postToExternalSite('index.php', { opcion: 'pdf' });">
-                                <i class="fas fa-list"></i> PDF
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#" onclick="postToExternalSite('index.php', { opcion: 'pdf' });">
-                                <i class="fas fa-list"></i> PDF2
+                                <i class="fas fa-list"></i> ROL PDF
                             </a>
                         </li>
                     </ul>
                 </li>
                 <?php endif; ?>
-
-
             </ul>
 
             <!-- Información del usuario y botón de cerrar sesión -->
