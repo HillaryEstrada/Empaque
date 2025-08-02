@@ -1,84 +1,45 @@
 <?php
-    // Verifica si la solicitud es de tipo POST y si se han recibido los parámetros necesarios
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pk']) && isset($_POST['tabla']) && isset($_POST['pkname'])) {
-        $pk = $_POST['pk']; // Identificador del elemento a desactivar
-        $tabla = $_POST['tabla']; // Nombre de la tabla en la base de datos
-        $pkname = $_POST['pkname']; // Nombre de la clave primaria en la tabla
+if (
+    $_SERVER['REQUEST_METHOD'] === 'POST' &&
+    isset($_POST['pk'], $_POST['tabla'], $_POST['pkname'])
+) {
+    $pk = $_POST['pk'];
+    $tabla = $_POST['tabla'];
+    $pkname = $_POST['pkname'];
 
-        // Llamamos a la función genérica del modelo para desactivar el elemento
-        $respuesta = Modelo::desactivarElementoModelo($pk, $tabla, $pkname);
+    $respuesta = Modelo::desactivarElementoModelo($pk, $tabla, $pkname);
 
-        // Si la desactivación fue exitosa, muestra una notificación de éxito
-        if ($respuesta === 'ok') {
-            ?>
-            <script>
-                Swal.fire({
-                    icon: "success",
-                    title: "¡Desactivado!",
-                    text: "El elemento se desactivó correctamente",
-                    confirmButtonText: "Continuar",
-                    confirmButtonColor: "#28a745",
-                    background: "#ffffff",
-                    color: "#333333",
-                    iconColor: "#28a745",
-                    width: "500px",
-                    padding: "2rem",
-                    backdrop: "rgba(0,0,0,0.4)",
-                    allowOutsideClick: false,
-                    customClass: {
-                        popup: "colored-toast"
-                    }
-                }).then(() => {
-                    postToExternalSite('index.php', {opcion: 'mostrar_<?php echo htmlspecialchars($tabla); ?>'});
-                });
-            </script>
-            <?php
-        } else { 
-            ?>
-            <script>
-                Swal.fire({
-                    icon: "error",
-                    title: "¡Error!",
-                    text: "Ocurrió un error al desactivar el elemento",
-                    confirmButtonText: "Entendido",
-                    confirmButtonColor: "#dc3545",
-                    background: "#ffffff",
-                    color: "#333333",
-                    iconColor: "#dc3545",
-                    width: "500px",
-                    padding: "2rem",
-                    backdrop: "rgba(0,0,0,0.4)",
-                    allowOutsideClick: false,
-                    customClass: {
-                        popup: "colored-toast"
-                    }
-                });
-            </script>
-            <?php
-        }
-    } else { 
+    if ($respuesta === 'ok') {
+        ?>
+        <form id="redirectForm" method="POST" action="index.php">
+            <input type="hidden" name="opcion" value="mostrar_<?php echo htmlspecialchars($tabla); ?>">
+            <input type="hidden" name="estado" value="1"> <!-- siempre regresa a activos -->
+            <input type="hidden" name="alerta" value="desactivado">
+        </form>
+        <script>
+            document.getElementById('redirectForm').submit();
+        </script>
+        <?php
+    } else {
         ?>
         <script>
             Swal.fire({
-                icon: "warning",
-                title: "¡Acceso Denegado!",
-                text: "No se ha proporcionado la información necesaria",
-                confirmButtonText: "Entendido",
-                confirmButtonColor: "#ffc107",
-                background: "#ffffff",
-                color: "#333333",
-                iconColor: "#ffc107",
-                width: "500px",
-                padding: "2rem",
-                backdrop: "rgba(0,0,0,0.4)",
-                allowOutsideClick: false,
-                customClass: {
-                    popup: "colored-toast"
-                }
-            }).then(() => {
-                postToExternalSite('index.php', {opcion: ''});
+                icon: 'error',
+                title: 'Error',
+                text: 'Ocurrió un error al desactivar.'
             });
         </script>
         <?php
     }
+} else {
+    ?>
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Acceso no permitido',
+            text: 'No se ha proporcionado la información necesaria.'
+        });
+    </script>
+    <?php
+}
 ?>

@@ -146,48 +146,59 @@
 
         // Actrualizar los datos de los usuarios
         static public function actualizarDatosUsuariosControlador()
-        {
-            if(isset($_POST["nombre"], $_POST["apellidos"], $_POST["edad"], $_POST["sexo"], $_POST["pk_dato_usuario"]))
-            {   
-                $datosControlador = array(
-                    "nombre" => $_POST['nombre'],
-                    "apellidos" => $_POST['apellidos'],
-                    "edad" => $_POST['edad'],
-                    "sexo" => $_POST['sexo'],
-                    "pk_dato_usuario" => $_POST['pk_dato_usuario']
-                );
+{
+    if (
+        isset($_POST["nombre"], $_POST["apellidos"], $_POST["edad"], $_POST["sexo"], $_POST["pk_dato_usuario"])
+    ) {
+        $datosControlador = array(
+            "nombre" => $_POST['nombre'],
+            "apellidos" => $_POST['apellidos'],
+            "edad" => $_POST['edad'],
+            "sexo" => $_POST['sexo'],
+            "pk_dato_usuario" => $_POST['pk_dato_usuario']
+        );
 
-                $respuesta = ModeloUsuario::actualizacionDatosUsuariosModelo($datosControlador, "dato_usuario");
+        $respuesta = ModeloUsuario::actualizacionDatosUsuariosModelo($datosControlador, "dato_usuario");
 
-                if($respuesta == 'ok')
-                {
-                    ?>
-                    <script>
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: '¡Datos actualizados!',
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then(() => {
-                            window.location.href = 'index.php?opcion=mostrar_dato_usuario'; // Redirige a la lista
-                        });
-                    </script>
-                    <?php
-                }
-                else
-                {
-                    ?>
-                    <script>
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Ooops...',
-                            text: 'Ocurrió un error'
-                        })
-                    </script>
-                    <?php
-                }
-            }
+        if ($respuesta == 'ok') {
+            ?>
+            <script>
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: '¡Datos actualizados!',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    // Crear formulario oculto para forzar POST a mostrar_dato_usuario
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = 'index.php';
+
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'opcion';
+                    input.value = 'mostrar_dato_usuario';
+
+                    form.appendChild(input);
+                    document.body.appendChild(form);
+                    form.submit();
+                });
+            </script>
+            <?php
+        } else {
+            ?>
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ooops...',
+                    text: 'Ocurrió un error al actualizar'
+                });
+            </script>
+            <?php
         }
+    }
+}
+
     }
 ?>

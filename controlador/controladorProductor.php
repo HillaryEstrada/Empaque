@@ -121,48 +121,61 @@
             } 
         }
 
-        // Actrualizar los datos de los usuarios
-        static public function actualizarProductorControlador()
+// Actualizar los datos de los usuarios
+static public function actualizarProductorControlador()
+{
+    if(isset($_POST["nombre"], $_POST["telefono"], $_POST["pk_productor"]))
+    {   
+        $datosControlador = array(
+            "nombre" => $_POST['nombre'],
+            "telefono" => $_POST['telefono'],
+            "pk_productor" => $_POST['pk_productor']
+        );
+
+        $respuesta = ModeloProductor::actualizacionProductorModelo($datosControlador, "productor");
+
+        if($respuesta == 'ok')
         {
-            if(isset($_POST["nombre"], $_POST["telefono"], $_POST["pk_productor"]))
-            {   
-                $datosControlador = array(
-                    "nombre" => $_POST['nombre'],
-                    "telefono" => $_POST['telefono'],
-                    "pk_productor" => $_POST['pk_productor']
-                );
+            ?>
+            <script>
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: '¡Datos actualizados!',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    // Redirección interna con POST oculto
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = 'index.php';
 
-                $respuesta = ModeloProductor::actualizacionProductorModelo($datosControlador, "productor");
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'opcion';
+                    input.value = 'mostrar_productor';
+                    form.appendChild(input);
 
-                if($respuesta == 'ok')
-                {
-                    ?>
-                    <script>
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: '¡Datos actualizados!',
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then(() => {
-                            window.location.href = 'index.php?opcion=mostrar_productor'; // Redirige a la lista
-                        });
-                    </script>
-                    <?php
-                }
-                else
-                {
-                    ?>
-                    <script>
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Ooops...',
-                            text: 'Ocurrió un error'
-                        })
-                    </script>
-                    <?php
-                }
-            }
+                    document.body.appendChild(form);
+                    form.submit();
+                });
+            </script>
+            <?php
         }
+        else
+        {
+            ?>
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ooops...',
+                    text: 'Ocurrió un error'
+                });
+            </script>
+            <?php
+        }
+    }
+}
+
     }
 ?>

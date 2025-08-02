@@ -1,17 +1,31 @@
-<div class="container-mostrar">
-<div align="center">
-    <div class="alert alert-primary mt-5" role="alert">
-        <h1 id="titulo">
-            <?php
-                $estado = isset($_POST['estado']) ? $_POST['estado'] : 1;
-                echo ($estado == 1) ? "Mostrar Datos de Productores" : "Papelera Datos de Productores";
-            ?>
-        </h1>
+<div class="mango-container">
+    <div align="center">
+
+        <!-- Mostrar la alerta SweetAlert si existe -->
+        <?php if (isset($_POST['alerta'])): ?>
+            <script>
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: '<?php echo ($_POST['alerta'] === 'activado') ? "Elemento activado correctamente" : "Elemento desactivado correctamente"; ?>',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            </script>
+        <?php endif; ?>
+
+        <!-- Aquí sí va el encabezado visual de la sección -->
+        <div class="alert alert-primary mt-5" role="alert">
+            <h1 id="titulo">
+                <?php
+                    $estado = isset($_POST['estado']) ? $_POST['estado'] : 1;
+                    echo ($estado == 1) ? "Mostrar Datos de Roles" : "Papelera Datos de Roles";
+                ?>
+            </h1>
+        </div>
+
     </div>
 </div>
-
-<div class="separator-mango"></div>
-
 <!--Inicio del Proceso de Alta-->
 
 <!-- Formulario de alta de productor (oculto inicialmente) -->   
