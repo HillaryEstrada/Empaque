@@ -106,6 +106,444 @@
     padding: 0 10px;
 }
 
+/* =====================================================
+   CONTENEDOR DIFERENCIADO PARA FORMULARIOS
+   ===================================================== */
+
+/* Contenedor especial para formularios - Diseño diferenciado */
+.container-formulario {
+    background: linear-gradient(145deg, var(--white) 0%, var(--light-gray) 100%);
+    border: 3px solid transparent;
+    background-clip: padding-box;
+    border-radius: 20px;
+    padding: 25px;
+    margin: 20px 0;
+    width: 100%;
+    max-width: 100%;
+    box-shadow: 
+        0 15px 35px rgba(255, 140, 0, 0.15),
+        0 5px 15px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    position: relative;
+    z-index: 15;
+    clear: both;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.container-formulario::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(45deg, var(--mango-primary), var(--mango-secondary), var(--mango-tertiary));
+    border-radius: 20px;
+    z-index: -1;
+    animation: borderGlow 3s ease-in-out infinite alternate;
+}
+
+.container-formulario::after {
+    content: '📝';
+    position: absolute;
+    top: -20px;
+    left: 25px;
+    font-size: 32px;
+    background: linear-gradient(45deg, var(--mango-primary), var(--mango-secondary));
+    padding: 8px 15px;
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+}
+
+.container-formulario:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 20px 45px rgba(255, 140, 0, 0.2),
+        0 8px 25px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+@keyframes borderGlow {
+    0% { 
+        background: linear-gradient(45deg, var(--mango-primary), var(--mango-secondary), var(--mango-tertiary));
+        opacity: 0.8;
+    }
+    100% { 
+        background: linear-gradient(45deg, var(--mango-tertiary), var(--mango-primary), var(--mango-secondary));
+        opacity: 1;
+    }
+}
+
+/* Título especial para formularios en contenedor diferenciado */
+.container-formulario .titulo-formulario {
+    color: var(--mango-dark);
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--mango-secondary);
+    position: relative;
+}
+
+.container-formulario .titulo-formulario::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--mango-primary);
+    border-radius: 3px;
+}
+
+/* Estilos específicos para campos dentro del contenedor diferenciado */
+.container-formulario .form-control {
+    border: 2px solid var(--mango-secondary);
+    border-radius: 12px;
+    padding: 14px 18px;
+    background: rgba(255, 248, 240, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.container-formulario .form-control:focus {
+    border-color: var(--mango-primary);
+    background: var(--white);
+    box-shadow: 
+        0 0 0 0.25rem rgba(255, 140, 0, 0.15),
+        0 4px 12px rgba(255, 140, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+.container-formulario .form-label {
+    color: var(--mango-dark);
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin-bottom: 10px;
+    position: relative;
+    padding-left: 25px;
+}
+
+.container-formulario .form-label::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--mango-primary);
+    font-weight: bold;
+}
+
+/* Botones especiales dentro del contenedor diferenciado */
+.container-formulario .btn {
+    border-radius: 25px;
+    padding: 12px 35px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.container-formulario .btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s;
+}
+
+.container-formulario .btn:hover::before {
+    left: 100%;
+}
+
+.container-formulario .btn-primary {
+    background: linear-gradient(135deg, var(--mango-primary), var(--mango-tertiary));
+    border: none;
+    box-shadow: 0 6px 20px rgba(255, 140, 0, 0.3);
+}
+
+.container-formulario .btn-primary:hover {
+    background: linear-gradient(135deg, var(--mango-dark), var(--mango-primary));
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(255, 140, 0, 0.4);
+}
+
+/* Responsive del contenedor diferenciado de formularios */
+@media (max-width: 1200px) {
+    .container-formulario {
+        padding: 20px;
+        margin: 15px 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .container-formulario {
+        padding: 18px;
+        margin: 12px 0;
+        border-radius: 15px;
+    }
+    
+    .container-formulario::after {
+        top: -15px;
+        left: 20px;
+        font-size: 28px;
+        padding: 6px 12px;
+    }
+    
+    .container-formulario .titulo-formulario {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .container-formulario {
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 12px;
+    }
+    
+    .container-formulario .titulo-formulario {
+        font-size: 1.2rem;
+    }
+    
+    .container-formulario .form-label {
+        font-size: 1rem;
+        padding-left: 20px;
+    }
+    
+    .container-formulario .btn {
+        padding: 10px 25px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container-formulario::after {
+        display: none; /* Ocultar el emoji decorativo en pantallas muy pequeñas */
+    }
+    
+    .container-formulario {
+        padding: 12px;
+        border-radius: 10px;
+    }
+    
+    .container-formulario .titulo-formulario {
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 360px) {
+    .container-formulario {
+        padding: 10px;
+        border-radius: 8px;
+    }
+}
+
+/* =====================================================
+   ESTRUCTURA INTERNA DEL CONTENEDOR DE FORMULARIOS
+   ===================================================== */
+
+/* Contenedor para grupos de campos del formulario */
+.container-formulario .form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+/* Filas del formulario */
+.container-formulario .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.container-formulario .form-col {
+    flex: 1;
+    min-width: 200px;
+}
+
+/* Contenedor para radio buttons */
+.container-formulario .radio-group {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+    padding: 15px;
+    background: rgba(255, 248, 240, 0.2);
+    border-radius: 10px;
+    border: 1px solid var(--mango-secondary);
+}
+
+.container-formulario .form-check {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+.container-formulario .form-check-input {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    border: 2px solid var(--mango-primary);
+    background: transparent;
+}
+
+.container-formulario .form-check-input:checked {
+    background-color: var(--mango-primary);
+    border-color: var(--mango-dark);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+}
+
+.container-formulario .form-check-label {
+    color: var(--mango-dark);
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 0;
+}
+
+/* Contenedor para botones de acción */
+.container-formulario .form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid var(--mango-secondary);
+}
+
+/* Select personalizado */
+.container-formulario .form-select {
+    border: 2px solid var(--mango-secondary);
+    border-radius: 12px;
+    padding: 14px 18px;
+    background: rgba(255, 248, 240, 0.3);
+    color: var(--mango-dark);
+    font-size: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23FF8C00' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+.container-formulario .form-select:focus {
+    border-color: var(--mango-primary);
+    background: var(--white);
+    box-shadow: 
+        0 0 0 0.25rem rgba(255, 140, 0, 0.15),
+        0 4px 12px rgba(255, 140, 0, 0.1);
+    transform: translateY(-1px);
+    outline: none;
+}
+
+/* Textarea personalizado */
+.container-formulario .form-textarea {
+    border: 2px solid var(--mango-secondary);
+    border-radius: 12px;
+    padding: 14px 18px;
+    background: rgba(255, 248, 240, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    resize: vertical;
+    min-height: 100px;
+    font-family: inherit;
+}
+
+.container-formulario .form-textarea:focus {
+    border-color: var(--mango-primary);
+    background: var(--white);
+    box-shadow: 
+        0 0 0 0.25rem rgba(255, 140, 0, 0.15),
+        0 4px 12px rgba(255, 140, 0, 0.1);
+    transform: translateY(-1px);
+    outline: none;
+}
+
+/* Indicador de campo requerido */
+.container-formulario .form-label.required::after {
+    content: ' *';
+    color: var(--danger);
+    font-weight: bold;
+}
+
+/* Mensaje de ayuda */
+.container-formulario .form-help {
+    font-size: 0.85rem;
+    color: var(--dark-gray);
+    margin-top: 5px;
+    font-style: italic;
+}
+
+/* Separador entre secciones del formulario */
+.container-formulario .form-separator {
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--mango-secondary), transparent);
+    margin: 25px 0;
+    border-radius: 2px;
+    position: relative;
+}
+
+.container-formulario .form-separator::before {
+    content: '📋';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--white);
+    padding: 0 10px;
+    font-size: 18px;
+}
+
+/* Responsive para la estructura interna */
+@media (max-width: 768px) {
+    .container-formulario .form-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .container-formulario .form-col {
+        min-width: auto;
+    }
+    
+    .container-formulario .radio-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .container-formulario .form-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .container-formulario .btn {
+        width: 100%;
+        justify-self: stretch;
+    }
+}
+
+@media (max-width: 480px) {
+    .container-formulario .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .container-formulario .form-actions {
+        margin-top: 20px;
+        padding-top: 15px;
+    }
+    
+    .container-formulario .form-separator {
+        margin: 20px 0;
+    }
+}
+
+/* Responsive design mejorado */
+@media (min-width: 1400px) {
+
 /* Etiquetas de formulario */
 .form-label {
     color: var(--mango-dark);
@@ -1054,6 +1492,15 @@ body {
     margin-bottom: -30px;
     font-weight: 500;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    /* Ocultar el texto pero mantener la barra decorativa */
+    font-size: 0;
+    line-height: 0;
+    height: 15px;
+}
+
+/* Ocultar específicamente el párrafo dentro del footer */
+.section-footer p {
+    display: none !important;
 }
 
 /* Asegurar que el contenido principal tenga mejor espaciado */
@@ -1076,3 +1523,10 @@ body {
 .separator-mango {
     margin: 15px 0; /* Reducir márgenes */
 }
+
+/* =====================================================
+   OCULTAR ELEMENTOS NO DESEADOS EN FORMULARIOS
+   ===================================================== */
+
+/* El texto del footer ya está oculto en la regla principal .section-footer */
+

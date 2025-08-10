@@ -1,8 +1,15 @@
 html, body {
     height: 100%;
     margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
+}
+
+/* Asegura que el contenido principal no quede detrás del navbar fijo */
+body {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
 }
 
 .content {

@@ -1,4 +1,4 @@
-* {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -7,9 +7,9 @@
         body {
             font-family: 'Arial', sans-serif;
             overflow-x: hidden;
-        }
-
-        /* INSTRUCCIONES PARA CAMBIAR LA IMAGEN DE FONDO:
+            padding-top: 0 !important;
+            margin-top: 0 !important;
+        }        /* INSTRUCCIONES PARA CAMBIAR LA IMAGEN DE FONDO:
          * 1. Coloca tu imagen en la carpeta: vistas/images/
          * 2. Cambia 'fondo-mangos.jpg' por el nombre de tu imagen
          * 3. Formatos recomendados: .jpg, .jpeg, .png, .webp

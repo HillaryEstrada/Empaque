@@ -7,8 +7,8 @@ $opcion = $_POST['opcion'] ?? 'principal';
 ?>
 
 <!-- Barra de navegación fija en la parte superior de la página -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container-fluid">
+<nav class="navbar navbar-expand-lg fixed-top w-100">
+    <div class="w-100 p-0 m-0" style="max-width:100vw;">
         <!-- Botón para mostrar/ocultar el menú en pantallas pequeñas -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,7 +21,7 @@ $opcion = $_POST['opcion'] ?? 'principal';
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <!-- Opción de menú principal -->
                 <li class="nav-item">
-                    <a class="nav-link active" href="#" onclick="postToExternalSite('index.php', { opcion: 'principal' });">
+                    <a class="nav-link active" href="#" onclick="postToExternalSite('#', { opcion: 'principal' });">
                         <i class="fas fa-home"></i>
                     </a>
                 </li>
@@ -88,17 +88,36 @@ $opcion = $_POST['opcion'] ?? 'principal';
 
             </ul>
 
-            <!-- Información del usuario y botón de cerrar sesión -->
-            <div class="d-flex align-items-center">
-                <span class="text-light me-3">
-                    <i class="fas fa-user"></i>
-                    Bienvenido, <?php echo isset($_SESSION['nombre']) ? $_SESSION['nombre'] : $_SESSION['usuario']; ?>
-                    <small>(<?php echo $_SESSION['rol']; ?>)</small>
-                </span>
-                <button class="btn btn-outline-light" onclick="confirmarCerrarSesion()">
-                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-                </button>
-            </div>
+            <!-- Menú de usuario -->
+            <?php if (!isset($_SESSION['rol'])): ?>
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-outline-success" id="loginBtn" type="button">
+                        <i class="fas fa-sign-in-alt"></i> Iniciar sesión
+                    </button>
+                </div>
+                <script>
+                  document.addEventListener('DOMContentLoaded', function() {
+                    var loginBtn = document.getElementById('loginBtn');
+                    var loginModal = document.getElementById('loginModal');
+                    if (loginBtn && loginModal) {
+                      loginBtn.onclick = function() {
+                        loginModal.style.display = 'flex';
+                      }
+                    }
+                  });
+                </script>
+            <?php else: ?>
+                <div class="d-flex align-items-center">
+                    <span class="text-light me-3">
+                        <i class="fas fa-user"></i>
+                        Bienvenido, <?php echo isset($_SESSION['nombre']) ? $_SESSION['nombre'] : $_SESSION['usuario']; ?>
+                        <small>(<?php echo $_SESSION['rol']; ?>)</small>
+                    </span>
+                    <button class="btn btn-outline-light" onclick="confirmarCerrarSesion()">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                    </button>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </nav>

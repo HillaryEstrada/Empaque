@@ -1,0 +1,942 @@
+/* EmpaqueMango Pro - Estilos del Login */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* Reset y configuración base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: url('../img/658b23bd5c85e.jpg') center/cover no-repeat fixed;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 138, 0, 0.2) 0%, rgba(255, 107, 53, 0.3) 50%, rgba(229, 81, 0, 0.2) 100%);
+    z-index: 1;
+    animation: overlayFadeIn 1.5s ease-out, gradientShift 8s ease-in-out infinite;
+}
+
+/* Partículas flotantes de mango */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(255, 138, 0, 0.3) 1px, transparent 1px),
+        radial-gradient(circle at 80% 20%, rgba(255, 107, 53, 0.3) 1px, transparent 1px),
+        radial-gradient(circle at 40% 40%, rgba(229, 81, 0, 0.3) 1px, transparent 1px),
+        radial-gradient(circle at 60% 80%, rgba(255, 152, 0, 0.3) 1px, transparent 1px),
+        radial-gradient(circle at 90% 60%, rgba(255, 193, 7, 0.3) 1px, transparent 1px);
+    background-size: 200px 200px, 300px 300px, 250px 250px, 180px 180px, 220px 220px;
+    animation: floatingParticles 20s linear infinite, particleFade 4s ease-in-out infinite alternate;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@keyframes overlayFadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes gradientShift {
+    0%, 100% {
+        background: linear-gradient(135deg, rgba(255, 138, 0, 0.2) 0%, rgba(255, 107, 53, 0.3) 50%, rgba(229, 81, 0, 0.2) 100%);
+    }
+    25% {
+        background: linear-gradient(135deg, rgba(255, 193, 7, 0.2) 0%, rgba(255, 138, 0, 0.3) 50%, rgba(255, 107, 53, 0.2) 100%);
+    }
+    50% {
+        background: linear-gradient(135deg, rgba(229, 81, 0, 0.2) 0%, rgba(255, 152, 0, 0.3) 50%, rgba(255, 193, 7, 0.2) 100%);
+    }
+    75% {
+        background: linear-gradient(135deg, rgba(255, 107, 53, 0.2) 0%, rgba(229, 81, 0, 0.3) 50%, rgba(255, 138, 0, 0.2) 100%);
+    }
+}
+
+@keyframes floatingParticles {
+    0% {
+        transform: translateY(0px) translateX(0px) rotate(0deg);
+    }
+    33% {
+        transform: translateY(-100px) translateX(50px) rotate(120deg);
+    }
+    66% {
+        transform: translateY(-50px) translateX(-30px) rotate(240deg);
+    }
+    100% {
+        transform: translateY(0px) translateX(0px) rotate(360deg);
+    }
+}
+
+@keyframes particleFade {
+    0% {
+        opacity: 0.3;
+    }
+    100% {
+        opacity: 0.6;
+    }
+}
+
+/* Contenedor principal del login */
+.login-container {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    width: 100%;
+    max-width: 1000px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 600px;
+    animation: loginEntrance 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    z-index: 2;
+    will-change: transform, opacity;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 35px 70px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes loginEntrance {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) scale(0.8) rotateX(20deg);
+    }
+    60% {
+        opacity: 0.8;
+        transform: translateY(-10px) scale(1.02) rotateX(-5deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotateX(0deg);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Sección de bienvenida */
+.welcome-section {
+    background: linear-gradient(135deg, #FF8A00 0%, #FF6B35 50%, #E55100 100%);
+    padding: 60px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    animation: slideInLeft 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s both;
+    will-change: transform;
+}
+
+@keyframes slideInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-100px) rotateY(-20deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) rotateY(0deg);
+    }
+}
+
+.welcome-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="mango-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23mango-pattern)"/></svg>') repeat;
+    animation: float 30s ease-in-out infinite, patternPulse 6s ease-in-out infinite;
+    opacity: 0.3;
+    will-change: transform;
+}
+
+/* Partículas adicionales en la sección de bienvenida */
+.welcome-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 0.2) 2px, transparent 2px),
+        radial-gradient(circle at 90% 90%, rgba(255, 255, 255, 0.15) 1px, transparent 1px),
+        radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.1) 1.5px, transparent 1.5px),
+        radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
+    background-size: 150px 150px, 200px 200px, 100px 100px, 250px 250px;
+    animation: sparkleFloat 15s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes float {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg); 
+    }
+    50% { 
+        transform: translateY(-15px) rotate(180deg); 
+    }
+}
+
+@keyframes patternPulse {
+    0%, 100% { 
+        opacity: 0.3; 
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.5; 
+        transform: scale(1.05);
+    }
+}
+
+@keyframes sparkleFloat {
+    0% {
+        transform: translateY(0px) translateX(0px);
+    }
+    25% {
+        transform: translateY(-20px) translateX(10px);
+    }
+    50% {
+        transform: translateY(-10px) translateX(-15px);
+    }
+    75% {
+        transform: translateY(-30px) translateX(5px);
+    }
+    100% {
+        transform: translateY(0px) translateX(0px);
+    }
+}
+
+/* Logo container */
+.logo-container {
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: logoEntrance 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.4s both;
+    will-change: transform;
+}
+
+@keyframes logoEntrance {
+    0% {
+        opacity: 0;
+        transform: scale(0.3) rotateY(180deg);
+    }
+    60% {
+        opacity: 0.8;
+        transform: scale(1.1) rotateY(-10deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotateY(0deg);
+    }
+}
+
+.logo-container:hover {
+    transform: scale(1.1) rotateY(10deg);
+    box-shadow: 0 15px 30px rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.logo-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: logoRotate 3s linear infinite;
+    z-index: -1;
+}
+
+@keyframes logoRotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.logo-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+    filter: brightness(1.1) contrast(1.1);
+    transition: all 0.3s ease;
+}
+
+.logo-container:hover img {
+    filter: brightness(1.3) contrast(1.2) saturate(1.2);
+    transform: scale(1.05);
+}
+
+/* Textos de la sección de bienvenida */
+.welcome-section h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    animation: titleWave 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s both;
+}
+
+@keyframes titleWave {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) rotateX(90deg);
+    }
+    60% {
+        opacity: 0.8;
+        transform: translateY(-5px) rotateX(-10deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) rotateX(0deg);
+    }
+}
+
+.welcome-section h1:hover {
+    animation: textGlow 0.5s ease-in-out;
+}
+
+@keyframes textGlow {
+    0%, 100% {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.welcome-section p {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+    position: relative;
+    z-index: 2;
+    font-weight: 400;
+    line-height: 1.6;
+    animation: fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.6s both;
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Lista de características */
+.features-list {
+    list-style: none;
+    padding: 0;
+    position: relative;
+    z-index: 2;
+}
+
+.features-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: featureSlide 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+    cursor: pointer;
+}
+
+.features-list li:nth-child(1) { animation-delay: 0.7s; }
+.features-list li:nth-child(2) { animation-delay: 0.8s; }
+.features-list li:nth-child(3) { animation-delay: 0.9s; }
+.features-list li:nth-child(4) { animation-delay: 1s; }
+.features-list li:nth-child(5) { animation-delay: 1.1s; }
+
+@keyframes featureSlide {
+    0% {
+        opacity: 0;
+        transform: translateX(-30px) rotateY(45deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) rotateY(0deg);
+    }
+}
+
+.features-list li:hover {
+    transform: translateX(10px) scale(1.05);
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
+}
+
+.features-list li i {
+    font-size: 1.2rem;
+    margin-right: 12px;
+    color: #FFE0B2;
+    min-width: 24px;
+    transition: all 0.3s ease;
+}
+
+.features-list li:hover i {
+    transform: rotate(360deg) scale(1.2);
+    color: #FFF;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Sección del formulario de login */
+.login-section {
+    padding: 60px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #ffffff;
+    animation: slideInRight 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s both;
+    will-change: transform;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 107, 53, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: formFloat 25s linear infinite;
+    z-index: 0;
+    pointer-events: none;
+}
+
+@keyframes formFloat {
+    0% {
+        transform: translateY(0px) translateX(0px) rotate(0deg);
+    }
+    100% {
+        transform: translateY(-20px) translateX(-20px) rotate(360deg);
+    }
+}
+
+@keyframes slideInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(100px) rotateY(20deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) rotateY(0deg);
+    }
+}
+
+/* Header del login */
+.login-header {
+    text-align: center;
+    margin-bottom: 40px;
+    animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+.login-header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+.login-header p {
+    color: #7f8c8d;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+/* Mensajes de error */
+.error-message {
+    background: #ffebee;
+    border: 1px solid #ffcdd2;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 25px;
+    color: #c62828;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.error-message i {
+    color: #c62828;
+    font-size: 1.1rem;
+}
+
+/* Grupos de formulario */
+.form-group {
+    margin-bottom: 25px;
+    position: relative;
+    animation: fadeInUp 0.5s ease-out both;
+}
+
+.form-group:nth-child(1) { animation-delay: 0.5s; }
+.form-group:nth-child(2) { animation-delay: 0.6s; }
+.form-group:nth-child(3) { animation-delay: 0.7s; }
+
+.form-group.focused .form-label {
+    color: #FF6B35;
+    transform: translateY(-2px);
+    transition: all 0.2s ease;
+}
+
+/* Labels del formulario */
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.form-label i {
+    margin-right: 8px;
+    color: #FF6B35;
+    width: 16px;
+}
+
+/* Controles del formulario */
+.form-control {
+    width: 100%;
+    padding: 16px 20px;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    background: #ffffff;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    outline: none;
+    position: relative;
+    z-index: 1;
+}
+
+.form-control:focus {
+    border-color: #FF6B35;
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1), 0 8px 25px rgba(255, 107, 53, 0.15);
+    transform: translateY(-2px) scale(1.02);
+    background: linear-gradient(145deg, #ffffff 0%, #fefefe 100%);
+}
+
+.form-control:hover {
+    border-color: #FF8A00;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(255, 138, 0, 0.1);
+}
+
+.form-control::placeholder {
+    color: #adb5bd;
+    font-weight: 400;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus::placeholder {
+    opacity: 0.7;
+    transform: translateY(-2px);
+}
+
+/* Estados de validación */
+.form-control.error {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+.form-control.success {
+    border-color: #28a745;
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+}
+
+/* Botón de login */
+.btn-login {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, #FF6B35 0%, #FF8A00 100%);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+    position: relative;
+    overflow: hidden;
+    animation: buttonEntrance 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.8s both;
+    will-change: transform;
+}
+
+@keyframes buttonEntrance {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.9) rotateX(45deg);
+    }
+    60% {
+        opacity: 0.8;
+        transform: translateY(-3px) scale(1.02) rotateX(-5deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotateX(0deg);
+    }
+}
+
+.btn-login::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s ease;
+}
+
+.btn-login:hover::before {
+    left: 100%;
+}
+
+.btn-login:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 35px rgba(255, 107, 53, 0.5);
+    background: linear-gradient(135deg, #FF8A00 0%, #FF6B35 100%);
+}
+
+.btn-login:active {
+    transform: translateY(-1px) scale(0.98);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+    transition: all 0.1s ease;
+}
+
+.btn-login i {
+    margin-right: 10px;
+    transition: all 0.3s ease;
+}
+
+.btn-login:hover i {
+    transform: rotateY(180deg);
+}
+
+/* Efecto ripple para el botón */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    transform: scale(0);
+    animation: ripple-animation 0.6s linear;
+    pointer-events: none;
+}
+
+@keyframes ripple-animation {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* Mensajes de información */
+.info-message {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 25px;
+    color: #495057;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: slideIn 0.5s ease-out;
+}
+
+.info-message i {
+    color: #28a745;
+    font-size: 1.1rem;
+}
+
+/* Estilos para SweetAlert2 */
+.swal-custom-error .swal2-icon.swal2-error {
+    border-color: #FF6B35;
+    color: #FF6B35;
+}
+
+.swal-custom-success .swal2-icon.swal2-success {
+    border-color: #28a745;
+    color: #28a745;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body::after {
+        background-size: 100px 100px, 150px 150px, 125px 125px, 90px 90px, 110px 110px;
+    }
+    
+    .login-container {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+        min-height: auto;
+        animation: mobileEntrance 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    @keyframes mobileEntrance {
+        0% {
+            opacity: 0;
+            transform: translateY(50px) scale(0.9);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+    
+    .welcome-section {
+        padding: 40px 30px;
+        order: 2;
+    }
+    
+    .login-section {
+        padding: 40px 30px;
+        order: 1;
+    }
+    
+    .welcome-section h1 {
+        font-size: 1.8rem;
+    }
+    
+    .logo-container {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .logo-container img {
+        border-radius: 10px;
+    }
+    
+    .features-list {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    
+    .welcome-section,
+    .login-section {
+        padding: 30px 20px;
+    }
+    
+    .login-header h2 {
+        font-size: 1.6rem;
+    }
+    
+    .form-control {
+        padding: 14px 16px;
+        font-size: 0.95rem;
+    }
+    
+    .btn-login {
+        padding: 16px;
+        font-size: 1rem;
+    }
+}
+
+/* Animaciones adicionales */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Efecto de ondas para inputs */
+@keyframes inputWave {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 107, 53, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 107, 53, 0);
+    }
+}
+
+.form-control:focus {
+    animation: inputWave 0.6s ease-out;
+}
+
+/* Efecto parallax para el fondo */
+@keyframes backgroundDrift {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+body {
+    animation: backgroundDrift 60s ease-in-out infinite;
+}
+
+/* Efecto de respiración para elementos importantes */
+@keyframes breathe {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+.login-container:hover .logo-container {
+    animation: breathe 2s ease-in-out infinite;
+}
+
+/* Efecto de destello para el botón */
+@keyframes shimmer {
+    0% {
+        background-position: -468px 0;
+    }
+    100% {
+        background-position: 468px 0;
+    }
+}
+
+.btn-login::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.btn-login:hover::after {
+    opacity: 1;
+}
+
+/* Optimizaciones de rendimiento */
+.login-container,
+.welcome-section,
+.login-section,
+.logo-container,
+.btn-login {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/* Mejoras de accesibilidad */
+.form-control:focus-visible {
+    outline: 2px solid #FF6B35;
+    outline-offset: 2px;
+}
+
+.btn-login:focus-visible {
+    outline: 2px solid #FF8A00;
+    outline-offset: 2px;
+}
+
+/* Modo de alto contraste */
+@media (prefers-contrast: high) {
+    .form-control {
+        border-width: 3px;
+    }
+    
+    .btn-login {
+        border: 2px solid #000;
+    }
+}
+
+/* Reducción de movimiento para usuarios sensibles */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .welcome-section::before {
+        animation: none;
+    }
+}

@@ -1,3 +1,15 @@
+/* Ajuste para que el navbar abarque todo el ancho y quede fijo arriba */
+.navbar {
+    width: 100vw !important;
+    min-width: 100vw !important;
+    left: 0;
+    top: 0;
+    z-index: 1050;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
 /* CSS para el Menú del Sistema Mango Pack - Versión Mejorada */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
