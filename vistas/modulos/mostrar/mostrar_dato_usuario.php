@@ -19,7 +19,7 @@
             <h1 id="titulo">
                 <?php
                     $estado = isset($_POST['estado']) ? $_POST['estado'] : 1;
-                    echo ($estado == 1) ? "Mostrar Datos de Roles" : "Papelera Datos de Roles";
+                    echo ($estado == 1) ? "Mostrar Datos de Usuarios" : "Papelera Datos de Usuarios";
                 ?>
             </h1>
         </div>
@@ -143,9 +143,6 @@
 
     </div>
 
-<div class="section-footer">
-    <p>Sistema de Gestión - Empacadora de Mango 🥭</p>
-</div>
 </div>
 
  <!-- Esto se encarga de mandar los datos de entrada al controlador -->

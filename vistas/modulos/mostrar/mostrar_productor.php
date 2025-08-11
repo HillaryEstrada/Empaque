@@ -19,7 +19,7 @@
             <h1 id="titulo">
                 <?php
                     $estado = isset($_POST['estado']) ? $_POST['estado'] : 1;
-                    echo ($estado == 1) ? "Mostrar Datos de Roles" : "Papelera Datos de Roles";
+                    echo ($estado == 1) ? "Mostrar Datos de Productores" : "Papelera Datos de Productores";
                 ?>
             </h1>
         </div>
@@ -123,9 +123,7 @@
 
     </div>
 
-<div class="section-footer">
-    <p>Sistema de Gestión - Empacadora de Mango 🥭</p>
-</div>
+
 </div>
 
 <?php

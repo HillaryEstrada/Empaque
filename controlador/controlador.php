@@ -17,6 +17,8 @@
         }
         // Buscar 'opcion' en $_POST primero, luego en $_GET, por defecto 'principal'
         $enlace = $_POST["opcion"] ?? $_GET["opcion"] ?? 'principal';
+
+        // Consultamos la base de datos para obtener la ruta correspondiente a la opción
         $respuesta = Modelo::obtenerRutaPorNombre($enlace);
         if ($respuesta && file_exists($respuesta['ruta'])) {
             include $respuesta['ruta'];

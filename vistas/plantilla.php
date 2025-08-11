@@ -27,7 +27,7 @@
     </div>
 
     <!-- Contenedor principal responsivo -->
-    <div class="w-100 content mt-2">
+    <div class="w-100 content">
 
         <?php
             // Conexión a base de datos

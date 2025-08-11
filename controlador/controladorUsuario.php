@@ -47,7 +47,7 @@
                     <td><?php echo $valores['nombre']; ?></td>
                     <td><?php echo $valores['apellidos']; ?></td>
                     <td><?php echo $valores['edad']; ?></td>
-                    <td><?php echo $valores['sexo']; ?></td>
+                    <td><?php echo ($valores['sexo'] == 'M') ? 'Masculino' : (($valores['sexo'] == 'F') ? 'Femenino' : $valores['sexo']); ?></td>
                     <td>
                         <?php if ($estado == 1): ?>
                             <button 

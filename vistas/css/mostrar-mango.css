@@ -2,6 +2,12 @@
    DISEÑO PARA MÓDULOS DE MOSTRAR - EMPACADORA DE MANGO
    ================================================= */
 
+/* Reset de espacios blancos superiores */
+body, html {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
 /* Variables CSS para colores temáticos */
 :root {
     --mango-primary: #FF8C00;        /* Naranja mango principal */
@@ -16,6 +22,22 @@
     --success: #28a745;
     --danger: #dc3545;
     --shadow: rgba(255, 140, 0, 0.2);
+}
+
+/* Contenedor principal sin espacios blancos superiores */
+.mango-container {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+.container-mostrar {
+    margin-top: 0 !important;
+    padding-top: 20px;
+}
+
+/* Eliminar margin-top excesivos de las alertas */
+.alert.mt-5 {
+    margin-top: 1rem !important;
 }
 
 /* Estilos generales para contenedores - Completamente responsivo */
@@ -871,6 +893,39 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* Diseño especial para todas las secciones "Mostrar" */
+.alert-primary {
+    background: linear-gradient(45deg, #28a745, #FF8C00, #20c997);
+    background-size: 200% 200%;
+    animation: gradientShift 8s ease infinite;
+    border: 2px solid #34ce57;
+    box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.alert-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="15" cy="25" r="1.5" fill="rgba(255,255,255,0.15)"/><circle cx="75" cy="35" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="45" cy="65" r="1.2" fill="rgba(255,255,255,0.12)"/><circle cx="25" cy="80" r="0.8" fill="rgba(255,255,255,0.08)"/></svg>');
+    pointer-events: none;
+}
+
+.alert-primary h1 {
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 .alert-success {
     background: linear-gradient(45deg, rgba(40, 167, 69, 0.1), rgba(52, 206, 87, 0.1));
     border-left: 5px solid var(--success);
@@ -1523,6 +1578,7 @@ body {
 .separator-mango {
     margin: 15px 0; /* Reducir márgenes */
 }
+
 
 /* =====================================================
    OCULTAR ELEMENTOS NO DESEADOS EN FORMULARIOS

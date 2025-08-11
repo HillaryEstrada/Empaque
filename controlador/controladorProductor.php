@@ -63,8 +63,7 @@
                                     opcion: 'desactivar', 
                                     pk: '<?php echo htmlspecialchars($valores['pk_productor']); ?>', 
                                     tabla: 'productor', 
-                                    pkname: 'pk_productor',
-                                    // estado: '1' // Mantiene la vista de activos  // se puede dejar asi, ya se maneja en el desactivar la carga
+                                    pkname: 'pk_productor'
                                 });">
                                 <i class="fa-solid fa-trash"></i> Desactivar 
                             </button>
@@ -77,8 +76,7 @@
                                     pk: '<?php echo htmlspecialchars($valores['pk_productor']); ?>', 
                                     tabla: 'productor', 
                                     pkname: 'pk_productor',
-                                    // estado: '0' // Mantiene la vista de inactivos  se puede usar esto o lo de abajo
-                                        estado: '<?php echo $estado; ?>' // Mantiene la vista actual
+                                    estado: '<?php echo $estado; ?>'
                                 });">
                                 <i class="fa-solid fa-check"></i> Activar
                             </button>

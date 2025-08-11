@@ -61,7 +61,7 @@
                 <button class="btn btn-success btn-sm" onclick="mostrarFormulario(this)" data-title="Alta Rol">
                     <i class="fa-solid fa-circle-plus fa-lg"></i> Crear Rol
                 </button>
-                <?php endif; ?>
+                <?php endif; ?> 
                  <!-- Botón para alternar entre activos e inactivos -->
                     <form action="index.php" method="POST" style="display: inline;">
                         <input type="hidden" name="opcion" value="mostrar_rol">
@@ -109,9 +109,7 @@
 
     </div>
 
-<div class="section-footer">
-    <p>Sistema de Gestión - Empacadora de Mango 🥭</p>
-</div>
+
 </div>
 
 <?php
