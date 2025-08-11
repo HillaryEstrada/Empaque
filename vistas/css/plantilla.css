@@ -1,12 +1,22 @@
 html, body {
     height: 100%;
-    margin: 0;
+    margin: 0 !important;
+    padding: 0 !important;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* Compensar el navbar fixed-top */
+body {
+    padding-top: 0 !important;
 }
 
 .content {
     flex: 1;
+    margin-top: 0 !important;
+    padding-top: 85px; /* Espacio para el navbar fixed */
+    min-height: calc(100vh - 85px);
 }
 
 .footer {

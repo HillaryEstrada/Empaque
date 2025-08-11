@@ -1,6 +1,12 @@
 /* CSS para el Menú del Sistema Mango Pack - Versión Mejorada */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
+/* Eliminar espacios en blanco del body y html */
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
 /* Estilos principales del navbar */
 .navbar {
     background: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FFD23F 100%) !important;
@@ -10,6 +16,11 @@
     font-family: 'Poppins', sans-serif;
     transition: all 0.3s ease;
     position: relative;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 !important;
+    z-index: 1050;
 }
 
 /* Animación sutil del navbar */
