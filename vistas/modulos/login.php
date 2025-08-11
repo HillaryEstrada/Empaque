@@ -103,8 +103,7 @@ if (isset($_SESSION["id_usuario"])) {
         </div>
     </div>
 
-    <!-- JavaScript externo -->
-    <script src="../js/login-mangos.js"></script>
+
     
     <!-- Script de validación del formulario -->
     <script>
