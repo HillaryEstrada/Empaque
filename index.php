@@ -25,6 +25,10 @@ require_once("modelo/modeloCalidad.php");
 require_once("controlador/controladorGasto.php");
 require_once("modelo/modeloGasto.php");
 
+require_once("controlador/controladorVenta.php");
+require_once("modelo/modeloVenta.php");
+
+
 
 
 // Login antes de cargar la vista principal

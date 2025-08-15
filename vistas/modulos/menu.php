@@ -135,6 +135,22 @@ $opcion = $_POST['opcion'] ?? 'principal';
                     </ul>
                 </li>
 
+                   <!-- Menú desplegable para 'venta' -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMostrar" role="button" 
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-eye"></i> Control de venta
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMostrar">
+                        <li>
+                            <a class="dropdown-item" href="#" onclick="postToExternalSite('index.php', { opcion: 'mostrar_venta' });">
+                                <i class="fas fa-list"></i> Control de venta
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
 
 
             </ul>

@@ -2,65 +2,27 @@
 
 class ControladorGasto
 {
-    // ALTA GASTO COMPLETO (gasto + gasto_llegada/gasto_salida + venta opcional)
-    static public function registroGastoCompletoControlador($nombre, $descripcion, $tipo) {
+    // ALTA GASTO COMPLETO (gasto + gasto_llegada o gasto_salida)
+    static public function registroGastoCompletoControlador($nombre, $descripcion, $tipo, $monto, $fk_referencia) {
+        
         $datosGasto = array(
             "nombre" => $nombre,
             "descripcion" => $descripcion,
             "tipo" => $tipo
         );
         
-        // Datos específicos según el tipo
-        if ($tipo == 'llegada') {
-            if (!isset($_POST['fk_lote_llegada']) || !isset($_POST['monto_llegada']) || 
-                empty($_POST['fk_lote_llegada']) || empty($_POST['monto_llegada'])) {
-                echo '<script>
-                    Swal.fire({
-                        icon: "error",
-                        title: "Error",
-                        text: "Debe completar todos los campos para gasto de llegada"
-                    });
-                </script>';
-                return;
-            }
-            
-            $datosEspecificos = array(
-                "fk_lote" => $_POST['fk_lote_llegada'],
-                "monto" => $_POST['monto_llegada']
-            );
-            
-            $respuesta = ModeloGasto::registroGastoLlegadaModelo($datosGasto, $datosEspecificos);
-            
-        } elseif ($tipo == 'salida') {
-            if (!isset($_POST['fk_salida']) || !isset($_POST['monto_salida']) || 
-                empty($_POST['fk_salida']) || empty($_POST['monto_salida'])) {
-                echo '<script>
-                    Swal.fire({
-                        icon: "error",
-                        title: "Error",
-                        text: "Debe completar todos los campos para gasto de salida"
-                    });
-                </script>';
-                return;
-            }
-            
-            $datosEspecificos = array(
-                "fk_salida" => $_POST['fk_salida'],
-                "monto" => $_POST['monto_salida']
-            );
-            
-            // Datos de venta (opcional)
-            $datosVenta = null;
-            if (!empty($_POST['ingreso_total']) || !empty($_POST['observaciones_venta'])) {
-                $datosVenta = array(
-                    "fk_salida" => $_POST['fk_salida'],
-                    "ingreso_total" => !empty($_POST['ingreso_total']) ? $_POST['ingreso_total'] : 0,
-                    "observaciones" => $_POST['observaciones_venta']
-                );
-            }
-            
-            $respuesta = ModeloGasto::registroGastoSalidaModelo($datosGasto, $datosEspecificos, $datosVenta);
+        $datosDetalle = array(
+            "monto" => $monto
+        );
+        
+        // Según el tipo, agregar la referencia correspondiente
+        if ($tipo === 'llegada') {
+            $datosDetalle['fk_lote'] = $fk_referencia;
+        } elseif ($tipo === 'salida') {
+            $datosDetalle['fk_salida'] = $fk_referencia;
         }
+
+        $respuesta = ModeloGasto::registroGastoCompletoModelo($datosGasto, $datosDetalle, $tipo);
 
         if ($respuesta == 'ok') {
             echo '<script>
@@ -88,7 +50,7 @@ class ControladorGasto
         $respuesta = ModeloGasto::cargarLotesModelo();
         
         foreach ($respuesta as $renglon => $valores) {
-            echo '<option value="' . $valores['pk_lote'] . '">Lote ' . $valores['pk_lote'] . ' - ' . $valores['variedad'] . '</option>';
+            echo '<option value="' . $valores['pk_lote'] . '">Lote: ' . $valores['numero_lote'] . ' - ' . $valores['variedad'] . '</option>';
         }
     }
 
@@ -97,11 +59,13 @@ class ControladorGasto
         $respuesta = ModeloGasto::cargarSalidasModelo();
         
         foreach ($respuesta as $renglon => $valores) {
-            echo '<option value="' . $valores['pk_salida'] . '">Salida ' . $valores['pk_salida'] . ' - ' . $valores['cliente'] . ' (' . $valores['tipo_salida'] . ')</option>';
+            $infoLote = !empty($valores['numero_lote']) ? ' (Lote: ' . $valores['numero_lote'] . ' - ' . $valores['variedad'] . ')' : '';
+            $tipoSalida = !empty($valores['tipo_salida']) ? ' [' . $valores['tipo_salida'] . ']' : '';
+            echo '<option value="' . $valores['pk_salida'] . '">' . $valores['cliente'] . ' → ' . $valores['destino'] . $tipoSalida . $infoLote . '</option>';
         }
     }
 
-    // Mostrar gastos completos
+    // Mostrar gastos completos (gasto + detalle según tipo)
     static public function mostrarGastosCompletosControlador($estado)
     {
         $respuesta = ModeloGasto::mostrarGastosCompletosModelo($estado);
@@ -114,23 +78,16 @@ class ControladorGasto
                 <td><?php echo ucfirst($valores['tipo']); ?></td>
                 <td>
                     <?php 
-                    if ($valores['tipo'] == 'llegada') {
-                        echo 'Lote ' . $valores['referencia'];
+                    if ($valores['tipo'] === 'llegada' && !empty($valores['referencia_info'])) {
+                        echo $valores['referencia_info'];
+                    } elseif ($valores['tipo'] === 'salida' && !empty($valores['referencia_info'])) {
+                        echo $valores['referencia_info'];
                     } else {
-                        echo 'Salida ' . $valores['referencia'] . ' - ' . $valores['cliente'];
+                        echo 'Sin referencia';
                     }
                     ?>
                 </td>
                 <td>$<?php echo number_format($valores['monto'], 2); ?></td>
-                <td>
-                    <?php 
-                    if ($valores['tipo'] == 'salida' && !empty($valores['ingreso_total'])) {
-                        echo '$' . number_format($valores['ingreso_total'], 2);
-                    } else {
-                        echo 'N/A';
-                    }
-                    ?>
-                </td>
                 <td>
                     <?php if ($estado == 1): ?>
                         <!-- Botón de Editar -->
@@ -138,13 +95,15 @@ class ControladorGasto
                                 class="btn btn-warning btn-sm"
                                 onclick="postToExternalSite('index.php', { 
                                     opcion: 'editar_gasto', 
-                                    pk_gasto: '<?php echo htmlspecialchars($valores['pk_gasto']); ?>', 
-                                    <?php if ($valores['tipo'] == 'llegada'): ?>
-                                    pk_gasto_llegada: '<?php echo htmlspecialchars($valores['pk_gasto_llegada']); ?>'
-                                    <?php else: ?>
-                                    pk_gasto_salida: '<?php echo htmlspecialchars($valores['pk_gasto_salida']); ?>'<?php if (!empty($valores['pk_venta'])): ?>,
-                                    pk_venta: '<?php echo htmlspecialchars($valores['pk_venta']); ?>'<?php endif; ?>
-                                    <?php endif; ?>
+                                    pk_gasto: '<?php echo htmlspecialchars($valores['pk_gasto']); ?>',
+                                    tipo: '<?php echo htmlspecialchars($valores['tipo']); ?>',
+                                    <?php 
+                                    if ($valores['tipo'] === 'llegada') {
+                                        echo "pk_gasto_llegada: '" . htmlspecialchars($valores['pk_detalle']) . "'";
+                                    } else {
+                                        echo "pk_gasto_salida: '" . htmlspecialchars($valores['pk_detalle']) . "'";
+                                    }
+                                    ?>
                                 });">
                                 <i class="fa-solid fa-pencil"></i> Editar
                         </button>
@@ -154,7 +113,7 @@ class ControladorGasto
                             class="btn btn-danger btn-sm"
                             onclick="postToExternalSite('index.php', { 
                                 opcion: 'desactivar_multitabla',
-                                tablas: 'gasto:<?php echo htmlspecialchars($valores['pk_gasto']); ?>:pk_gasto<?php if ($valores['tipo'] == 'llegada'): ?>,gasto_llegada:<?php echo htmlspecialchars($valores['pk_gasto_llegada']); ?>:pk_gasto_llegada<?php else: ?>,gasto_salida:<?php echo htmlspecialchars($valores['pk_gasto_salida']); ?>:pk_gasto_salida<?php if (!empty($valores['pk_venta'])): ?>,venta:<?php echo htmlspecialchars($valores['pk_venta']); ?>:pk_venta<?php endif; ?><?php endif; ?>',
+                                tablas: 'gasto:<?php echo htmlspecialchars($valores['pk_gasto']); ?>:pk_gasto,<?php echo ($valores['tipo'] === 'llegada' ? 'gasto_llegada' : 'gasto_salida'); ?>:<?php echo htmlspecialchars($valores['pk_detalle']); ?>:<?php echo ($valores['tipo'] === 'llegada' ? 'pk_gasto_llegada' : 'pk_gasto_salida'); ?>',
                                 redirect_tabla: 'gasto',
                                 estado_redirect: '1'
                             });">
@@ -166,7 +125,7 @@ class ControladorGasto
                             class="btn btn-primary btn-sm"
                             onclick="postToExternalSite('index.php', { 
                                 opcion: 'activar_multitabla',
-                                tablas: 'gasto:<?php echo htmlspecialchars($valores['pk_gasto']); ?>:pk_gasto<?php if ($valores['tipo'] == 'llegada'): ?>,gasto_llegada:<?php echo htmlspecialchars($valores['pk_gasto_llegada']); ?>:pk_gasto_llegada<?php else: ?>,gasto_salida:<?php echo htmlspecialchars($valores['pk_gasto_salida']); ?>:pk_gasto_salida<?php if (!empty($valores['pk_venta'])): ?>,venta:<?php echo htmlspecialchars($valores['pk_venta']); ?>:pk_venta<?php endif; ?><?php endif; ?>',
+                                tablas: 'gasto:<?php echo htmlspecialchars($valores['pk_gasto']); ?>:pk_gasto,<?php echo ($valores['tipo'] === 'llegada' ? 'gasto_llegada' : 'gasto_salida'); ?>:<?php echo htmlspecialchars($valores['pk_detalle']); ?>:<?php echo ($valores['tipo'] === 'llegada' ? 'pk_gasto_llegada' : 'pk_gasto_salida'); ?>',
                                 redirect_tabla: 'gasto',
                                 estado_redirect: '<?php echo $estado; ?>'
                             });">
@@ -182,13 +141,19 @@ class ControladorGasto
     // Obtener información para editar gasto completo
     static public function editarGastoCompletoControlador()
     {
-        if (isset($_POST['pk_gasto'])) {
+        if (isset($_POST['pk_gasto']) && isset($_POST['tipo_original'])) {
             $pk_gasto = $_POST['pk_gasto'];
-            $pk_gasto_llegada = isset($_POST['pk_gasto_llegada']) ? $_POST['pk_gasto_llegada'] : null;
-            $pk_gasto_salida = isset($_POST['pk_gasto_salida']) ? $_POST['pk_gasto_salida'] : null;
-            $pk_venta = isset($_POST['pk_venta']) ? $_POST['pk_venta'] : null;
+            $tipo = $_POST['tipo_original'];
+            
+            if ($tipo === 'llegada' && isset($_POST['pk_gasto_llegada'])) {
+                $pk_detalle = $_POST['pk_gasto_llegada'];
+            } elseif ($tipo === 'salida' && isset($_POST['pk_gasto_salida'])) {
+                $pk_detalle = $_POST['pk_gasto_salida'];
+            } else {
+                return;
+            }
         
-            $respuesta = ModeloGasto::editarGastoCompletoModelo($pk_gasto, $pk_gasto_llegada, $pk_gasto_salida, $pk_venta);
+            $respuesta = ModeloGasto::editarGastoCompletoModelo($pk_gasto, $pk_detalle, $tipo);
         
             if ($respuesta && count($respuesta) > 0) {
                 $valor = $respuesta[0];
@@ -198,7 +163,7 @@ class ControladorGasto
                         <h5 class="text-primary">Datos del Gasto</h5>
                         <!-- Nombre del gasto -->
                         <div class="mb-3">
-                            <label class="form-label">Nombre del Gasto:</label>
+                            <label class="form-label">Nombre:</label>
                             <input type="text" class="form-control" name="nombre" required="true"
                             value="<?php echo htmlspecialchars($valor['nombre']); ?>">
                         </div>
@@ -226,64 +191,45 @@ class ControladorGasto
                     </div>
                     
                     <div class="col-md-6">
-                        <h5 class="text-primary">Datos Específicos</h5>
+                        <h5 class="text-primary">Datos del Detalle</h5>
                         
-                        <!-- Campos para gasto de llegada -->
-                        <div id="campos-llegada-edit" style="display: <?php echo ($valor['tipo'] == 'llegada') ? 'block' : 'none'; ?>;">
-                            <div class="mb-3">
-                                <label class="form-label">Lote:</label>
-                                <select name="fk_lote" class="form-control" <?php echo ($valor['tipo'] == 'llegada') ? 'required' : ''; ?>>
-                                    <?php
-                                    $lotes = ModeloGasto::cargarLotesModelo();
-                                    foreach ($lotes as $lote) {
-                                        $selected = (isset($valor['fk_lote']) && $lote['pk_lote'] == $valor['fk_lote']) ? 'selected' : '';
-                                        echo '<option value="' . $lote['pk_lote'] . '" ' . $selected . '>Lote ' . $lote['pk_lote'] . ' - ' . $lote['variedad'] . '</option>';
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Monto:</label>
-                                <input type="number" class="form-control" name="monto_llegada" step="0.01" min="0"
-                                value="<?php echo isset($valor['monto']) ? htmlspecialchars($valor['monto']) : ''; ?>" 
-                                <?php echo ($valor['tipo'] == 'llegada') ? 'required' : ''; ?>>
-                            </div>
+                        <!-- Campo para Lote -->
+                        <div class="mb-3" id="campo-lote" style="<?php echo ($valor['tipo'] === 'llegada') ? 'display: block;' : 'display: none;'; ?>">
+                            <label class="form-label">Lote:</label>
+                            <select name="fk_lote" class="form-control">
+                                <option value="">Seleccionar lote...</option>
+                                <?php
+                                $lotes = ModeloGasto::cargarLotesModelo();
+                                foreach ($lotes as $lote) {
+                                    $selected = (isset($valor['fk_lote']) && $lote['pk_lote'] == $valor['fk_lote']) ? 'selected' : '';
+                                    echo '<option value="' . $lote['pk_lote'] . '" ' . $selected . '>Lote: ' . $lote['numero_lote'] . ' - ' . $lote['variedad'] . '</option>';
+                                }
+                                ?>
+                            </select>
                         </div>
                         
-                        <!-- Campos para gasto de salida -->
-                        <div id="campos-salida-edit" style="display: <?php echo ($valor['tipo'] == 'salida') ? 'block' : 'none'; ?>;">
-                            <div class="mb-3">
-                                <label class="form-label">Salida:</label>
-                                <select name="fk_salida" class="form-control" <?php echo ($valor['tipo'] == 'salida') ? 'required' : ''; ?>>
-                                    <?php
-                                    $salidas = ModeloGasto::cargarSalidasModelo();
-                                    foreach ($salidas as $salida) {
-                                        $selected = (isset($valor['fk_salida']) && $salida['pk_salida'] == $valor['fk_salida']) ? 'selected' : '';
-                                        echo '<option value="' . $salida['pk_salida'] . '" ' . $selected . '>Salida ' . $salida['pk_salida'] . ' - ' . $salida['cliente'] . ' (' . $salida['tipo_salida'] . ')</option>';
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Monto:</label>
-                                <input type="number" class="form-control" name="monto_salida" step="0.01" min="0"
-                                value="<?php echo isset($valor['monto']) ? htmlspecialchars($valor['monto']) : ''; ?>" 
-                                <?php echo ($valor['tipo'] == 'salida') ? 'required' : ''; ?>>
-                            </div>
+                        <!-- Campo para Salida -->
+                        <div class="mb-3" id="campo-salida" style="<?php echo ($valor['tipo'] === 'salida') ? 'display: block;' : 'display: none;'; ?>">
+                            <label class="form-label">Salida:</label>
+                            <select name="fk_salida" class="form-control">
+                                <option value="">Seleccionar salida...</option>
+                                <?php
+                                $salidas = ModeloGasto::cargarSalidasModelo();
+                                foreach ($salidas as $salida) {
+                                    $selected = (isset($valor['fk_salida']) && $salida['pk_salida'] == $valor['fk_salida']) ? 'selected' : '';
+                                    $infoLote = !empty($salida['numero_lote']) ? ' (Lote: ' . $salida['numero_lote'] . ' - ' . $salida['variedad'] . ')' : '';
+                                    $tipoSalida = !empty($salida['tipo_salida']) ? ' [' . $salida['tipo_salida'] . ']' : '';
+                                    echo '<option value="' . $salida['pk_salida'] . '" ' . $selected . '>' . $salida['cliente'] . ' → ' . $salida['destino'] . $tipoSalida . $infoLote . '</option>';
+                                }
+                                ?>
+                            </select>
                         </div>
                         
-                        <!-- Campos para venta (cuando el tipo es salida) -->
-                        <div id="campos-venta-edit" style="display: <?php echo ($valor['tipo'] == 'salida') ? 'block' : 'none'; ?>;">
-                            <h6 class="text-secondary mt-3">Datos de Venta (Opcional)</h6>
-                            <div class="mb-3">
-                                <label class="form-label">Ingreso Total:</label>
-                                <input type="number" class="form-control" name="ingreso_total" step="0.01" min="0"
-                                value="<?php echo isset($valor['ingreso_total']) ? htmlspecialchars($valor['ingreso_total']) : ''; ?>">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Observaciones de Venta:</label>
-                                <textarea class="form-control" name="observaciones_venta" rows="2"><?php echo isset($valor['observaciones_venta']) ? htmlspecialchars($valor['observaciones_venta']) : ''; ?></textarea>
-                            </div>
+                        <!-- Monto -->
+                        <div class="mb-3">
+                            <label class="form-label">Monto:</label>
+                            <input type="number" class="form-control" name="monto" step="0.01" min="0" required="true"
+                            value="<?php echo htmlspecialchars($valor['monto']); ?>">
                         </div>
                     </div>
                 </div>
@@ -297,30 +243,27 @@ class ControladorGasto
         } 
     }
 
-    // Editar gasto básico (solo datos de la tabla gasto)
+    // Obtener información para editar gasto básico
     static public function editarGastoBasicoControlador()
     {
         if (isset($_POST['pk_gasto'])) {
             $pk_gasto = $_POST['pk_gasto'];
             $respuesta = ModeloGasto::editarGastoBasicoModelo($pk_gasto);
-            
+        
             if ($respuesta && count($respuesta) > 0) {
                 $valor = $respuesta[0];
                 ?>
-                <!-- Nombre del gasto -->
                 <div class="mb-3">
-                    <label class="form-label">Nombre del Gasto:</label>
+                    <label class="form-label">Nombre:</label>
                     <input type="text" class="form-control" name="nombre" required="true"
                     value="<?php echo htmlspecialchars($valor['nombre']); ?>">
                 </div>
-                <!-- Descripción del gasto -->
                 <div class="mb-3">
                     <label class="form-label">Descripción:</label>
                     <textarea class="form-control" name="descripcion" rows="3"><?php echo htmlspecialchars($valor['descripcion']); ?></textarea>
                 </div>
-                <!-- Tipo del gasto -->
                 <div class="mb-3">
-                    <label class="form-label">Tipo de Gasto:</label>
+                    <label class="form-label">Tipo:</label>
                     <div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="tipo" id="tipo_llegada_basic" value="llegada" 
@@ -344,11 +287,10 @@ class ControladorGasto
         }
     }
 
-    // Actualizar gasto de llegada
-    static public function actualizarGastoLlegadaControlador()
+    // Actualizar gasto completo
+    static public function actualizarGastoCompletoControlador()
     {
-        if (isset($_POST["nombre"], $_POST["tipo"], $_POST["fk_lote"], $_POST["monto_llegada"], 
-                  $_POST["pk_gasto"], $_POST["pk_gasto_llegada"])) {
+        if (isset($_POST["nombre"], $_POST["tipo"], $_POST["monto"], $_POST["pk_gasto"], $_POST["tipo_original"])) {
             
             $datosGasto = array(
                 "nombre" => $_POST['nombre'],
@@ -357,88 +299,28 @@ class ControladorGasto
                 "pk_gasto" => $_POST['pk_gasto']
             );
             
-            $datosGastoLlegada = array(
-                "fk_lote" => $_POST['fk_lote'],
-                "monto" => $_POST['monto_llegada'],
-                "pk_gasto_llegada" => $_POST['pk_gasto_llegada']
+            $datosDetalle = array(
+                "monto" => $_POST['monto']
             );
-
-            $respuesta = ModeloGasto::actualizarGastoLlegadaModelo($datosGasto, $datosGastoLlegada);
-
-            if ($respuesta == 'ok') {
-                ?>
-                <script>
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: '¡Gasto actualizado!',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                        // Crear formulario oculto para forzar POST a mostrar_gasto
-                        const form = document.createElement('form');
-                        form.method = 'POST';
-                        form.action = 'index.php';
-
-                        const input = document.createElement('input');
-                        input.type = 'hidden';
-                        input.name = 'opcion';
-                        input.value = 'mostrar_gasto';
-
-                        form.appendChild(input);
-                        document.body.appendChild(form);
-                        form.submit();
-                    });
-                </script>
-                <?php
-            } else {
-                ?>
-                <script>
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: '<?php echo $respuesta; ?>'
-                    });
-                </script>
-                <?php
+            
+            $tipo_original = $_POST['tipo_original'];
+            $tipo_nuevo = $_POST['tipo'];
+            
+            // Agregar claves de detalle según el tipo original
+            if ($tipo_original === 'llegada' && isset($_POST['pk_gasto_llegada'])) {
+                $datosDetalle['pk_gasto_llegada'] = $_POST['pk_gasto_llegada'];
+            } elseif ($tipo_original === 'salida' && isset($_POST['pk_gasto_salida'])) {
+                $datosDetalle['pk_gasto_salida'] = $_POST['pk_gasto_salida'];
             }
-        }
-    }
-
-    // Actualizar gasto de salida
-    static public function actualizarGastoSalidaControlador()
-    {
-        if (isset($_POST["nombre"], $_POST["tipo"], $_POST["fk_salida"], $_POST["monto_salida"], 
-                  $_POST["pk_gasto"], $_POST["pk_gasto_salida"])) {
             
-            $datosGasto = array(
-                "nombre" => $_POST['nombre'],
-                "descripcion" => $_POST['descripcion'],
-                "tipo" => $_POST['tipo'],
-                "pk_gasto" => $_POST['pk_gasto']
-            );
-            
-            $datosGastoSalida = array(
-                "fk_salida" => $_POST['fk_salida'],
-                "monto" => $_POST['monto_salida'],
-                "pk_gasto_salida" => $_POST['pk_gasto_salida']
-            );
-            
-            // Datos de venta (opcional)
-            $datosVenta = null;
-            if (isset($_POST['pk_venta']) || !empty($_POST['ingreso_total']) || !empty($_POST['observaciones_venta'])) {
-                $datosVenta = array(
-                    "fk_salida" => $_POST['fk_salida'],
-                    "ingreso_total" => !empty($_POST['ingreso_total']) ? $_POST['ingreso_total'] : 0,
-                    "observaciones" => $_POST['observaciones_venta']
-                );
-                
-                if (isset($_POST['pk_venta'])) {
-                    $datosVenta['pk_venta'] = $_POST['pk_venta'];
-                }
+            // Agregar referencia según el tipo nuevo
+            if ($tipo_nuevo === 'llegada' && !empty($_POST['fk_lote'])) {
+                $datosDetalle['fk_lote'] = $_POST['fk_lote'];
+            } elseif ($tipo_nuevo === 'salida' && !empty($_POST['fk_salida'])) {
+                $datosDetalle['fk_salida'] = $_POST['fk_salida'];
             }
 
-            $respuesta = ModeloGasto::actualizarGastoSalidaModelo($datosGasto, $datosGastoSalida, $datosVenta);
+            $respuesta = ModeloGasto::actualizarGastoCompletoModelo($datosGasto, $datosDetalle, $tipo_original, $tipo_nuevo);
 
             if ($respuesta == 'ok') {
                 ?>

@@ -42,3 +42,11 @@ INSERT INTO `ruta` (`nombre`, `ruta`, `estado`, `fecha`, `hora`) VALUES
 
 INSERT INTO `ruta` (`nombre`, `ruta`, `estado`, `fecha`, `hora`) VALUES
 ('editar_gasto', 'vistas/modulos/editar/editar_gasto.php', 1, CURDATE(), CURTIME());
+
+
+INSERT INTO `ruta` (`nombre`, `ruta`, `estado`, `fecha`, `hora`) VALUES
+('mostrar_venta', 'vistas/modulos/mostrar/mostrar_venta.php', 1, CURDATE(), CURTIME());
+
+
+INSERT INTO `ruta` (`nombre`, `ruta`, `estado`, `fecha`, `hora`) VALUES
+('editar_venta', 'vistas/modulos/editar/editar_venta.php', 1, CURDATE(), CURTIME());

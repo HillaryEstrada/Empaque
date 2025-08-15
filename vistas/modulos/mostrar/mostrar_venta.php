@@ -1,5 +1,5 @@
 <?php
-// mostrar_gasto.php
+// mostrar_venta.php
 ?>
 <style>
 .step-container {
@@ -92,8 +92,9 @@
     left: 1rem;
     top: 50%;
     transform: translateY(-50%);
-    color: #6c757d;
+    color: #28a745;
     font-weight: bold;
+    font-size: 1.2rem;
     z-index: 10;
 }
 
@@ -101,18 +102,18 @@
     padding-left: 2.5rem;
 }
 
-.monto-display {
-    background: linear-gradient(135deg, #d1ecf1, #bee5eb);
-    border: 2px solid #17a2b8;
-    color: #0c5460;
+.ingreso-display {
+    background: linear-gradient(135deg, #d4edda, #c3e6cb);
+    border: 2px solid #28a745;
+    color: #155724;
     font-weight: bold;
-    font-size: 1.2rem;
-    animation: glow 2s ease-in-out infinite alternate;
+    font-size: 1.3rem;
+    animation: glow-green 2s ease-in-out infinite alternate;
 }
 
-@keyframes glow {
-    from { box-shadow: 0 0 5px rgba(23, 162, 184, 0.5); }
-    to { box-shadow: 0 0 20px rgba(23, 162, 184, 0.8); }
+@keyframes glow-green {
+    from { box-shadow: 0 0 5px rgba(40, 167, 69, 0.5); }
+    to { box-shadow: 0 0 20px rgba(40, 167, 69, 0.8); }
 }
 
 .btn-group-nav {
@@ -291,65 +292,15 @@
     60% { transform: translateY(-5px); }
 }
 
-/* Radio buttons mejorados */
-.radio-group {
-    display: flex;
-    gap: 1rem;
-    margin-top: 0.5rem;
+/* Destacar campos importantes */
+.client-input {
+    border-color: #17a2b8;
+    background: linear-gradient(135deg, #d1ecf1, #ffffff);
 }
 
-.radio-option {
-    display: flex;
-    align-items: center;
-    padding: 1rem 1.5rem;
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
-    background: #fafafa;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    flex: 1;
-    justify-content: center;
-}
-
-.radio-option:hover {
-    border-color: #80bdff;
-    background: white;
-    transform: translateY(-2px);
-}
-
-.radio-option.selected {
-    border-color: #007bff;
-    background: linear-gradient(135deg, #e3f2fd, #ffffff);
-    box-shadow: 0 4px 15px rgba(0,123,255,0.2);
-}
-
-.radio-option.llegada.selected {
-    border-color: #28a745;
-    background: linear-gradient(135deg, #d4edda, #ffffff);
-    box-shadow: 0 4px 15px rgba(40,167,69,0.2);
-}
-
-.radio-option.salida.selected {
-    border-color: #dc3545;
-    background: linear-gradient(135deg, #f8d7da, #ffffff);
-    box-shadow: 0 4px 15px rgba(220,53,69,0.2);
-}
-
-.radio-option .form-check-input {
-    margin-right: 0.5rem;
-}
-
-.conditional-field {
-    opacity: 0;
-    transform: translateY(-20px);
-    transition: all 0.3s ease;
-    display: none;
-}
-
-.conditional-field.show {
-    display: block;
-    opacity: 1;
-    transform: translateY(0);
+.client-input:focus {
+    border-color: #138496;
+    box-shadow: 0 0 0 0.25rem rgba(23,162,184,0.25);
 }
 
 @media (max-width: 768px) {
@@ -363,10 +314,6 @@
     }
     
     .btn-group-nav {
-        flex-direction: column;
-    }
-    
-    .radio-group {
         flex-direction: column;
     }
 }
@@ -392,7 +339,7 @@
             <h1 id="titulo">
                 <?php
                     $estado = isset($_POST['estado']) ? $_POST['estado'] : 1;
-                    echo ($estado == 1) ? "Mostrar Gastos Completos" : "Papelera Gastos Completos";
+                    echo ($estado == 1) ? "Mostrar Ventas Completas" : "Papelera Ventas Completas";
                 ?>
             </h1>
         </div>
@@ -409,38 +356,63 @@
 
         <form id="form-alta" method="POST" onsubmit="enviarFormulario(event)">
             
-            <!-- PASO 1: Información Básica -->
+            <!-- PASO 1: Datos de la Salida -->
             <div class="step-card active" id="step-1">
                 <div class="step-header">
                     <div class="step-number">1</div>
-                    <h3 class="step-title">Información Básica</h3>
-                    <p class="text-muted">Datos principales del gasto</p>
+                    <h3 class="step-title">Datos de la Salida</h3>
+                    <p class="text-muted">Información del producto y envío</p>
                 </div>
                 
-                <div class="form-group">
-                    <label class="form-label">Nombre del Gasto:</label>
-                    <input type="text" name="nombre" class="form-control" 
-                           placeholder="Ingrese el nombre del gasto" required 
-                           onchange="animateFieldCompletion(this)" />
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Descripción:</label>
-                    <textarea name="descripcion" class="form-control" rows="4" 
-                              placeholder="Descripción detallada del gasto..."
-                              onchange="animateFieldCompletion(this)"></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Tipo de Gasto:</label>
-                    <div class="radio-group">
-                        <div class="radio-option llegada" onclick="selectRadio('tipo', 'llegada', this)">
-                            <input class="form-check-input" type="radio" name="tipo" id="tipo_llegada" value="llegada" required>
-                            <label class="form-check-label" for="tipo_llegada">📦 Gasto de Llegada</label>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Lote:</label>
+                            <select name="fk_lote" class="form-control" required onchange="animateFieldCompletion(this)">
+                                <option value="">Seleccionar lote...</option>
+                                <?php
+                                // Cargar lotes activos
+                                $venta = new ControladorVenta();
+                                $venta->cargarLotesControlador();
+                                ?>
+                            </select>
                         </div>
-                        <div class="radio-option salida" onclick="selectRadio('tipo', 'salida', this)">
-                            <input class="form-check-input" type="radio" name="tipo" id="tipo_salida" value="salida" required>
-                            <label class="form-check-label" for="tipo_salida">🚚 Gasto de Salida</label>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Cliente:</label>
+                            <input type="text" name="cliente" class="form-control client-input" 
+                                   placeholder="Nombre del cliente" required 
+                                   onchange="animateFieldCompletion(this)" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Tipo de Salida:</label>
+                            <input type="text" name="tipo_salida" class="form-control" 
+                                   placeholder="Tipo de Salida" 
+                                   onchange="animateFieldCompletion(this)" />
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Destino:</label>
+                            <textarea name="destino" class="form-control" rows="2" 
+                                      placeholder="Destino de la salida"
+                                      onchange="animateFieldCompletion(this)"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Transporte:</label>
+                            <input type="text" name="transporte" class="form-control" 
+                                   placeholder="Medio de transporte" 
+                                   onchange="animateFieldCompletion(this)" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Observaciones de Salida:</label>
+                            <textarea name="observaciones_salida" class="form-control" rows="2" 
+                                      placeholder="Observaciones de la salida"
+                                      onchange="animateFieldCompletion(this)"></textarea>
                         </div>
                     </div>
                 </div>
@@ -451,49 +423,29 @@
                 </div>
             </div>
 
-            <!-- PASO 2: Detalles del Gasto -->
+            <!-- PASO 2: Datos de la Venta -->
             <div class="step-card" id="step-2">
                 <div class="step-header">
                     <div class="step-number">2</div>
-                    <h3 class="step-title">Detalles del Gasto</h3>
-                    <p class="text-muted">Referencia y monto del gasto</p>
-                </div>
-                
-                <!-- Campo para Lote (solo aparece si es llegada) -->
-                <div class="form-group conditional-field" id="campo-lote">
-                    <label class="form-label">Lote de Referencia:</label>
-                    <select name="fk_lote" class="form-control" onchange="animateFieldCompletion(this)">
-                        <option value="">Seleccionar lote...</option>
-                        <?php
-                        // Cargar lotes activos
-                        $gasto = new ControladorGasto();
-                        $gasto->cargarLotesControlador();
-                        ?>
-                    </select>
-                    <small class="form-text text-muted">Seleccione el lote asociado a este gasto</small>
-                </div>
-                
-                <!-- Campo para Salida (solo aparece si es salida) -->
-                <div class="form-group conditional-field" id="campo-salida">
-                    <label class="form-label">Salida de Referencia:</label>
-                    <select name="fk_salida" class="form-control" onchange="animateFieldCompletion(this)">
-                        <option value="">Seleccionar salida...</option>
-                        <?php
-                        // Cargar salidas activas
-                        $gasto->cargarSalidasControlador();
-                        ?>
-                    </select>
-                    <small class="form-text text-muted">Seleccione la salida asociada a este gasto</small>
+                    <h3 class="step-title">Datos de la Venta</h3>
+                    <p class="text-muted">Información financiera y comercial</p>
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label">Monto del Gasto:</label>
+                    <label class="form-label">Ingreso Total:</label>
                     <div class="currency-input">
-                        <input type="number" name="monto" class="form-control monto-display" 
-                               placeholder="0.00" step="0.01" min="0" required 
+                        <input type="number" name="ingreso_total" class="form-control ingreso-display" 
+                               placeholder="Ingreso Total" step="0.01" min="0" required 
                                onchange="animateFieldCompletion(this); formatCurrency(this)" />
                     </div>
-                    <small class="form-text text-muted">Ingrese el monto en pesos mexicanos</small>
+                    <small class="form-text text-muted">Ingrese el monto total de la venta en pesos mexicanos</small>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Observaciones de Venta:</label>
+                    <textarea name="observaciones_venta" class="form-control" rows="4" 
+                              placeholder="Observaciones de la venta"
+                              onchange="animateFieldCompletion(this)"></textarea>
                 </div>
                 
                 <div class="btn-group-nav">
@@ -510,7 +462,7 @@
                 <div class="step-header">
                     <div class="step-number">✓</div>
                     <h3 class="step-title">Confirmar Información</h3>
-                    <p class="text-muted">Revise los datos antes de guardar</p>
+                    <p class="text-muted">Revise los datos antes de guardar la venta</p>
                 </div>
                 
                 <div id="summary-content">
@@ -521,7 +473,7 @@
                     <button type="button" class="btn btn-secondary" onclick="prevStep(2)">Anterior</button>
                     <div>
                         <button type="button" class="btn btn-danger me-2" onclick="ocultarFormulario()">Salir</button>
-                        <button type="submit" class="btn btn-success">Guardar Gasto</button>
+                        <button type="submit" class="btn btn-success">Guardar Venta</button>
                     </div>
                 </div>
             </div>
@@ -538,21 +490,23 @@
 <table class="table table-hover table-striped table-bordered">
     <thead>
         <tr>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Tipo</th>
-            <th>Referencia</th>
-            <th>Monto</th>
+            <th>Cliente</th>
+            <th>Lote</th>
+            <th>Destino</th>
+            <th>Tipo Salida</th>
+            <th>Transporte</th>
+            <th>Ingreso Total</th>
+            <th>Fecha</th>
             <th>
                 <?php if ($estado == 1): ?>
-                <button class="btn btn-success btn-sm" onclick="mostrarFormulario(this)" data-title="Alta gasto completo">
-                    <i class="fa-solid fa-circle-plus fa-lg"></i> Crear Gasto
+                <button class="btn btn-success btn-sm" onclick="mostrarFormulario(this)" data-title="Alta venta completa">
+                    <i class="fa-solid fa-circle-plus fa-lg"></i> Crear Venta
                 </button>
                 <?php endif; ?>
                 
                 <!-- Botón para alternar entre activos e inactivos -->
                 <form action="index.php" method="POST" style="display: inline;">
-                    <input type="hidden" name="opcion" value="mostrar_gasto">
+                    <input type="hidden" name="opcion" value="mostrar_venta">
                     <input type="hidden" name="estado" value="<?php echo ($estado == 1) ? 0 : 1; ?>">
                     <button type="submit" class="btn btn-sm <?php echo ($estado == 1) ? 'btn-warning' : 'btn-primary'; ?>">
                         <i class="fa-solid <?php echo ($estado == 1) ? 'fa-archive' : 'fa-undo'; ?>"></i>
@@ -566,8 +520,8 @@
     <tbody id="tabla-body">
         <?php
             $estado = isset($_POST['estado']) ? $_POST['estado'] : 1;
-            $gasto = new ControladorGasto();
-            $gasto->mostrarGastosCompletosControlador($estado);
+            $venta = new ControladorVenta();
+            $venta->mostrarVentasCompletasControlador($estado);
         ?>
     </tbody>
 </table>
@@ -587,7 +541,7 @@
 </div>
 <!--Fin del Proceso de Mostrar-->
 
-<!-- Scripts para navegación y lógica condicional -->
+<!-- Scripts para navegación y validaciones -->
 <script>
 let currentStep = 1;
 const totalSteps = 3;
@@ -667,18 +621,7 @@ function validateCurrentStep() {
     const requiredFields = currentStepElement.querySelectorAll('[required]');
     
     for (let field of requiredFields) {
-        if (field.type === 'radio') {
-            const radioGroup = currentStepElement.querySelectorAll(`input[name="${field.name}"]`);
-            const isChecked = Array.from(radioGroup).some(radio => radio.checked);
-            if (!isChecked) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Campo requerido',
-                    text: 'Por favor seleccione el tipo de gasto'
-                });
-                return false;
-            }
-        } else if (!field.value.trim()) {
+        if (!field.value.trim()) {
             Swal.fire({
                 icon: 'warning',
                 title: 'Campo requerido',
@@ -689,75 +632,20 @@ function validateCurrentStep() {
         }
     }
     
-    // Validación condicional en step 2
+    // Validación especial para ingreso en step 2
     if (currentStep === 2) {
-        const tipoSeleccionado = document.querySelector('input[name="tipo"]:checked')?.value;
-        if (tipoSeleccionado === 'llegada') {
-            const lote = document.querySelector('select[name="fk_lote"]').value;
-            if (!lote) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Campo requerido',
-                    text: 'Debe seleccionar un lote para gastos de llegada'
-                });
-                return false;
-            }
-        } else if (tipoSeleccionado === 'salida') {
-            const salida = document.querySelector('select[name="fk_salida"]').value;
-            if (!salida) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Campo requerido',
-                    text: 'Debe seleccionar una salida para gastos de salida'
-                });
-                return false;
-            }
+        const ingreso = parseFloat(document.getElementsByName('ingreso_total')[0].value);
+        if (isNaN(ingreso) || ingreso <= 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error en el ingreso',
+                text: 'El ingreso total debe ser mayor a cero'
+            });
+            return false;
         }
     }
     
     return true;
-}
-
-function selectRadio(name, value, element) {
-    // Desmarcar todas las opciones del grupo
-    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
-        radio.closest('.radio-option').classList.remove('selected');
-    });
-    
-    // Marcar la opción seleccionada
-    element.classList.add('selected');
-    element.querySelector('input').checked = true;
-    
-    // Mostrar/ocultar campos condicionales
-    toggleConditionalFields(value);
-    
-    // Efecto de animación
-    createParticleEffect(element);
-}
-
-function toggleConditionalFields(tipo) {
-    const campoLote = document.getElementById('campo-lote');
-    const campoSalida = document.getElementById('campo-salida');
-    const fkLote = document.querySelector('select[name="fk_lote"]');
-    const fkSalida = document.querySelector('select[name="fk_salida"]');
-    
-    // Ocultar todos los campos primero
-    campoLote.classList.remove('show');
-    campoSalida.classList.remove('show');
-    
-    setTimeout(() => {
-        if (tipo === 'llegada') {
-            campoLote.classList.add('show');
-            fkLote.required = true;
-            fkSalida.required = false;
-            fkSalida.value = '';
-        } else if (tipo === 'salida') {
-            campoSalida.classList.add('show');
-            fkLote.required = false;
-            fkSalida.required = true;
-            fkLote.value = '';
-        }
-    }, 150);
 }
 
 function animateFieldCompletion(field) {
@@ -780,7 +668,7 @@ function animateFieldCompletion(field) {
 function formatCurrency(input) {
     const value = parseFloat(input.value);
     if (!isNaN(value)) {
-        // Formato con comas para miles
+        // Formato con decimales
         input.value = value.toFixed(2);
     }
 }
@@ -851,44 +739,41 @@ function generateSummary() {
     const form = document.getElementById('form-alta');
     const formData = new FormData(form);
     
-    // Obtener valores de radio buttons y selects
-    const tipo = form.querySelector('input[name="tipo"]:checked')?.value;
-    const monto = parseFloat(formData.get('monto')) || 0;
-    
-    let referenciaTexto = 'No especificada';
-    let referenciaIcono = '📋';
-    
-    if (tipo === 'llegada') {
-        const loteSelect = form.querySelector('select[name="fk_lote"]');
-        referenciaTexto = loteSelect.selectedOptions[0]?.text || 'No seleccionado';
-        referenciaIcono = '📦';
-    } else if (tipo === 'salida') {
-        const salidaSelect = form.querySelector('select[name="fk_salida"]');
-        referenciaTexto = salidaSelect.selectedOptions[0]?.text || 'No seleccionado';
-        referenciaIcono = '🚚';
-    }
+    const ingreso = parseFloat(formData.get('ingreso_total')) || 0;
     
     const summaryContent = document.getElementById('summary-content');
     summaryContent.innerHTML = `
         <div class="summary-item" style="animation-delay: 0.1s">
-            <span>💰 Nombre del Gasto:</span>
-            <span>${formData.get('nombre') || 'No especificado'}</span>
+            <span>📦 Lote:</span>
+            <span>${form.fk_lote.selectedOptions[0]?.text || 'No seleccionado'}</span>
         </div>
         <div class="summary-item" style="animation-delay: 0.2s">
-            <span>📝 Descripción:</span>
-            <span>${formData.get('descripcion') || 'Sin descripción'}</span>
+            <span>👤 Cliente:</span>
+            <span>${formData.get('cliente') || 'No especificado'}</span>
         </div>
         <div class="summary-item" style="animation-delay: 0.3s">
-            <span>🏷️ Tipo de Gasto:</span>
-            <span>${tipo === 'llegada' ? '📦 Gasto de Llegada' : tipo === 'salida' ? '🚚 Gasto de Salida' : 'No especificado'}</span>
+            <span>🏷️ Tipo de Salida:</span>
+            <span>${formData.get('tipo_salida') || 'No especificado'}</span>
         </div>
         <div class="summary-item" style="animation-delay: 0.4s">
-            <span>${referenciaIcono} Referencia:</span>
-            <span>${referenciaTexto}</span>
+            <span>📍 Destino:</span>
+            <span>${formData.get('destino') || 'No especificado'}</span>
         </div>
         <div class="summary-item" style="animation-delay: 0.5s">
-            <span>💵 MONTO TOTAL:</span>
-            <span>${monto.toLocaleString('es-MX', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+            <span>🚛 Transporte:</span>
+            <span>${formData.get('transporte') || 'No especificado'}</span>
+        </div>
+        <div class="summary-item" style="animation-delay: 0.6s">
+            <span>📝 Observaciones Salida:</span>
+            <span>${formData.get('observaciones_salida') || 'Sin observaciones'}</span>
+        </div>
+        <div class="summary-item" style="animation-delay: 0.7s">
+            <span>💬 Observaciones Venta:</span>
+            <span>${formData.get('observaciones_venta') || 'Sin observaciones'}</span>
+        </div>
+        <div class="summary-item" style="animation-delay: 0.8s">
+            <span>💰 INGRESO TOTAL:</span>
+            <span>$${ingreso.toLocaleString('es-MX', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
         </div>
     `;
 }
@@ -905,21 +790,6 @@ function ocultarFormulario() {
     document.getElementById('formulario-alta').style.display = 'none';
     document.getElementById('tabla-catalogo').style.display = 'block';
     document.getElementById('form-alta').reset();
-    
-    // Limpiar selecciones de radio buttons
-    document.querySelectorAll('.radio-option').forEach(option => {
-        option.classList.remove('selected');
-    });
-    
-    // Ocultar campos condicionales
-    document.querySelectorAll('.conditional-field').forEach(field => {
-        field.classList.remove('show');
-    });
-    
-    // Resetear campos required
-    document.querySelector('select[name="fk_lote"]').required = false;
-    document.querySelector('select[name="fk_salida"]').required = false;
-    
     currentStep = 1;
 }
 
@@ -930,92 +800,63 @@ document.getElementById('form-alta').addEventListener('submit', function(e) {
         return false;
     }
     
-    const tipo = document.querySelector('input[name="tipo"]:checked')?.value;
-    const monto = parseFloat(document.getElementsByName('monto')[0].value);
+    const lote = document.getElementsByName('fk_lote')[0].value;
+    const cliente = document.getElementsByName('cliente')[0].value;
+    const ingreso = parseFloat(document.getElementsByName('ingreso_total')[0].value);
     
-    if (!tipo) {
+    if (!lote) {
         e.preventDefault();
         Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Debe seleccionar un tipo de gasto'
+            text: 'Debe seleccionar un lote'
         });
         return false;
     }
     
-    if (isNaN(monto) || monto <= 0) {
+    if (!cliente.trim()) {
         e.preventDefault();
         Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'El monto debe ser mayor a cero'
+            text: 'El nombre del cliente es requerido'
         });
         return false;
     }
     
-    if (tipo === 'llegada') {
-        const lote = document.querySelector('select[name="fk_lote"]').value;
-        if (!lote) {
-            e.preventDefault();
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Debe seleccionar un lote para gastos de llegada'
-            });
-            return false;
-        }
-    } else if (tipo === 'salida') {
-        const salida = document.querySelector('select[name="fk_salida"]').value;
-        if (!salida) {
-            e.preventDefault();
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Debe seleccionar una salida para gastos de salida'
-            });
-            return false;
-        }
+    if (isNaN(ingreso) || ingreso <= 0) {
+        e.preventDefault();
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'El ingreso total debe ser mayor a cero'
+        });
+        return false;
     }
-});
-
-// Inicialización cuando se carga la página
-document.addEventListener('DOMContentLoaded', function() {
-    // Configurar eventos para radio buttons si ya están seleccionados
-    const tipoRadios = document.querySelectorAll('input[name="tipo"]');
-    tipoRadios.forEach(radio => {
-        if (radio.checked) {
-            toggleConditionalFields(radio.value);
-        }
-    });
 });
 </script>
 
 <?php
-// Manejo del formulario
+// Manejo del formulario - CÓDIGO ORIGINAL SIN MODIFICACIONES
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Verificar si el formulario tiene los datos necesarios para gasto completo
-    if (isset($_POST['nombre']) && !empty($_POST['tipo']) && !empty($_POST['monto'])) {
+    // Verificar si el formulario tiene los datos necesarios para venta completa
+    if (isset($_POST['fk_lote']) && !empty($_POST['cliente']) && !empty($_POST['ingreso_total'])) {
         
-        // Recoger datos del formulario
-        $nombre = htmlspecialchars($_POST['nombre']);
-        $descripcion = htmlspecialchars($_POST['descripcion']); 
-        $tipo = htmlspecialchars($_POST['tipo']); 
-        $monto = htmlspecialchars($_POST['monto']);
+        // Recoger datos del formulario de salida
+        $fk_lote = htmlspecialchars($_POST['fk_lote']);
+        $tipo_salida = htmlspecialchars($_POST['tipo_salida']);
+        $cliente = htmlspecialchars($_POST['cliente']);
+        $destino = htmlspecialchars($_POST['destino']);
+        $transporte = htmlspecialchars($_POST['transporte']);
+        $observaciones_salida = htmlspecialchars($_POST['observaciones_salida']);
         
-        // Según el tipo, obtener la referencia
-        if ($tipo === 'llegada' && !empty($_POST['fk_lote'])) {
-            $fk_referencia = htmlspecialchars($_POST['fk_lote']);
-        } elseif ($tipo === 'salida' && !empty($_POST['fk_salida'])) {
-            $fk_referencia = htmlspecialchars($_POST['fk_salida']);
-        } else {
-            $fk_referencia = null;
-        }
+        // Recoger datos del formulario de venta
+        $ingreso_total = htmlspecialchars($_POST['ingreso_total']);
+        $observaciones_venta = htmlspecialchars($_POST['observaciones_venta']);
 
         // Llamar al controlador para manejar el registro completo
-        if ($fk_referencia) {
-            $registro = new ControladorGasto();
-            $registro->registroGastoCompletoControlador($nombre, $descripcion, $tipo, $monto, $fk_referencia);
-        }
+        $registro = new ControladorVenta();
+        $registro->registroVentaCompletaControlador($fk_lote, $tipo_salida, $cliente, $destino, $transporte, $observaciones_salida, $ingreso_total, $observaciones_venta);
     }
 }
 ?>
