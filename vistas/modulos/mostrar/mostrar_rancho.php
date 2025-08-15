@@ -1,5 +1,5 @@
 <?php
-// mostrar_dato_usuario.php
+// mostrar_rancho.php
 ?>
 <style>
 .step-container {
@@ -80,32 +80,6 @@
 .form-control:hover {
     border-color: #80bdff;
     background: white;
-}
-
-.password-strength {
-    margin-top: 0.5rem;
-    padding: 0.5rem;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-}
-
-.password-weak {
-    background: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-}
-
-.password-medium {
-    background: #fff3cd;
-    color: #856404;
-    border: 1px solid #ffeaa7;
-}
-
-.password-strong {
-    background: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
 }
 
 .btn-group-nav {
@@ -284,40 +258,21 @@
     60% { transform: translateY(-5px); }
 }
 
-/* Radio buttons mejorados */
-.radio-group {
-    display: flex;
-    gap: 1rem;
-    margin-top: 0.5rem;
+/* Efectos de loading */
+.loading-spinner {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #007bff;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-left: 10px;
 }
 
-.radio-option {
-    display: flex;
-    align-items: center;
-    padding: 0.75rem 1.5rem;
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
-    background: #fafafa;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    flex: 1;
-    justify-content: center;
-}
-
-.radio-option:hover {
-    border-color: #80bdff;
-    background: white;
-    transform: translateY(-2px);
-}
-
-.radio-option.selected {
-    border-color: #007bff;
-    background: linear-gradient(135deg, #e3f2fd, #ffffff);
-    box-shadow: 0 4px 15px rgba(0,123,255,0.2);
-}
-
-.radio-option .form-check-input {
-    margin-right: 0.5rem;
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 @media (max-width: 768px) {
@@ -333,10 +288,6 @@
     .btn-group-nav {
         flex-direction: column;
     }
-    
-    .radio-group {
-        flex-direction: column;
-    }
 }
 </style>
 
@@ -348,7 +299,7 @@
                 Swal.fire({
                     position: 'top-end',
                     icon: 'success',
-                    title: '<?php echo ($_POST['alerta'] === 'activado') ? "Elemento activado correctamente" : "Elemento desactivado correctamente"; ?>',
+                    title: '<?php echo ($_POST['alerta'] === 'activado') ? "Rancho activado correctamente" : "Rancho desactivado correctamente"; ?>',
                     showConfirmButton: false,
                     timer: 1500
                 });
@@ -360,7 +311,7 @@
             <h1 id="titulo">
                 <?php
                     $estado = isset($_POST['estado']) ? $_POST['estado'] : 1;
-                    echo ($estado == 1) ? "Mostrar Usuarios Completos" : "Papelera Usuarios Completos";
+                    echo ($estado == 1) ? "Mostrar Ranchos Completos" : "Papelera Ranchos Completos";
                 ?>
             </h1>
         </div>
@@ -372,62 +323,31 @@
     <div class="step-container">
         <!-- Barra de Progreso -->
         <div class="progress-bar-container">
-            <div class="progress-bar" id="progress-bar" style="width: 33.33%"></div>
+            <div class="progress-bar" id="progress-bar" style="width: 50%"></div>
         </div>
 
         <form id="form-alta" method="POST" onsubmit="enviarFormulario(event)">
             
-            <!-- PASO 1: Datos Personales -->
+            <!-- PASO 1: Datos del Productor -->
             <div class="step-card active" id="step-1">
                 <div class="step-header">
                     <div class="step-number">1</div>
-                    <h3 class="step-title">Datos Personales</h3>
-                    <p class="text-muted">Información personal del usuario</p>
+                    <h3 class="step-title">Datos del Productor</h3>
+                    <p class="text-muted">Información del propietario del rancho</p>
                 </div>
                 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Nombres:</label>
-                            <input type="text" name="nombre" class="form-control" 
-                                   placeholder="Ingrese el nombre completo" required 
-                                   onchange="animateFieldCompletion(this)" />
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Apellidos:</label>
-                            <input type="text" name="apellidos" class="form-control" 
-                                   placeholder="Ingrese los apellidos" required 
-                                   onchange="animateFieldCompletion(this)" />
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label class="form-label">Nombre del Productor:</label>
+                    <input type="text" name="nombre_productor" class="form-control" 
+                           placeholder="Ingrese el nombre completo del productor" required 
+                           onchange="animateFieldCompletion(this)" />
                 </div>
                 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Edad:</label>
-                            <input type="number" name="edad" class="form-control" 
-                                   placeholder="Edad" min="18" max="100" required 
-                                   onchange="animateFieldCompletion(this)" />
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Sexo:</label>
-                            <div class="radio-group">
-                                <div class="radio-option" onclick="selectRadio('sexo', 'M', this)">
-                                    <input class="form-check-input" type="radio" name="sexo" id="sexo_m" value="M" required>
-                                    <label class="form-check-label" for="sexo_m">👨 Masculino</label>
-                                </div>
-                                <div class="radio-option" onclick="selectRadio('sexo', 'F', this)">
-                                    <input class="form-check-input" type="radio" name="sexo" id="sexo_f" value="F" required>
-                                    <label class="form-check-label" for="sexo_f">👩 Femenino</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label class="form-label">Teléfono:</label>
+                    <input type="tel" name="telefono" class="form-control" 
+                           placeholder="Ej: 123-456-7890" 
+                           onchange="animateFieldCompletion(this)" />
                 </div>
                 
                 <div class="btn-group-nav">
@@ -436,53 +356,26 @@
                 </div>
             </div>
 
-            <!-- PASO 2: Datos de Acceso -->
+            <!-- PASO 2: Datos del Rancho -->
             <div class="step-card" id="step-2">
                 <div class="step-header">
                     <div class="step-number">2</div>
-                    <h3 class="step-title">Datos de Acceso</h3>
-                    <p class="text-muted">Credenciales y permisos del usuario</p>
+                    <h3 class="step-title">Datos del Rancho</h3>
+                    <p class="text-muted">Información del terreno y ubicación</p>
                 </div>
                 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Usuario:</label>
-                            <input type="text" name="usuario" class="form-control" 
-                                   placeholder="Nombre de usuario único" required 
-                                   onchange="animateFieldCompletion(this)" />
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Rol:</label>
-                            <select name="fk_rol" class="form-control" required onchange="animateFieldCompletion(this)">
-                                <option value="">Seleccionar rol...</option>
-                                <?php
-                                // Cargar roles activos
-                                $roles = new ControladorUsuario();
-                                $roles->cargarRolesControlador();
-                                ?>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Contraseña:</label>
-                            <input type="password" name="contrasena" class="form-control" 
-                                   placeholder="Mínimo 6 caracteres" required 
-                                   onchange="checkPasswordStrength(this)" />
-                            <div id="password-strength" class="password-strength" style="display: none;"></div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Confirmar Contraseña:</label>
-                            <input type="password" name="confirmar_contrasena" class="form-control" 
-                                   placeholder="Repita la contraseña" required 
-                                   onchange="checkPasswordMatch(this)" />
-                            <div id="password-match" style="margin-top: 0.5rem; font-size: 0.9rem;"></div>
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label class="form-label">Nombre del Rancho:</label>
+                    <input type="text" name="nombre_rancho" class="form-control" 
+                           placeholder="Nombre identificativo del rancho" required 
+                           onchange="animateFieldCompletion(this)" />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Ubicación:</label>
+                    <textarea name="ubicacion" class="form-control" rows="4" 
+                              placeholder="Dirección completa, municipio, estado, referencias..."
+                              onchange="animateFieldCompletion(this)"></textarea>
                 </div>
                 
                 <div class="btn-group-nav">
@@ -510,7 +403,7 @@
                     <button type="button" class="btn btn-secondary" onclick="prevStep(2)">Anterior</button>
                     <div>
                         <button type="button" class="btn btn-danger me-2" onclick="ocultarFormulario()">Salir</button>
-                        <button type="submit" class="btn btn-success">Guardar Usuario</button>
+                        <button type="submit" class="btn btn-success">Guardar Rancho</button>
                     </div>
                 </div>
             </div>
@@ -527,28 +420,26 @@
 <table class="table table-hover table-striped table-bordered">
     <thead>
         <tr>
-            <th>Nombre</th>
-            <th>Apellidos</th>
-            <th>Edad</th>
-            <th>Sexo</th>
-            <th>Usuario</th>
-            <th>Rol</th>
+            <th>Nombre Productor</th>
+            <th>Teléfono</th>
+            <th>Nombre Rancho</th>
+            <th>Ubicación</th>
             <th>
                 <?php if ($estado == 1): ?>
-                <button class="btn btn-success btn-sm" onclick="mostrarFormulario(this)" data-title="Alta usuario completo">
-                    <i class="fa-solid fa-circle-plus fa-lg"></i> Crear Usuario
+                <button class="btn btn-success btn-sm" onclick="mostrarFormulario(this)" data-title="Alta rancho completo">
+                    <i class="fa-solid fa-circle-plus fa-lg"></i> Crear Rancho
                 </button>
                 <?php endif; ?>
                 
                 <!-- Botón para alternar entre activos e inactivos -->
-                <form action="index.php" method="POST" style="display: inline;">
-                    <input type="hidden" name="opcion" value="mostrar_dato_usuario">
-                    <input type="hidden" name="estado" value="<?php echo ($estado == 1) ? 0 : 1; ?>">
-                    <button type="submit" class="btn btn-sm <?php echo ($estado == 1) ? 'btn-warning' : 'btn-primary'; ?>">
-                        <i class="fa-solid <?php echo ($estado == 1) ? 'fa-archive' : 'fa-undo'; ?>"></i>
-                        <?php echo ($estado == 1) ? 'Ver Inactivos' : 'Ver Activos'; ?>
-                    </button> 
-                </form>
+                    <form action="index.php" method="POST" style="display: inline;">
+                        <input type="hidden" name="opcion" value="mostrar_rancho">
+                        <input type="hidden" name="estado" value="<?php echo ($estado == 1) ? 0 : 1; ?>">
+                        <button type="submit" class="btn btn-sm <?php echo ($estado == 1) ? 'btn-warning' : 'btn-primary'; ?>">
+                            <i class="fa-solid <?php echo ($estado == 1) ? 'fa-archive' : 'fa-undo'; ?>"></i>
+                            <?php echo ($estado == 1) ? 'Ver Inactivos' : 'Ver Activos'; ?>
+                        </button> 
+                    </form>
             </th>
         </tr>
     </thead>
@@ -556,8 +447,8 @@
     <tbody id="tabla-body">
         <?php
             $estado = isset($_POST['estado']) ? $_POST['estado'] : 1;
-            $usuario = new ControladorUsuario();
-            $usuario->mostrarUsuariosCompletosControlador($estado);
+            $rancho = new ControladorRancho();
+            $rancho->mostrarRanchosCompletosControlador($estado);
         ?>
     </tbody>
 </table>
@@ -571,13 +462,13 @@
                 <input type="text" id="pagina-input" value="1" style="width: 40px; text-align: center;">
                 <span id="registro-info" class="mx-3"></span>
                 <button class="btn btn-primary ms-2" id="btn-siguiente">Siguiente</button>
-                <button class="btn btn-primary ms-2" id="btn-ultimo">Último</button>
+                <button class="btn btn-primary ms-2" id="btn-último">Último</button>
             </div>
         </div>
 </div>
 <!--Fin del Proceso de Mostrar-->
 
-<!-- Scripts para navegación y validaciones -->
+<!-- Scripts para navegación y efectos -->
 <script>
 let currentStep = 1;
 const totalSteps = 3;
@@ -657,18 +548,7 @@ function validateCurrentStep() {
     const requiredFields = currentStepElement.querySelectorAll('[required]');
     
     for (let field of requiredFields) {
-        if (field.type === 'radio') {
-            const radioGroup = currentStepElement.querySelectorAll(`input[name="${field.name}"]`);
-            const isChecked = Array.from(radioGroup).some(radio => radio.checked);
-            if (!isChecked) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Campo requerido',
-                    text: 'Por favor seleccione una opción para ' + field.name
-                });
-                return false;
-            }
-        } else if (!field.value.trim()) {
+        if (!field.value.trim()) {
             Swal.fire({
                 icon: 'warning',
                 title: 'Campo requerido',
@@ -679,45 +559,7 @@ function validateCurrentStep() {
         }
     }
     
-    // Validación especial para contraseñas en step 2
-    if (currentStep === 2) {
-        const contrasena = document.getElementsByName('contrasena')[0].value;
-        const confirmarContrasena = document.getElementsByName('confirmar_contrasena')[0].value;
-        
-        if (contrasena.length < 6) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Contraseña débil',
-                text: 'La contraseña debe tener al menos 6 caracteres'
-            });
-            return false;
-        }
-        
-        if (contrasena !== confirmarContrasena) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Las contraseñas no coinciden'
-            });
-            return false;
-        }
-    }
-    
     return true;
-}
-
-function selectRadio(name, value, element) {
-    // Desmarcar todas las opciones del grupo
-    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
-        radio.closest('.radio-option').classList.remove('selected');
-    });
-    
-    // Marcar la opción seleccionada
-    element.classList.add('selected');
-    element.querySelector('input').checked = true;
-    
-    // Efecto de animación
-    createParticleEffect(element);
 }
 
 function animateFieldCompletion(field) {
@@ -734,63 +576,6 @@ function animateFieldCompletion(field) {
         }, 500);
     } else {
         field.classList.remove('completed');
-    }
-}
-
-function checkPasswordStrength(passwordField) {
-    const password = passwordField.value;
-    const strengthDiv = document.getElementById('password-strength');
-    
-    if (password.length === 0) {
-        strengthDiv.style.display = 'none';
-        return;
-    }
-    
-    strengthDiv.style.display = 'block';
-    
-    let strength = 0;
-    let message = '';
-    
-    // Criterios de fortaleza
-    if (password.length >= 6) strength++;
-    if (password.length >= 8) strength++;
-    if (/[A-Z]/.test(password)) strength++;
-    if (/[a-z]/.test(password)) strength++;
-    if (/[0-9]/.test(password)) strength++;
-    if (/[^A-Za-z0-9]/.test(password)) strength++;
-    
-    // Clasificar fortaleza
-    if (strength < 3) {
-        strengthDiv.className = 'password-strength password-weak';
-        message = '🔴 Contraseña débil';
-    } else if (strength < 5) {
-        strengthDiv.className = 'password-strength password-medium';
-        message = '🟡 Contraseña media';
-    } else {
-        strengthDiv.className = 'password-strength password-strong';
-        message = '🟢 Contraseña fuerte';
-    }
-    
-    strengthDiv.textContent = message;
-    animateFieldCompletion(passwordField);
-}
-
-function checkPasswordMatch(confirmField) {
-    const password = document.getElementsByName('contrasena')[0].value;
-    const confirmPassword = confirmField.value;
-    const matchDiv = document.getElementById('password-match');
-    
-    if (confirmPassword.length === 0) {
-        matchDiv.textContent = '';
-        return;
-    }
-    
-    if (password === confirmPassword) {
-        matchDiv.innerHTML = '<span style="color: #28a745;">✅ Las contraseñas coinciden</span>';
-        animateFieldCompletion(confirmField);
-    } else {
-        matchDiv.innerHTML = '<span style="color: #dc3545;">❌ Las contraseñas no coinciden</span>';
-        confirmField.classList.remove('completed');
     }
 }
 
@@ -860,38 +645,27 @@ function generateSummary() {
     const form = document.getElementById('form-alta');
     const formData = new FormData(form);
     
-    // Obtener valores de radio buttons
-    const sexo = form.querySelector('input[name="sexo"]:checked')?.value;
-    
     const summaryContent = document.getElementById('summary-content');
     summaryContent.innerHTML = `
         <div class="summary-item" style="animation-delay: 0.1s">
-            <span>👤 Nombre Completo:</span>
-            <span>${formData.get('nombre') || 'No especificado'} ${formData.get('apellidos') || ''}</span>
+            <span>👤 Nombre del Productor:</span>
+            <span>${formData.get('nombre_productor') || 'No especificado'}</span>
         </div>
         <div class="summary-item" style="animation-delay: 0.2s">
-            <span>🎂 Edad:</span>
-            <span>${formData.get('edad') || 'No especificada'} años</span>
+            <span>📞 Teléfono:</span>
+            <span>${formData.get('telefono') || 'No especificado'}</span>
         </div>
         <div class="summary-item" style="animation-delay: 0.3s">
-            <span>⚥ Sexo:</span>
-            <span>${sexo === 'M' ? '👨 Masculino' : sexo === 'F' ? '👩 Femenino' : 'No especificado'}</span>
+            <span>🏠 Nombre del Rancho:</span>
+            <span>${formData.get('nombre_rancho') || 'No especificado'}</span>
         </div>
         <div class="summary-item" style="animation-delay: 0.4s">
-            <span>🔑 Usuario:</span>
-            <span>${formData.get('usuario') || 'No especificado'}</span>
+            <span>📍 Ubicación:</span>
+            <span>${formData.get('ubicacion') || 'No especificada'}</span>
         </div>
         <div class="summary-item" style="animation-delay: 0.5s">
-            <span>🛡️ Rol:</span>
-            <span>${form.fk_rol.selectedOptions[0]?.text || 'No seleccionado'}</span>
-        </div>
-        <div class="summary-item" style="animation-delay: 0.6s">
-            <span>🔐 Contraseña:</span>
-            <span>${formData.get('contrasena') ? '••••••••' : 'No especificada'}</span>
-        </div>
-        <div class="summary-item" style="animation-delay: 0.7s">
             <span>✅ LISTO PARA GUARDAR</span>
-            <span>Usuario Completo</span>
+            <span>Rancho Completo</span>
         </div>
     `;
 }
@@ -908,16 +682,6 @@ function ocultarFormulario() {
     document.getElementById('formulario-alta').style.display = 'none';
     document.getElementById('tabla-catalogo').style.display = 'block';
     document.getElementById('form-alta').reset();
-    
-    // Limpiar selecciones de radio buttons
-    document.querySelectorAll('.radio-option').forEach(option => {
-        option.classList.remove('selected');
-    });
-    
-    // Limpiar indicadores de contraseña
-    document.getElementById('password-strength').style.display = 'none';
-    document.getElementById('password-match').textContent = '';
-    
     currentStep = 1;
 }
 
@@ -927,52 +691,24 @@ document.getElementById('form-alta').addEventListener('submit', function(e) {
         e.preventDefault();
         return false;
     }
-    
-    var contrasena = document.getElementsByName('contrasena')[0].value;
-    var confirmarContrasena = document.getElementsByName('confirmar_contrasena')[0].value;
-    
-    if (contrasena !== confirmarContrasena) {
-        e.preventDefault();
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Las contraseñas no coinciden'
-        });
-        return false;
-    }
-    
-    if (contrasena.length < 6) {
-        e.preventDefault();
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'La contraseña debe tener al menos 6 caracteres'
-        });
-        return false;
-    }
 });
 </script>
 
 <?php
 // Manejo del formulario
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Verificar si el formulario tiene los datos necesarios para usuario completo
-    if (isset($_POST['nombre']) && !empty($_POST['apellidos']) && !empty($_POST['edad']) && 
-        !empty($_POST['sexo']) && !empty($_POST['usuario']) && !empty($_POST['contrasena']) && 
-        !empty($_POST['fk_rol'])) {
+    // Verificar si el formulario tiene los datos necesarios para rancho completo
+    if (isset($_POST['nombre_productor']) && !empty($_POST['nombre_rancho'])) {
         
         // Recoger datos del formulario
-        $nombre = htmlspecialchars($_POST['nombre']);
-        $apellidos = htmlspecialchars($_POST['apellidos']); 
-        $edad = htmlspecialchars($_POST['edad']); 
-        $sexo = htmlspecialchars($_POST['sexo']); 
-        $usuario = htmlspecialchars($_POST['usuario']); 
-        $contrasena = htmlspecialchars($_POST['contrasena']); 
-        $fk_rol = htmlspecialchars($_POST['fk_rol']); 
+        $nombre_productor = htmlspecialchars($_POST['nombre_productor']);
+        $telefono = isset($_POST['telefono']) ? htmlspecialchars($_POST['telefono']) : '';
+        $nombre_rancho = htmlspecialchars($_POST['nombre_rancho']); 
+        $ubicacion = isset($_POST['ubicacion']) ? htmlspecialchars($_POST['ubicacion']) : '';
 
         // Llamar al controlador para manejar el registro completo
-        $registro = new ControladorUsuario();
-        $registro->registroUsuarioCompletoControlador($nombre, $apellidos, $edad, $sexo, $usuario, $contrasena, $fk_rol);
+        $registro = new ControladorRancho();
+        $registro->registroRanchoCompletoControlador($nombre_productor, $telefono, $nombre_rancho, $ubicacion);
     }
 }
 ?>

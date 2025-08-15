@@ -26,21 +26,14 @@ $opcion = $_POST['opcion'] ?? 'principal';
                     </a>
                 </li>
 
-                <!-- Opción de enlace -->
-                <?php if (puedeVer('administrador')): ?>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="fas fa-link"></i> Link
-                    </a>
-                </li>
-                <?php endif; ?>
+              
 
 
                 <!-- Menú desplegable para 'Mostrar' -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMostrar" role="button" 
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-eye"></i> Mostrar
+                        <i class="fas fa-eye"></i> Control de Acceso
                     </a>
 
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMostrar">
@@ -53,16 +46,7 @@ $opcion = $_POST['opcion'] ?? 'principal';
                         </li>
                         <?php endif; ?>
                         
-                        <li>
-                            <a class="dropdown-item" href="#" onclick="postToExternalSite('index.php', { opcion: 'mostrar_productor' });">
-                                <i class="fas fa-list"></i> Productor
-                            </a>
-                        </li>
-
-
-                        
                     </ul>
-
                 </li>
 
              
@@ -84,6 +68,73 @@ $opcion = $_POST['opcion'] ?? 'principal';
                     </ul>
                 </li>
                 <?php endif; ?>
+
+
+                 <!-- Menú desplegable para 'Llegada mango' -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMostrar" role="button" 
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-eye"></i> Llegada mango
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMostrar">
+                        <li>
+                            <a class="dropdown-item" href="#" onclick="postToExternalSite('index.php', { opcion: 'mostrar_llegada_mango' });">
+                                <i class="fas fa-list"></i> Llegada mango
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                    <!-- Menú desplegable para 'rancho' -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMostrar" role="button" 
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-eye"></i> Rancho
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMostrar">
+                        <li>
+                            <a class="dropdown-item" href="#" onclick="postToExternalSite('index.php', { opcion: 'mostrar_rancho' });">
+                                <i class="fas fa-list"></i> Rancho
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                  <!-- Menú desplegable para 'Calidad' -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMostrar" role="button" 
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-eye"></i> Control de calidad
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMostrar">
+                        <li>
+                            <a class="dropdown-item" href="#" onclick="postToExternalSite('index.php', { opcion: 'mostrar_calidad' });">
+                                <i class="fas fa-list"></i> Control de calidad
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                  <!-- Menú desplegable para 'Gasto' -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMostrar" role="button" 
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-eye"></i> Control de Gasto
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMostrar">
+                        <li>
+                            <a class="dropdown-item" href="#" onclick="postToExternalSite('index.php', { opcion: 'mostrar_gasto' });">
+                                <i class="fas fa-list"></i> Control de Gasto
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
 
 
             </ul>

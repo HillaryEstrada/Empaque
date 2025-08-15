@@ -9,9 +9,21 @@ require_once("controlador/controladorAcceso.php");
 
 
 require_once("controlador/controladorUsuario.php");
-require_once("controlador/controladorProductor.php");
 require_once("modelo/modeloUsuario.php");
-require_once("modelo/modeloProductor.php");
+
+
+
+require_once("controlador/controladorLlegada.php");
+require_once("modelo/modeloLlegada.php");
+
+require_once("controlador/controladorRancho.php");
+require_once("modelo/modeloRancho.php");
+
+require_once("controlador/controladorCalidad.php");
+require_once("modelo/modeloCalidad.php");
+
+require_once("controlador/controladorGasto.php");
+require_once("modelo/modeloGasto.php");
 
 
 

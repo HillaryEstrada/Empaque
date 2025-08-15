@@ -1,5 +1,5 @@
 <?php
-// mostrar_dato_usuario.php
+// mostrar_calidad.php
 ?>
 <style>
 .step-container {
@@ -82,30 +82,18 @@
     background: white;
 }
 
-.password-strength {
-    margin-top: 0.5rem;
-    padding: 0.5rem;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
+.calculation-display {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    border: 2px solid #2196f3;
+    color: #1565c0;
+    font-weight: bold;
+    font-size: 1.2rem;
+    animation: glow 2s ease-in-out infinite alternate;
 }
 
-.password-weak {
-    background: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-}
-
-.password-medium {
-    background: #fff3cd;
-    color: #856404;
-    border: 1px solid #ffeaa7;
-}
-
-.password-strong {
-    background: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
+@keyframes glow {
+    from { box-shadow: 0 0 5px rgba(33, 150, 243, 0.5); }
+    to { box-shadow: 0 0 20px rgba(33, 150, 243, 0.8); }
 }
 
 .btn-group-nav {
@@ -285,6 +273,20 @@
 }
 
 /* Radio buttons mejorados */
+.form-check {
+    margin-bottom: 0.5rem;
+}
+
+.form-check-input:checked {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.form-check-label {
+    font-weight: 500;
+    margin-left: 0.5rem;
+}
+
 .radio-group {
     display: flex;
     gap: 1rem;
@@ -294,30 +296,22 @@
 .radio-option {
     display: flex;
     align-items: center;
-    padding: 0.75rem 1.5rem;
+    padding: 0.5rem 1rem;
     border: 2px solid #e9ecef;
     border-radius: 8px;
     background: #fafafa;
     transition: all 0.3s ease;
     cursor: pointer;
-    flex: 1;
-    justify-content: center;
 }
 
 .radio-option:hover {
     border-color: #80bdff;
     background: white;
-    transform: translateY(-2px);
 }
 
 .radio-option.selected {
     border-color: #007bff;
     background: linear-gradient(135deg, #e3f2fd, #ffffff);
-    box-shadow: 0 4px 15px rgba(0,123,255,0.2);
-}
-
-.radio-option .form-check-input {
-    margin-right: 0.5rem;
 }
 
 @media (max-width: 768px) {
@@ -360,7 +354,7 @@
             <h1 id="titulo">
                 <?php
                     $estado = isset($_POST['estado']) ? $_POST['estado'] : 1;
-                    echo ($estado == 1) ? "Mostrar Usuarios Completos" : "Papelera Usuarios Completos";
+                    echo ($estado == 1) ? "Mostrar Calidad Completa" : "Papelera Calidad Completa";
                 ?>
             </h1>
         </div>
@@ -372,62 +366,43 @@
     <div class="step-container">
         <!-- Barra de Progreso -->
         <div class="progress-bar-container">
-            <div class="progress-bar" id="progress-bar" style="width: 33.33%"></div>
+            <div class="progress-bar" id="progress-bar" style="width: 25%"></div>
         </div>
 
         <form id="form-alta" method="POST" onsubmit="enviarFormulario(event)">
             
-            <!-- PASO 1: Datos Personales -->
+            <!-- PASO 1: Información Básica -->
             <div class="step-card active" id="step-1">
                 <div class="step-header">
                     <div class="step-number">1</div>
-                    <h3 class="step-title">Datos Personales</h3>
-                    <p class="text-muted">Información personal del usuario</p>
+                    <h3 class="step-title">Información Básica</h3>
+                    <p class="text-muted">Seleccione la llegada a revisar</p>
                 </div>
                 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Nombres:</label>
-                            <input type="text" name="nombre" class="form-control" 
-                                   placeholder="Ingrese el nombre completo" required 
-                                   onchange="animateFieldCompletion(this)" />
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Apellidos:</label>
-                            <input type="text" name="apellidos" class="form-control" 
-                                   placeholder="Ingrese los apellidos" required 
-                                   onchange="animateFieldCompletion(this)" />
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label class="form-label">Llegada:</label>
+                    <select name="fk_llegada" class="form-control" required onchange="animateFieldCompletion(this)">
+                        <option value="">Seleccionar llegada...</option>
+                        <?php
+                        // Cargar llegadas activas
+                        $calidad = new ControladorCalidad();
+                        $calidad->cargarLlegadasControlador();
+                        ?>
+                    </select>
                 </div>
                 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Edad:</label>
-                            <input type="number" name="edad" class="form-control" 
-                                   placeholder="Edad" min="18" max="100" required 
-                                   onchange="animateFieldCompletion(this)" />
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Sexo:</label>
-                            <div class="radio-group">
-                                <div class="radio-option" onclick="selectRadio('sexo', 'M', this)">
-                                    <input class="form-check-input" type="radio" name="sexo" id="sexo_m" value="M" required>
-                                    <label class="form-check-label" for="sexo_m">👨 Masculino</label>
-                                </div>
-                                <div class="radio-option" onclick="selectRadio('sexo', 'F', this)">
-                                    <input class="form-check-input" type="radio" name="sexo" id="sexo_f" value="F" required>
-                                    <label class="form-check-label" for="sexo_f">👩 Femenino</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label class="form-label">Número de Lote:</label>
+                    <input type="text" name="numero_lote" class="form-control" 
+                           placeholder="Ingrese el número del lote" required 
+                           onchange="animateFieldCompletion(this)" />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Variedad:</label>
+                    <input type="text" name="variedad" class="form-control" 
+                           placeholder="Variedad del mango (opcional)" 
+                           onchange="animateFieldCompletion(this)" />
                 </div>
                 
                 <div class="btn-group-nav">
@@ -436,66 +411,148 @@
                 </div>
             </div>
 
-            <!-- PASO 2: Datos de Acceso -->
+            <!-- PASO 2: Revisión de Calidad -->
             <div class="step-card" id="step-2">
                 <div class="step-header">
                     <div class="step-number">2</div>
-                    <h3 class="step-title">Datos de Acceso</h3>
-                    <p class="text-muted">Credenciales y permisos del usuario</p>
+                    <h3 class="step-title">Revisión de Calidad</h3>
+                    <p class="text-muted">Evaluación del estado del producto</p>
                 </div>
                 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Usuario:</label>
-                            <input type="text" name="usuario" class="form-control" 
-                                   placeholder="Nombre de usuario único" required 
-                                   onchange="animateFieldCompletion(this)" />
+                <div class="form-group">
+                    <label class="form-label">Madurez:</label>
+                    <select name="madurez" class="form-control" required onchange="animateFieldCompletion(this)">
+                        <option value="">Seleccionar madurez...</option>
+                        <option value="Verde">🟢 Verde</option>
+                        <option value="Maduro">🟡 Maduro</option>
+                        <option value="Muy Maduro">🟠 Muy Maduro</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Plagas:</label>
+                    <div class="radio-group">
+                        <div class="radio-option" onclick="selectRadio('plagas', '1', this)">
+                            <input class="form-check-input" type="radio" name="plagas" id="plagas_si" value="1" required>
+                            <label class="form-check-label" for="plagas_si">🐛 Sí</label>
                         </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Rol:</label>
-                            <select name="fk_rol" class="form-control" required onchange="animateFieldCompletion(this)">
-                                <option value="">Seleccionar rol...</option>
-                                <?php
-                                // Cargar roles activos
-                                $roles = new ControladorUsuario();
-                                $roles->cargarRolesControlador();
-                                ?>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Contraseña:</label>
-                            <input type="password" name="contrasena" class="form-control" 
-                                   placeholder="Mínimo 6 caracteres" required 
-                                   onchange="checkPasswordStrength(this)" />
-                            <div id="password-strength" class="password-strength" style="display: none;"></div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Confirmar Contraseña:</label>
-                            <input type="password" name="confirmar_contrasena" class="form-control" 
-                                   placeholder="Repita la contraseña" required 
-                                   onchange="checkPasswordMatch(this)" />
-                            <div id="password-match" style="margin-top: 0.5rem; font-size: 0.9rem;"></div>
+                        <div class="radio-option" onclick="selectRadio('plagas', '0', this)">
+                            <input class="form-check-input" type="radio" name="plagas" id="plagas_no" value="0" required>
+                            <label class="form-check-label" for="plagas_no">✅ No</label>
                         </div>
                     </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Daños:</label>
+                    <div class="radio-group">
+                        <div class="radio-option" onclick="selectRadio('danos', '1', this)">
+                            <input class="form-check-input" type="radio" name="danos" id="danos_si" value="1" required>
+                            <label class="form-check-label" for="danos_si">⚠️ Sí</label>
+                        </div>
+                        <div class="radio-option" onclick="selectRadio('danos', '0', this)">
+                            <input class="form-check-input" type="radio" name="danos" id="danos_no" value="0" required>
+                            <label class="form-check-label" for="danos_no">✅ No</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Contaminantes:</label>
+                    <div class="radio-group">
+                        <div class="radio-option" onclick="selectRadio('contaminantes', '1', this)">
+                            <input class="form-check-input" type="radio" name="contaminantes" id="contaminantes_si" value="1" required>
+                            <label class="form-check-label" for="contaminantes_si">☣️ Sí</label>
+                        </div>
+                        <div class="radio-option" onclick="selectRadio('contaminantes', '0', this)">
+                            <input class="form-check-input" type="radio" name="contaminantes" id="contaminantes_no" value="0" required>
+                            <label class="form-check-label" for="contaminantes_no">✅ No</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Observaciones Revisión:</label>
+                    <textarea name="observaciones_revision" class="form-control" rows="3" 
+                              placeholder="Observaciones de la revisión..."
+                              onchange="animateFieldCompletion(this)"></textarea>
                 </div>
                 
                 <div class="btn-group-nav">
                     <button type="button" class="btn btn-secondary" onclick="prevStep(1)">Anterior</button>
                     <div>
                         <button type="button" class="btn btn-danger me-2" onclick="ocultarFormulario()">Salir</button>
-                        <button type="button" class="btn btn-primary" onclick="nextStep(3)">Revisar</button>
+                        <button type="button" class="btn btn-primary" onclick="nextStep(3)">Siguiente</button>
                     </div>
                 </div>
             </div>
 
-            <!-- PASO 3: Confirmación -->
+            <!-- PASO 3: Clasificación -->
             <div class="step-card" id="step-3">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Clasificación</h3>
+                    <p class="text-muted">Distribución por calidades</p>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Primera Calidad (kg):</label>
+                            <input type="number" name="primera_calidad" class="form-control" 
+                                   step="0.01" min="0" placeholder="0.00" 
+                                   onchange="animateFieldCompletion(this); calcularTotal()" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Segunda Calidad (kg):</label>
+                            <input type="number" name="segunda_calidad" class="form-control" 
+                                   step="0.01" min="0" placeholder="0.00" 
+                                   onchange="animateFieldCompletion(this); calcularTotal()" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Descarte (kg):</label>
+                            <input type="number" name="descarte" class="form-control" 
+                                   step="0.01" min="0" placeholder="0.00" 
+                                   onchange="animateFieldCompletion(this); calcularTotal()" />
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Total Clasificado:</label>
+                    <input type="number" id="total_clasificado" class="form-control calculation-display" 
+                           step="0.01" min="0" placeholder="0.00" readonly />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Uso:</label>
+                    <input type="text" name="uso" class="form-control" 
+                           placeholder="Destino o uso del producto" required 
+                           onchange="animateFieldCompletion(this)" />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Observaciones Clasificación:</label>
+                    <textarea name="observaciones_clasificacion" class="form-control" rows="3" 
+                              placeholder="Observaciones de la clasificación..."
+                              onchange="animateFieldCompletion(this)"></textarea>
+                </div>
+                
+                <div class="btn-group-nav">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(2)">Anterior</button>
+                    <div>
+                        <button type="button" class="btn btn-danger me-2" onclick="ocultarFormulario()">Salir</button>
+                        <button type="button" class="btn btn-primary" onclick="nextStep(4)">Revisar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASO 4: Confirmación -->
+            <div class="step-card" id="step-4">
                 <div class="step-header">
                     <div class="step-number">✓</div>
                     <h3 class="step-title">Confirmar Información</h3>
@@ -507,10 +564,10 @@
                 </div>
                 
                 <div class="btn-group-nav">
-                    <button type="button" class="btn btn-secondary" onclick="prevStep(2)">Anterior</button>
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(3)">Anterior</button>
                     <div>
                         <button type="button" class="btn btn-danger me-2" onclick="ocultarFormulario()">Salir</button>
-                        <button type="submit" class="btn btn-success">Guardar Usuario</button>
+                        <button type="submit" class="btn btn-success">Guardar Calidad</button>
                     </div>
                 </div>
             </div>
@@ -527,22 +584,27 @@
 <table class="table table-hover table-striped table-bordered">
     <thead>
         <tr>
-            <th>Nombre</th>
-            <th>Apellidos</th>
-            <th>Edad</th>
-            <th>Sexo</th>
-            <th>Usuario</th>
-            <th>Rol</th>
+            <th>Llegada</th>
+            <th>Madurez</th>
+            <th>Plagas</th>
+            <th>Daños</th>
+            <th>Contaminantes</th>
+            <th>Lote</th>
+            <th>Variedad</th>
+            <th>Primera</th>
+            <th>Segunda</th>
+            <th>Descarte</th>
+            <th>Uso</th>
             <th>
                 <?php if ($estado == 1): ?>
-                <button class="btn btn-success btn-sm" onclick="mostrarFormulario(this)" data-title="Alta usuario completo">
-                    <i class="fa-solid fa-circle-plus fa-lg"></i> Crear Usuario
+                <button class="btn btn-success btn-sm" onclick="mostrarFormulario(this)" data-title="Alta calidad completa">
+                    <i class="fa-solid fa-circle-plus fa-lg"></i> Crear Calidad
                 </button>
                 <?php endif; ?>
                 
                 <!-- Botón para alternar entre activos e inactivos -->
                 <form action="index.php" method="POST" style="display: inline;">
-                    <input type="hidden" name="opcion" value="mostrar_dato_usuario">
+                    <input type="hidden" name="opcion" value="mostrar_calidad">
                     <input type="hidden" name="estado" value="<?php echo ($estado == 1) ? 0 : 1; ?>">
                     <button type="submit" class="btn btn-sm <?php echo ($estado == 1) ? 'btn-warning' : 'btn-primary'; ?>">
                         <i class="fa-solid <?php echo ($estado == 1) ? 'fa-archive' : 'fa-undo'; ?>"></i>
@@ -556,8 +618,8 @@
     <tbody id="tabla-body">
         <?php
             $estado = isset($_POST['estado']) ? $_POST['estado'] : 1;
-            $usuario = new ControladorUsuario();
-            $usuario->mostrarUsuariosCompletosControlador($estado);
+            $calidad = new ControladorCalidad();
+            $calidad->mostrarCalidadCompletaControlador($estado);
         ?>
     </tbody>
 </table>
@@ -577,10 +639,10 @@
 </div>
 <!--Fin del Proceso de Mostrar-->
 
-<!-- Scripts para navegación y validaciones -->
+<!-- Scripts para navegación y cálculos -->
 <script>
 let currentStep = 1;
-const totalSteps = 3;
+const totalSteps = 4;
 
 function nextStep(step) {
     if (validateCurrentStep()) {
@@ -642,7 +704,7 @@ function showStep(step) {
     document.getElementById('step-' + currentStep).classList.add('active');
     
     // Si es el último paso, generar resumen
-    if (step === 3) {
+    if (step === 4) {
         generateSummary();
     }
 }
@@ -664,7 +726,7 @@ function validateCurrentStep() {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Campo requerido',
-                    text: 'Por favor seleccione una opción para ' + field.name
+                    text: 'Por favor seleccione una opción para ' + field.name.replace('_', ' ')
                 });
                 return false;
             }
@@ -679,36 +741,12 @@ function validateCurrentStep() {
         }
     }
     
-    // Validación especial para contraseñas en step 2
-    if (currentStep === 2) {
-        const contrasena = document.getElementsByName('contrasena')[0].value;
-        const confirmarContrasena = document.getElementsByName('confirmar_contrasena')[0].value;
-        
-        if (contrasena.length < 6) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Contraseña débil',
-                text: 'La contraseña debe tener al menos 6 caracteres'
-            });
-            return false;
-        }
-        
-        if (contrasena !== confirmarContrasena) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Las contraseñas no coinciden'
-            });
-            return false;
-        }
-    }
-    
     return true;
 }
 
 function selectRadio(name, value, element) {
     // Desmarcar todas las opciones del grupo
-    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+    const allOptions = document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
         radio.closest('.radio-option').classList.remove('selected');
     });
     
@@ -734,63 +772,6 @@ function animateFieldCompletion(field) {
         }, 500);
     } else {
         field.classList.remove('completed');
-    }
-}
-
-function checkPasswordStrength(passwordField) {
-    const password = passwordField.value;
-    const strengthDiv = document.getElementById('password-strength');
-    
-    if (password.length === 0) {
-        strengthDiv.style.display = 'none';
-        return;
-    }
-    
-    strengthDiv.style.display = 'block';
-    
-    let strength = 0;
-    let message = '';
-    
-    // Criterios de fortaleza
-    if (password.length >= 6) strength++;
-    if (password.length >= 8) strength++;
-    if (/[A-Z]/.test(password)) strength++;
-    if (/[a-z]/.test(password)) strength++;
-    if (/[0-9]/.test(password)) strength++;
-    if (/[^A-Za-z0-9]/.test(password)) strength++;
-    
-    // Clasificar fortaleza
-    if (strength < 3) {
-        strengthDiv.className = 'password-strength password-weak';
-        message = '🔴 Contraseña débil';
-    } else if (strength < 5) {
-        strengthDiv.className = 'password-strength password-medium';
-        message = '🟡 Contraseña media';
-    } else {
-        strengthDiv.className = 'password-strength password-strong';
-        message = '🟢 Contraseña fuerte';
-    }
-    
-    strengthDiv.textContent = message;
-    animateFieldCompletion(passwordField);
-}
-
-function checkPasswordMatch(confirmField) {
-    const password = document.getElementsByName('contrasena')[0].value;
-    const confirmPassword = confirmField.value;
-    const matchDiv = document.getElementById('password-match');
-    
-    if (confirmPassword.length === 0) {
-        matchDiv.textContent = '';
-        return;
-    }
-    
-    if (password === confirmPassword) {
-        matchDiv.innerHTML = '<span style="color: #28a745;">✅ Las contraseñas coinciden</span>';
-        animateFieldCompletion(confirmField);
-    } else {
-        matchDiv.innerHTML = '<span style="color: #dc3545;">❌ Las contraseñas no coinciden</span>';
-        confirmField.classList.remove('completed');
     }
 }
 
@@ -856,42 +837,73 @@ function playSuccessSound() {
     }
 }
 
+function calcularTotal() {
+    var primera = parseFloat(document.getElementsByName('primera_calidad')[0].value) || 0;
+    var segunda = parseFloat(document.getElementsByName('segunda_calidad')[0].value) || 0;
+    var descarte = parseFloat(document.getElementsByName('descarte')[0].value) || 0;
+    var total = primera + segunda + descarte;
+    
+    document.getElementById('total_clasificado').value = total.toFixed(2);
+}
+
 function generateSummary() {
     const form = document.getElementById('form-alta');
     const formData = new FormData(form);
     
     // Obtener valores de radio buttons
-    const sexo = form.querySelector('input[name="sexo"]:checked')?.value;
+    const plagas = form.querySelector('input[name="plagas"]:checked')?.value;
+    const danos = form.querySelector('input[name="danos"]:checked')?.value;
+    const contaminantes = form.querySelector('input[name="contaminantes"]:checked')?.value;
     
     const summaryContent = document.getElementById('summary-content');
     summaryContent.innerHTML = `
         <div class="summary-item" style="animation-delay: 0.1s">
-            <span>👤 Nombre Completo:</span>
-            <span>${formData.get('nombre') || 'No especificado'} ${formData.get('apellidos') || ''}</span>
+            <span>📦 Llegada:</span>
+            <span>${form.fk_llegada.selectedOptions[0]?.text || 'No seleccionada'}</span>
         </div>
         <div class="summary-item" style="animation-delay: 0.2s">
-            <span>🎂 Edad:</span>
-            <span>${formData.get('edad') || 'No especificada'} años</span>
+            <span>🏷️ Número de Lote:</span>
+            <span>${formData.get('numero_lote') || 'No especificado'}</span>
         </div>
         <div class="summary-item" style="animation-delay: 0.3s">
-            <span>⚥ Sexo:</span>
-            <span>${sexo === 'M' ? '👨 Masculino' : sexo === 'F' ? '👩 Femenino' : 'No especificado'}</span>
+            <span>🥭 Variedad:</span>
+            <span>${formData.get('variedad') || 'No especificada'}</span>
         </div>
         <div class="summary-item" style="animation-delay: 0.4s">
-            <span>🔑 Usuario:</span>
-            <span>${formData.get('usuario') || 'No especificado'}</span>
+            <span>🔄 Madurez:</span>
+            <span>${formData.get('madurez') || 'No especificada'}</span>
         </div>
         <div class="summary-item" style="animation-delay: 0.5s">
-            <span>🛡️ Rol:</span>
-            <span>${form.fk_rol.selectedOptions[0]?.text || 'No seleccionado'}</span>
+            <span>🐛 Plagas:</span>
+            <span>${plagas === '1' ? '❌ Sí' : plagas === '0' ? '✅ No' : 'No especificado'}</span>
         </div>
         <div class="summary-item" style="animation-delay: 0.6s">
-            <span>🔐 Contraseña:</span>
-            <span>${formData.get('contrasena') ? '••••••••' : 'No especificada'}</span>
+            <span>⚠️ Daños:</span>
+            <span>${danos === '1' ? '❌ Sí' : danos === '0' ? '✅ No' : 'No especificado'}</span>
         </div>
         <div class="summary-item" style="animation-delay: 0.7s">
-            <span>✅ LISTO PARA GUARDAR</span>
-            <span>Usuario Completo</span>
+            <span>☣️ Contaminantes:</span>
+            <span>${contaminantes === '1' ? '❌ Sí' : contaminantes === '0' ? '✅ No' : 'No especificado'}</span>
+        </div>
+        <div class="summary-item" style="animation-delay: 0.8s">
+            <span>🥇 Primera Calidad:</span>
+            <span>${formData.get('primera_calidad') || '0'} kg</span>
+        </div>
+        <div class="summary-item" style="animation-delay: 0.9s">
+            <span>🥈 Segunda Calidad:</span>
+            <span>${formData.get('segunda_calidad') || '0'} kg</span>
+        </div>
+        <div class="summary-item" style="animation-delay: 1s">
+            <span>🗑️ Descarte:</span>
+            <span>${formData.get('descarte') || '0'} kg</span>
+        </div>
+        <div class="summary-item" style="animation-delay: 1.1s">
+            <span>🎯 Uso:</span>
+            <span>${formData.get('uso') || 'No especificado'}</span>
+        </div>
+        <div class="summary-item" style="animation-delay: 1.2s">
+            <span>📊 TOTAL CLASIFICADO:</span>
+            <span>${document.getElementById('total_clasificado').value || '0.00'} kg</span>
         </div>
     `;
 }
@@ -914,10 +926,6 @@ function ocultarFormulario() {
         option.classList.remove('selected');
     });
     
-    // Limpiar indicadores de contraseña
-    document.getElementById('password-strength').style.display = 'none';
-    document.getElementById('password-match').textContent = '';
-    
     currentStep = 1;
 }
 
@@ -928,25 +936,36 @@ document.getElementById('form-alta').addEventListener('submit', function(e) {
         return false;
     }
     
-    var contrasena = document.getElementsByName('contrasena')[0].value;
-    var confirmarContrasena = document.getElementsByName('confirmar_contrasena')[0].value;
+    var fk_llegada = document.getElementsByName('fk_llegada')[0].value;
+    var numero_lote = document.getElementsByName('numero_lote')[0].value;
+    var uso = document.getElementsByName('uso')[0].value;
     
-    if (contrasena !== confirmarContrasena) {
+    if (!fk_llegada) {
         e.preventDefault();
         Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Las contraseñas no coinciden'
+            text: 'Debe seleccionar una llegada'
         });
         return false;
     }
     
-    if (contrasena.length < 6) {
+    if (!numero_lote.trim()) {
         e.preventDefault();
         Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'La contraseña debe tener al menos 6 caracteres'
+            text: 'El número de lote es requerido'
+        });
+        return false;
+    }
+    
+    if (!uso.trim()) {
+        e.preventDefault();
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'El uso es requerido'
         });
         return false;
     }
@@ -956,23 +975,32 @@ document.getElementById('form-alta').addEventListener('submit', function(e) {
 <?php
 // Manejo del formulario
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Verificar si el formulario tiene los datos necesarios para usuario completo
-    if (isset($_POST['nombre']) && !empty($_POST['apellidos']) && !empty($_POST['edad']) && 
-        !empty($_POST['sexo']) && !empty($_POST['usuario']) && !empty($_POST['contrasena']) && 
-        !empty($_POST['fk_rol'])) {
+    // Verificar si el formulario tiene los datos necesarios para calidad completa
+    if (isset($_POST['fk_llegada']) && !empty($_POST['madurez']) && isset($_POST['plagas']) && 
+        isset($_POST['danos']) && isset($_POST['contaminantes']) && !empty($_POST['numero_lote']) && 
+        !empty($_POST['uso'])) {
         
         // Recoger datos del formulario
-        $nombre = htmlspecialchars($_POST['nombre']);
-        $apellidos = htmlspecialchars($_POST['apellidos']); 
-        $edad = htmlspecialchars($_POST['edad']); 
-        $sexo = htmlspecialchars($_POST['sexo']); 
-        $usuario = htmlspecialchars($_POST['usuario']); 
-        $contrasena = htmlspecialchars($_POST['contrasena']); 
-        $fk_rol = htmlspecialchars($_POST['fk_rol']); 
+        $fk_llegada = htmlspecialchars($_POST['fk_llegada']);
+        $madurez = htmlspecialchars($_POST['madurez']); 
+        $plagas = htmlspecialchars($_POST['plagas']); 
+        $danos = htmlspecialchars($_POST['danos']); 
+        $contaminantes = htmlspecialchars($_POST['contaminantes']); 
+        $observaciones_revision = htmlspecialchars($_POST['observaciones_revision']); 
+        $numero_lote = htmlspecialchars($_POST['numero_lote']); 
+        $variedad = htmlspecialchars($_POST['variedad']); 
+        $primera_calidad = htmlspecialchars($_POST['primera_calidad']); 
+        $segunda_calidad = htmlspecialchars($_POST['segunda_calidad']); 
+        $descarte = htmlspecialchars($_POST['descarte']); 
+        $uso = htmlspecialchars($_POST['uso']); 
+        $observaciones_clasificacion = htmlspecialchars($_POST['observaciones_clasificacion']); 
 
         // Llamar al controlador para manejar el registro completo
-        $registro = new ControladorUsuario();
-        $registro->registroUsuarioCompletoControlador($nombre, $apellidos, $edad, $sexo, $usuario, $contrasena, $fk_rol);
+        $registro = new ControladorCalidad();
+        $registro->registroCalidadCompletaControlador($fk_llegada, $madurez, $plagas, $danos, $contaminantes, 
+                                                     $observaciones_revision, $numero_lote, $variedad, 
+                                                     $primera_calidad, $segunda_calidad, $descarte, $uso, 
+                                                     $observaciones_clasificacion);
     }
 }
 ?>
